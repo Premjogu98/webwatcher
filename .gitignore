@@ -1,0 +1,5 @@
+*__paycache__
+*.pyc
+*.env
+*.html
+htmldocs
