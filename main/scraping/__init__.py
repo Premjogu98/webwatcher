@@ -4,8 +4,12 @@ import re
 import os
 import time
 import random
-from playwright.async_api import async_playwright
+import datetime
+from playwright.async_api import async_playwright, TimeoutError
 from main.logger import console_logger
+from main.db_connection.query_handler import QueryHandler
+from main.db_connection.condition_handler import ConditionHandler
+from main.global_variables import GlobalVariable
 
 
 @dataclass
@@ -13,16 +17,16 @@ class Scraping:
     BATCH_SIZE: int
     LIMIT: int
     OFFSET: int
-    QUERY_HANDLER: any
-    CONDITION_HANDLER: any
+    QUERY_HANDLER: QueryHandler
+    CONDITION_HANDLER: ConditionHandler
+    GLOBAL_VARIABLE: GlobalVariable
     FETCHED_DATA: list = field(default_factory=list)
     TOTAL_DATA_COUNT: int = 0
     COUNT: int = 0
+    MAIN_START_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    MAIN_END_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def ManageVariables(self):
-        console_logger.debug(self.QUERY_HANDLER)
-        console_logger.debug(self.CONDITION_HANDLER)
-        console_logger.debug(self.FETCHED_DATA)
         self.FETCHED_DATA = self.QUERY_HANDLER.requestForData(
             limit=self.LIMIT, offset=self.OFFSET
         )
@@ -35,52 +39,60 @@ class Scraping:
         try:
             loop.run_until_complete(self.manageConcurrency())
         finally:
-            # self.stop()
+            self.infoLog(processEnd=True)
             loop.close()
 
-    def stop(self):
-        end_time = self.getCurrentTime()
-        console_logger.debug(
-            f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.start_time} | {end_time} | {self.getDatetimeDifference(self.start_time,end_time)}\n"
-        )
+    def infoLog(
+        self,
+        processEnd: bool = False,
+        method_start_time: str = "",
+        method_end_time: str = "",
+    ):
+        if processEnd:
+            self.MAIN_END_TIME = self.getCurrentTime()
+            console_logger.debug(
+                f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\n"
+            )
+        else:
+            console_logger.debug(f"Execution START/END => {method_start_time} / {method_end_time}")
+            console_logger.debug(
+                f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error}\n"""
+            )
 
     async def manageConcurrency(self):
         total_completed_loop = 0
         running_tasks = set()
         in_progress_tasks = set()
-        next_index = 0
+        detail_index = 0
 
         while total_completed_loop < self.TOTAL_DATA_COUNT or in_progress_tasks:
-            tasks_to_run = self.BATCH_SIZE - len(running_tasks)
-            if tasks_to_run > 0 and total_completed_loop < self.TOTAL_DATA_COUNT:
-                batch_details = [
-                    detail
-                    for detail in self.FETCHED_DATA[
-                        total_completed_loop : total_completed_loop + tasks_to_run
-                    ]
-                ]
-
-                for detail in batch_details:
-                    task = asyncio.create_task(self.browseManagement(**detail))
-                    running_tasks.add(task)
-                    in_progress_tasks.add(task)
-                next_index += tasks_to_run
+            while len(in_progress_tasks) < 3 and detail_index < self.TOTAL_DATA_COUNT:
+                task = asyncio.create_task(
+                    self.browseManagement(**self.FETCHED_DATA[detail_index])
+                )
+                running_tasks.add(task)
+                in_progress_tasks.add(task)
+                detail_index += 1
 
             done, _ = await asyncio.wait(
                 in_progress_tasks, return_when=asyncio.FIRST_COMPLETED
             )
-            for task in done:
-                running_tasks.remove(task)
-                in_progress_tasks.remove(task)
-                new_index = next_index + len(in_progress_tasks)
 
-                if new_index < self.TOTAL_DATA_COUNT:
-                    detail = self.FETCHED_DATA[new_index]
-                    new_task = asyncio.create_task(self.browseManagement(**detail))
-                    running_tasks.add(new_task)
-                    in_progress_tasks.add(new_task)
+            for task in done:
+                in_progress_tasks.remove(task)
+                total_completed_loop += 1
+
+    def getCurrentTime(self):
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def getDatetimeDifference(self, first, second):
+        start_time = datetime.datetime.strptime(first, "%Y-%m-%d %H:%M:%S")
+        end_time = datetime.datetime.strptime(second, "%Y-%m-%d %H:%M:%S")
+        time_difference = end_time - start_time
+        return time_difference.total_seconds() / 60
 
     async def browseManagement(self, **details):
+        start_time = self.getCurrentTime()
         COUNT = self.COUNT
         console_logger.debug(
             f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m:"
@@ -95,14 +107,22 @@ class Scraping:
                 try:
                     await page.goto(details["tender_link"], timeout=15000)
                     await self.process_element(page, **details)
-                except asyncio.TimeoutError:
-                    console_logger.error(
-                        f"Timeout occurred for URL {details['tender_link']}"
-                    )
-                except Exception as e:
-                    console_logger.error(f"Error: {str(e)}")
+                except asyncio.TimeoutError as error:
+                    self.GLOBAL_VARIABLE.timeout_error += 1
+                    raise Exception(error)
+                except TimeoutError as error:
+                    self.GLOBAL_VARIABLE.timeout_error += 1
+                    raise Exception(error)
+                except Exception as error:
+                    error = str(error).lower()
+                    console_logger.error(f"Error: {error}")
+                    self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 finally:
                     await browser.close()
+                    self.infoLog(
+                        method_start_time=start_time,
+                        method_end_time=self.getCurrentTime(),
+                    )
                     break
 
         console_logger.debug(
@@ -127,7 +147,5 @@ class Scraping:
             )
             self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
         else:
-            console_logger.error(
-                f'XPath error {details["XPath"].replace("/", "//", 1)}'
-            )
-            return False
+            self.GLOBAL_VARIABLE.path_error += 1
+            raise Exception(f'XPath error {details["XPath"].replace("/", "//", 1)}')

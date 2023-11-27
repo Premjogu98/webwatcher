@@ -4,6 +4,7 @@ from main.db_connection.condition_handler import ConditionHandler
 from main.db_connection.query_handler import QueryHandler
 from main.env_handler import EnvHandler
 from main.scraping import Scraping
+from main.global_variables import GlobalVariable
 import os
 
 
@@ -16,14 +17,18 @@ class Main:
     OFFSET = os.getenv("DB_DATA_OFFSET", 0)
     QUERY_HANDLER = QueryHandler(
         connection=DB_CONNECTION.connection, cur=DB_CONNECTION.cur
-    )    
+    )
+    GLOBAL_VARIABLE = GlobalVariable()
 
-    def __𝐩𝐨𝐬𝐭_in𝐢𝐭__ (self):
-        CONDITION_HANDLER = ConditionHandler(self.QUERY_HANDLER)
+    def __𝐩𝐨𝐬𝐭_ini𝐭__ (self):
+        CONDITION_HANDLER = ConditionHandler(
+            QUERY_HANDLER=self.QUERY_HANDLER, GLOBAL_VARIABLE=self.GLOBAL_VARIABLE
+        )
         Scraping(
             BATCH_SIZE=self.BATCH_SIZE,
             LIMIT=self.LIMIT,
             OFFSET=self.OFFSET,
             CONDITION_HANDLER=CONDITION_HANDLER,
             QUERY_HANDLER=self.QUERY_HANDLER,
+            GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
         )

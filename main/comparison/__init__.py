@@ -9,6 +9,7 @@ class Comparison:
     NEW_TEXT: str
 
     def startCompare(self):
-        return OpticalCharacterRecognition(
+        opticalCharacterRecognition = OpticalCharacterRecognition(
             OLD_TEXT=self.OLD_TEXT, NEW_TEXT=self.NEW_TEXT
         )
+        return opticalCharacterRecognition.calculateSimilarity()

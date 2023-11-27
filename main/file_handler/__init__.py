@@ -36,36 +36,26 @@ class FileHandler:
         Current_dateTime = datetime.now().strftime("%Y%m%d%H%M%S%f")
         Fileid = "".join([str(tild), Current_dateTime])
         return f"{Fileid}.html"
-
-    def extractStringFromHtmlFile(self, filename: str):
+    
+    def extractHtmlElements(self,html_content, xpath_expression):
+        selector = parsel.Selector(text=html_content)
+        selected_elements = " ".join(selector.xpath(xpath_expression).extract())
+        return selected_elements
+    
+    def extractInnerText(self, filename: str):
         try:
             with open(
                 os.path.join(self.htmldocs_path, filename), "r", encoding="utf-8"
             ) as f:
                 text = f.read()
                 selector = parsel.Selector(text=text)
-                html_list = selector.xpath(f"///html/body[1]/blockquote").get()
-                text_list = selector.xpath(
-                    f"///html/body[1]/blockquote//text()"
-                ).getall()
-                text_with_space = " ".join(
-                    [i.replace("\n", " ").replace("\t", " ") for i in text_list]
-                )
-                text_with_html = "".join(
-                    [
-                        i.replace("\n", " ")
-                        .replace("\t", " ")
-                        .replace(self.blockquotestart, " ")
-                        .replace(self.blockquotend, " ")
-                        for i in text_list
-                    ]
-                )
-                onlyhtml = re.sub("\s\s+", " ", text_with_html)
-                onlytext = re.sub("\s\s+", " ", text_with_space)
-                if text_list and html_list:
-                    return onlyhtml, onlytext
-                else:
-                    return False
+                Extracted_html = self.extractHtmlElements(html_content=text,xpath_expression="///html/body[1]/blockquote")
+                inner_text_list = selector.xpath(f"///html/body[1]/blockquote//text()").extract()
+                inner_text = ' '.join(inner_text_list).strip()
+                inner_text_cleaned = re.sub(r'[\n\t]+', ' ', inner_text)
+                inner_text_cleaned = re.sub(r'\s+', ' ', inner_text_cleaned)
+
+                return Extracted_html, inner_text_cleaned
         except Exception as e:
             raise Exception(e)
 

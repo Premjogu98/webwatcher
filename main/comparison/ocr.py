@@ -2,22 +2,26 @@ import difflib
 from difflib import SequenceMatcher
 from dataclasses import dataclass
 from main.logger import console_logger
-
+from bs4 import BeautifulSoup
 
 @dataclass
 class OpticalCharacterRecognition:
     OLD_TEXT: str
     NEW_TEXT: str
     
-    # calculate text similarity ratio
-    def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
-        similarity_ratio = SequenceMatcher(None, self.OLD_TEXT, self.NEW_TEXT).ratio()
-        similarity_ratio_in_per = int(similarity_ratio) * 100
-        console_logger.debug(f"Match Percentage => {similarity_ratio_in_per}% / 1.0%")
-
-        if similarity_ratio == "1.0" or similarity_ratio_in_per == 0:
-            return False, similarity_ratio_in_per
-        return True, similarity_ratio_in_per
+    def extractInnerText(self,html_string):
+        soup = BeautifulSoup(html_string, 'html.parser')
+        inner_text = soup.get_text(separator=' ', strip=True)
+        return inner_text
+    
+    def calculateSimilarity(self):
+        sequence_matcher = SequenceMatcher(None, self.extractInnerText(self.OLD_TEXT), self.extractInnerText(self.NEW_TEXT))
+        similarity_ratio = sequence_matcher.ratio()
+        percentage_change = round((1 - similarity_ratio) * 100, 2)
+        console_logger.info(f"Calculated Similarity: {percentage_change} %")
+        if percentage_change == 0.00:
+            return False, percentage_change
+        return True, percentage_change
 
     # Print differences with highlighting
     def highlightDifference(self):
