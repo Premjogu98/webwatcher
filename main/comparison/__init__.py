@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from main.logger import console_logger
+# from main.logger import console_logger
 from main.comparison.ocr import OpticalCharacterRecognition
 
 

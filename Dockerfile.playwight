@@ -1,4 +1,4 @@
-FROM python:3.8.10
+FROM mcr.microsoft.com/playwright/python:v1.33.0-focal
 
 # Create user with root access
 RUN useradd -ms /bin/bash gts
@@ -7,14 +7,16 @@ RUN echo 'gts ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR /home/gts/code
 
-RUN apt update && pip3 install --upgrade pip && apt-get install -y libgl1-mesa-glx libglib2.0-0 libsm6 libxrender1 libxext6 libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2
-
+# RUN apt update && pip3 install --upgrade pip && apt-get install -y libgl1-mesa-glx libglib2.0-0 libsm6 libxrender1 libxext6 libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2
+RUN apt update && pip3 install --upgrade pip
 ENV DISPLAY=:99
 
 COPY requirements.txt .
 COPY --chown=gts:gts main ./main
 COPY --chown=gts:gts .env .
+COPY --chown=gts:gts run.py .
 
-RUN pip install --no-cache-dir -r requirements.txt
-RUN playwright install --with-deps chromium
+RUN pip3 install --no-cache-dir -r requirements.txt
+# RUN echo "deb http://ftp.us.debian.org/debian buster main non-free" >> /etc/apt/sources.list.d/fonts.list
+# RUN playwright install --with-deps chromium
 

@@ -13,7 +13,7 @@ class Main:
     DATABASE_DETAILS = EnvHandler.DB_CONNECTION
     DB_CONNECTION = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
     BATCH_SIZE = int(os.getenv("THREAD", 3))
-    LIMIT = os.getenv("DB_DATA_LIMIT", 100)
+    LIMIT = os.getenv("DB_DATA_LIMIT", 500)
     OFFSET = os.getenv("DB_DATA_OFFSET", 0)
     QUERY_HANDLER = QueryHandler(
         connection=DB_CONNECTION.connection, cur=DB_CONNECTION.cur

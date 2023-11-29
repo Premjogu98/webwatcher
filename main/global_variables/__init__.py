@@ -9,3 +9,4 @@ class GlobalVariable:
     compared:int = 0
     total_data:int = 0
     nothing_changed:int = 0
+    url_error:int = 0

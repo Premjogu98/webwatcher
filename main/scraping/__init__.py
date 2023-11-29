@@ -54,9 +54,11 @@ class Scraping:
                 f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\n"
             )
         else:
-            console_logger.debug(f"Execution START/END => {method_start_time} / {method_end_time}")
             console_logger.debug(
-                f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error}\n"""
+                f"Execution START/END => {method_start_time} / {method_end_time}"
+            )
+            console_logger.debug(
+                f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
             )
 
     async def manageConcurrency(self):
@@ -98,15 +100,20 @@ class Scraping:
             f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m:"
         )
         self.COUNT += 1
-        while True:
+        try:
             async with async_playwright() as playwrigh:
                 browser = await playwrigh.chromium.launch(headless=True)
                 context = await browser.new_context()
                 page = await context.new_page()
-                page.set_default_timeout(10000)
+                page.set_default_timeout(15000)
                 try:
-                    await page.goto(details["tender_link"], timeout=15000)
-                    await self.process_element(page, **details)
+                    try:
+                        await page.goto(details["tender_link"], timeout=15000)
+                    except:
+                        self.GLOBAL_VARIABLE.url_error += 1
+                        raise Exception(
+                            f"Unable to load url {details['tender_link']}"
+                        )
                 except asyncio.TimeoutError as error:
                     self.GLOBAL_VARIABLE.timeout_error += 1
                     raise Exception(error)
@@ -117,14 +124,17 @@ class Scraping:
                     error = str(error).lower()
                     console_logger.error(f"Error: {error}")
                     self.QUERY_HANDLER.error_log(error=error, id=details["id"])
-                finally:
-                    await browser.close()
-                    self.infoLog(
-                        method_start_time=start_time,
-                        method_end_time=self.getCurrentTime(),
-                    )
-                    break
-
+                else:
+                    await self.process_element(page, **details)
+        except Exception as error:
+            console_logger.error(f"Exception: {error}")
+            self.GLOBAL_VARIABLE.exceptions += 1
+        finally:
+            await browser.close()
+            self.infoLog(
+                method_start_time=start_time,
+                method_end_time=self.getCurrentTime(),
+            )
         console_logger.debug(
             f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
         )
@@ -148,4 +158,4 @@ class Scraping:
             self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
         else:
             self.GLOBAL_VARIABLE.path_error += 1
-            raise Exception(f'XPath error {details["XPath"].replace("/", "//", 1)}')
+            self.QUERY_HANDLER.error_log(error=f'XPath error {details["XPath"].replace("/", "//", 1)}', id=details["id"])

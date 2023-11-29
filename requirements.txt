@@ -6,5 +6,7 @@ Pillow==10.0.0
 parsel==1.8.1
 requests==2.31.0
 python-dotenv==1.0.0
-playwright==1.40.0
-html-diff==0.4.1
+BeautifulSoup4
+# playwright==1.40.0
+# requests==2.28.1 # most imp for docker
+# docker

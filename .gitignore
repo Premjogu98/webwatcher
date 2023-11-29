@@ -3,3 +3,7 @@
 *.env
 *.html
 htmldocs
+.password
+.pendingTask
+grafana
+docker-compose-monitor.yml

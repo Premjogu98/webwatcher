@@ -2,3 +2,84 @@ check zombie proccess == ps aux | grep 'Z'
 kill all python running code == sudo pkill -9 python3
 
 sudo apt-get -y install libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2
+
+sudo chmod 777 /var/run/docker.sock
+docker system df
+docker build -t selenium:0.0.4 -f Dockerfile.selenium .
+docker run -d --name selenium --memory=100m -t selenium:0.0.4 /bin/bash
+docker build -t playwight:0.0.1 -f Dockerfile.playwight .
+
+ps -aux
+ps aux | wc -l = count how many processes are running
+ps -A -ostat,pid,ppid | grep -e '[zZ]' = check how many zombie processes are running
+sudo killall -9 -u your_username = kill all running processes by user
+ulimit -u or ulimit -a = The system-wide limits are typically defined in the
+
+
+SELECT * FROM `dms_wpw_tenderlinksdata_test` where DATE(`compare_changed_on`) >= '2023-01-01'
+ https://www.tendersontime.com/tenders/advanceSearch?q=water/
+ 
+dms_wpw_bot_run_log
+
+totaldata = 16000
+batch_run = 500
+total_docker = 32
+start_time = 2023-08-26 08:05:18
+end_time = 2023-08-26 11:20:01
+changes_found = 1000
+changes_notfound = 12000
+error_timeout = 1000
+error_xpathnotfound = 1000
+error_others = 1000
+
+
+nginx CONFIG
+
+sudo mkdir -p /var/www/files # replace with which folder you want to expose
+
+sudo htpasswd -c /etc/nginx/.htpasswd <username> # IF YOU WANT ENABLE PASSWORD AUTH
+
+sudo nano /etc/nginx/sites-available/fileserver  # paste below line
+
+server {
+    listen 80;
+    server_name example.com; # Replace with your domain or IP address
+
+    location /files {
+        alias /var/www/files;
+        autoindex on; # Enable directory listing (optional)
+        #allow 192.168.1.100; # Allow access to the specific IP
+        allow all; # Allow access to all other IP addresses
+        #deny all; # Deny access by default
+        #auth_basic "Restricted Access"; # Authentication prompt message
+        #auth_basic_user_file /etc/nginx/.htpasswd; # Path to the htpasswd file
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    location / {
+        # Your usual website configuration
+    }
+}
+
+Enable the Site Configuration:
+sudo ln -s /etc/nginx/sites-available/fileserver /etc/nginx/sites-enabled/
+
+Test the Configuration:
+sudo nginx -t
+
+sudo systemctl reload nginx
+
+sudo ufw allow 20/tcp
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 2222/tcp
+
+sudo ufw enable
+sudo ufw reload
+
+pip3 install playwright
+python -m playwright install
