@@ -6,6 +6,7 @@ import time
 import random
 import datetime
 from playwright.async_api import async_playwright, TimeoutError
+from playwright.sync_api import sync_playwright, Playwright
 from main.logger import console_logger
 from main.db_connection.query_handler import QueryHandler
 from main.db_connection.condition_handler import ConditionHandler
@@ -25,8 +26,10 @@ class Scraping:
     COUNT: int = 0
     MAIN_START_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     MAIN_END_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+    FILE_PATH = ""
     def ManageVariables(self):
+        self.FILE_PATH = os.path.join(os.getcwd(),"logs",f'{self.OFFSET}-{self.LIMIT}.txt')
+        open(self.FILE_PATH,'w').write("PROCESS START\n")
         self.FETCHED_DATA = self.QUERY_HANDLER.requestForData(
             limit=self.LIMIT, offset=self.OFFSET
         )
@@ -34,13 +37,15 @@ class Scraping:
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__ (self):
         self.ManageVariables()
+        self.manageConcurrency()
+        self.infoLog(processEnd=True)
 
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_until_complete(self.manageConcurrency())
-        finally:
-            self.infoLog(processEnd=True)
-            loop.close()
+        # loop = asyncio.get_event_loop()
+        # try:
+        #     loop.run_until_complete(self.manageConcurrency())
+        # finally:
+        #     self.infoLog(processEnd=True)
+        #     loop.close()
 
     def infoLog(
         self,
@@ -48,41 +53,46 @@ class Scraping:
         method_start_time: str = "",
         method_end_time: str = "",
     ):
+        text = ""
         if processEnd:
             self.MAIN_END_TIME = self.getCurrentTime()
-            console_logger.debug(
-                f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\n"
-            )
+            text = f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\n"
+            console_logger.debug(text)
+            
         else:
             console_logger.debug(
                 f"Execution START/END => {method_start_time} / {method_end_time}"
             )
-            console_logger.debug(
-                f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
-            )
-
-    async def manageConcurrency(self):
+            text = f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
+            console_logger.debug(text)
+        with open(self.FILE_PATH, 'a') as f:
+            f.write(text)
+    def manageConcurrency(self):
         total_completed_loop = 0
         running_tasks = set()
         in_progress_tasks = set()
         detail_index = 0
 
-        while total_completed_loop < self.TOTAL_DATA_COUNT or in_progress_tasks:
-            while len(in_progress_tasks) < 3 and detail_index < self.TOTAL_DATA_COUNT:
-                task = asyncio.create_task(
-                    self.browseManagement(**self.FETCHED_DATA[detail_index])
-                )
-                running_tasks.add(task)
-                in_progress_tasks.add(task)
-                detail_index += 1
+        while detail_index < self.TOTAL_DATA_COUNT:
+            self.browseManagement(**self.FETCHED_DATA[detail_index])
+            detail_index += 1
 
-            done, _ = await asyncio.wait(
-                in_progress_tasks, return_when=asyncio.FIRST_COMPLETED
-            )
+        # while total_completed_loop < self.TOTAL_DATA_COUNT or in_progress_tasks:
+        #     while detail_index < self.TOTAL_DATA_COUNT:
+                # task = asyncio.create_task(
+                #     self.browseManagement(**self.FETCHED_DATA[detail_index])
+                # )
+                # running_tasks.add(task)
+                # in_progress_tasks.add(task)
+                # detail_index += 1
 
-            for task in done:
-                in_progress_tasks.remove(task)
-                total_completed_loop += 1
+            # done, _ = await asyncio.wait(
+            #     in_progress_tasks, return_when=asyncio.FIRST_COMPLETED
+            # )
+
+            # for task in done:
+            #     in_progress_tasks.remove(task)
+            #     total_completed_loop += 1
 
     def getCurrentTime(self):
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -93,7 +103,7 @@ class Scraping:
         time_difference = end_time - start_time
         return time_difference.total_seconds() / 60
 
-    async def browseManagement(self, **details):
+    def browseManagement(self, **details):
         start_time = self.getCurrentTime()
         COUNT = self.COUNT
         console_logger.debug(
@@ -101,22 +111,20 @@ class Scraping:
         )
         self.COUNT += 1
         try:
-            async with async_playwright() as playwrigh:
-                browser = await playwrigh.chromium.launch(headless=True)
-                context = await browser.new_context()
-                page = await context.new_page()
+            with sync_playwright() as playwright:
+                chromium = playwright.chromium
+                browser = chromium.launch(headless=True)
+                page = browser.new_page()
                 page.set_default_timeout(15000)
                 try:
                     try:
-                        await page.goto(details["tender_link"], timeout=15000)
-                    except:
+                        page.goto(details["tender_link"], timeout=15000)
+                    except Exception as e:
+                        console_logger.debug(e)
                         self.GLOBAL_VARIABLE.url_error += 1
                         raise Exception(
                             f"Unable to load url {details['tender_link']}"
                         )
-                except asyncio.TimeoutError as error:
-                    self.GLOBAL_VARIABLE.timeout_error += 1
-                    raise Exception(error)
                 except TimeoutError as error:
                     self.GLOBAL_VARIABLE.timeout_error += 1
                     raise Exception(error)
@@ -125,12 +133,15 @@ class Scraping:
                     console_logger.error(f"Error: {error}")
                     self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
-                    await self.process_element(page, **details)
+                    self.process_element(page, **details)
         except Exception as error:
             console_logger.error(f"Exception: {error}")
             self.GLOBAL_VARIABLE.exceptions += 1
         finally:
-            await browser.close()
+            try:
+                browser.close()
+            except Exception as e:
+                console_logger.warning(e)
             self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),
@@ -139,14 +150,14 @@ class Scraping:
             f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
         )
 
-    async def process_element(self, page, **details):
-        element = await page.query_selector(details["XPath"].replace("/", "//", 1))
+    def process_element(self, page, **details):
+        element = page.query_selector(details["XPath"].replace("/", "//", 1))
 
         if element:
-            element_html = await page.evaluate(
+            element_html = page.evaluate(
                 "(element) => element.outerHTML", element
             )
-            element_text = await page.evaluate(
+            element_text = page.evaluate(
                 "(element) => element.innerText", element
             )
             details["onlyhtml"] = re.sub(

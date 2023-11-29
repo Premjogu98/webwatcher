@@ -29,6 +29,7 @@ class DockerManagement:
         volumes = [
             "/home/gts/web-watcher/htmldocs:/home/gts/code/htmldocs",
             "/home/gts/web-watcher/main:/home/gts/code/main",
+            "/home/gts/web-watcher/logs:/home/gts/code/logs",
             "/home/gts/web-watcher/run.py:/home/gts/code/run.py",
             "/etc/localtime:/etc/localtime:ro",
             "/etc/timezone:/etc/timezone:ro",
@@ -293,7 +294,7 @@ if __name__ == "__main__":
     ObjDockerManagement = DockerManagement()
     ObjDockerManagement.stop_and_remove_all_containers()
     time.sleep(5)
-    ObjDockerManagement.start_process(container_limit=10,batch_size=100,total_thread=3)
+    ObjDockerManagement.start_process(container_limit=50,batch_size=500,total_thread=3)
     # time.sleep(60)
     # ObjDockerManagement.insert_webwatcher_monitor_log()
     # console_logger.debug("1 hr sleep after monitor")

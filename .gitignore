@@ -2,8 +2,10 @@
 *.pyc
 *.env
 *.html
+*.txt
 htmldocs
 .password
 .pendingTask
 grafana
 docker-compose-monitor.yml
+logs
