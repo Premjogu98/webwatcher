@@ -15,7 +15,12 @@ class OpticalCharacterRecognition:
         return inner_text
     
     def calculateSimilarity(self):
-        sequence_matcher = SequenceMatcher(None, self.extractInnerText(self.OLD_TEXT), self.extractInnerText(self.NEW_TEXT))
+        # console_logger.debug("="*40)
+        # console_logger.debug(self.OLD_TEXT)
+        # console_logger.debug("="*40)
+        # console_logger.debug(self.NEW_TEXT)
+        # console_logger.debug("="*40)
+        sequence_matcher = SequenceMatcher(None, self.OLD_TEXT, self.NEW_TEXT)
         similarity_ratio = sequence_matcher.ratio()
         percentage_change = round((1 - similarity_ratio) * 100, 2)
         console_logger.info(f"Calculated Similarity: {percentage_change} %")

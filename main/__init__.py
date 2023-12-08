@@ -3,10 +3,10 @@ from main.db_connection import DbConnection
 from main.db_connection.condition_handler import ConditionHandler
 from main.db_connection.query_handler import QueryHandler
 from main.env_handler import EnvHandler
-from main.scraping import Scraping
+from main.sync_scraping import SyncScraping
+from main.async_scraping import AsyncScraping
 from main.global_variables import GlobalVariable
-import os
-
+import os,random
 
 @dataclass
 class Main:
@@ -15,6 +15,7 @@ class Main:
     BATCH_SIZE = int(os.getenv("THREAD", 3))
     LIMIT = os.getenv("DB_DATA_LIMIT", 500)
     OFFSET = os.getenv("DB_DATA_OFFSET", 0)
+    GROUP_ID = os.getenv("GROUP_ID")
     QUERY_HANDLER = QueryHandler(
         connection=DB_CONNECTION.connection, cur=DB_CONNECTION.cur
     )
@@ -24,11 +25,21 @@ class Main:
         CONDITION_HANDLER = ConditionHandler(
             QUERY_HANDLER=self.QUERY_HANDLER, GLOBAL_VARIABLE=self.GLOBAL_VARIABLE
         )
-        Scraping(
+        # SyncScraping(
+        #     BATCH_SIZE=self.BATCH_SIZE,
+        #     LIMIT=self.LIMIT,
+        #     OFFSET=self.OFFSET,
+        #     CONDITION_HANDLER=CONDITION_HANDLER,
+        #     QUERY_HANDLER=self.QUERY_HANDLER,
+        #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+        # )
+        AsyncScraping(
             BATCH_SIZE=self.BATCH_SIZE,
             LIMIT=self.LIMIT,
             OFFSET=self.OFFSET,
             CONDITION_HANDLER=CONDITION_HANDLER,
             QUERY_HANDLER=self.QUERY_HANDLER,
             GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+            GROUP_ID=self.GROUP_ID
         )
+

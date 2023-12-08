@@ -3,10 +3,11 @@ from main.logger import console_logger
 from datetime import datetime
 import os, parsel, re
 from pathlib import Path
+from main.global_variables import extractStringFromHTML
+
 
 @dataclass
 class FileHandler:
-    
     htmldocs_path = os.path.join(os.getcwd(), "htmldocs")
     blockquotestart = "<Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>"
     blockquotend = "</Blockquote>"
@@ -36,26 +37,22 @@ class FileHandler:
         Current_dateTime = datetime.now().strftime("%Y%m%d%H%M%S%f")
         Fileid = "".join([str(tild), Current_dateTime])
         return f"{Fileid}.html"
-    
-    def extractHtmlElements(self,html_content, xpath_expression):
+
+    def extractHtmlElements(self, html_content, xpath_expression):
         selector = parsel.Selector(text=html_content)
         selected_elements = " ".join(selector.xpath(xpath_expression).extract())
         return selected_elements
-    
+
     def extractInnerText(self, filename: str):
         try:
             with open(
                 os.path.join(self.htmldocs_path, filename), "r", encoding="utf-8"
             ) as f:
                 text = f.read()
-                selector = parsel.Selector(text=text)
-                Extracted_html = self.extractHtmlElements(html_content=text,xpath_expression="///html/body[1]/blockquote")
-                inner_text_list = selector.xpath(f"///html/body[1]/blockquote//text()").extract()
-                inner_text = ' '.join(inner_text_list).strip()
-                inner_text_cleaned = re.sub(r'[\n\t]+', ' ', inner_text)
-                inner_text_cleaned = re.sub(r'\s+', ' ', inner_text_cleaned)
-
-                return Extracted_html, inner_text_cleaned
+                Extracted_html = self.extractHtmlElements(
+                    html_content=text, xpath_expression="///html/body[1]/blockquote"
+                )
+                return Extracted_html, extractStringFromHTML(Extracted_html)
         except Exception as e:
             raise Exception(e)
 

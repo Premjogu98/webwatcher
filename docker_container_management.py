@@ -3,6 +3,7 @@ from main.db_connection import DbConnection
 from main.env_handler import EnvHandler
 from main.db_connection.query_handler import QueryHandler
 from main.logger import console_logger
+import random
 
 class DockerManagement:
 
@@ -24,8 +25,15 @@ class DockerManagement:
         self.container_stoped_details = {}
         self.startime = None
         self.batch_size = None
+        self.group_id = random.randint(1000000000000000, 9999999999999999)
 
-    def createContainer(self,offset, limit,threads,frozen=False):
+    def createContainer(self,container_count,offset, limit,threads,frozen=False):
+        if frozen:
+            container_name = f"{container_count}-{offset}-{limit}-frozen-restored"
+        else:
+            container_name = f"{container_count}-{offset}-{limit}"
+        console_logger.debug(f"container Name: {container_name}")
+
         volumes = [
             "/home/gts/web-watcher/htmldocs:/home/gts/code/htmldocs",
             "/home/gts/web-watcher/main:/home/gts/code/main",
@@ -39,6 +47,8 @@ class DockerManagement:
             f"DB_DATA_LIMIT={limit}",
             f"DB_DATA_OFFSET={offset}",
             f"THREAD={threads}",
+            f"GROUP_ID={self.group_id}",
+            f"CONTAINER_NAME={container_name}"
         ]
         container_create_data = {
             "Image": "web-watcher:0.0.1",
@@ -54,11 +64,7 @@ class DockerManagement:
                 "NetworkMode":"host"
             },
         }
-        if frozen:
-            container_name = f"{offset}-{limit}-frozen-restored"
-        else:
-            container_name = f"{offset}-{limit}"
-        console_logger.debug(f"container Name: {container_name}")
+        
         response = self.session.post(f"{self.docker_api_url}/containers/create?name={container_name}", json=container_create_data)
         console_logger.debug(response.status_code)
         console_logger.debug(response.json())
@@ -78,9 +84,10 @@ class DockerManagement:
             containers = response.json()
             for container in containers:
                 container_id = container["Id"]
-                console_logger.debug(container_id)
-                self.stop_container(container_id)
-                self.delete_container(container_id)
+                if "nginx" not in container["Names"][0]:
+                    console_logger.debug(container["Names"])
+                    self.stop_container(container_id)
+                    self.delete_container(container_id)
                 console_logger.info(f"STOPED AND DELETED CONTAINER {container_id}")
                 # container_info = self.get_container_start_end_time(container_id)
                 # self.container_stoped_details[container_id] = container_info
@@ -118,11 +125,11 @@ class DockerManagement:
         offset = 0
         while True:
             if container_count != container_limit:
-            # if offset <= self.data_count and offset < 10000:
-                self.createContainer(offset=offset,limit=batch_size,threads=total_thread)
-                offset += batch_size
-                container_count += 1
-                continue
+                # if offset <= self.data_count:
+                    self.createContainer(container_count=container_count,offset=offset,limit=batch_size,threads=total_thread)
+                    offset += batch_size
+                    container_count += 1
+                    continue
             else:
                 break
         
@@ -294,7 +301,7 @@ if __name__ == "__main__":
     ObjDockerManagement = DockerManagement()
     ObjDockerManagement.stop_and_remove_all_containers()
     time.sleep(5)
-    ObjDockerManagement.start_process(container_limit=50,batch_size=500,total_thread=3)
+    ObjDockerManagement.start_process(container_limit=60,batch_size=500,total_thread=3)
     # time.sleep(60)
     # ObjDockerManagement.insert_webwatcher_monitor_log()
     # console_logger.debug("1 hr sleep after monitor")

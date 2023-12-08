@@ -70,37 +70,68 @@
 # print(cleaned_inner_text)
 
 
-from parsel import Selector
+# from parsel import Selector
 
-def extract_html_elements(html_content, xpath_expression):
-    # Create a Selector object with the HTML content
-    selector = Selector(text=html_content)
+# def extract_html_elements(html_content, xpath_expression):
+#     # Create a Selector object with the HTML content
+#     selector = Selector(text=html_content)
     
-    # Use the provided XPath expression to select specific HTML elements
-    selected_elements = selector.xpath(xpath_expression).extract()
-    joined_html = ' '.join(selected_elements)
-    return joined_html
+#     # Use the provided XPath expression to select specific HTML elements
+#     selected_elements = selector.xpath(xpath_expression).extract()
+#     joined_html = ' '.join(selected_elements)
+#     return joined_html
 
-# Example HTML content
-html_content = '''
-<html>
-    <body>
-        <div class="container">
-            <h1>Hello, world!</h1>
-            <p>This is a paragraph.</p>
-            <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-            </ul>
-        </div>
-    </body>
-</html>
-'''
+# # Example HTML content
+# html_content = '''
+# <html>
+#     <body>
+#         <div class="container">
+#             <h1>Hello, world!</h1>
+#             <p>This is a paragraph.</p>
+#             <ul>
+#                 <li>Item 1</li>
+#                 <li>Item 2</li>
+#                 <li>Item 3</li>
+#             </ul>
+#         </div>
+#     </body>
+# </html>
+# '''
 
-# Example XPath expression to extract specific elements (div with class="container")
-xpath_expr = "//div[@class='container']"
+# # Example XPath expression to extract specific elements (div with class="container")
+# xpath_expr = "//div[@class='container']"
 
-# Extract HTML elements using XPath
-selected_html_elements = extract_html_elements(html_content, xpath_expr)
-print(type(selected_html_elements))
+# # Extract HTML elements using XPath
+# selected_html_elements = extract_html_elements(html_content, xpath_expr)
+# print(selected_html_elements)
+
+
+from bs4 import BeautifulSoup
+
+# Your HTML string
+html_string = """
+
+"""
+
+# Create a BeautifulSoup object
+soup = BeautifulSoup(html_string, 'html.parser')
+
+# Remove custom tags
+for style_tag in soup('style'):
+    style_tag.decompose()
+for style_tag in soup('script'):
+    style_tag.decompose()
+for style_tag in soup('noscript'):
+    style_tag.decompose()
+for style_tag in soup('svg'):
+    style_tag.decompose()
+for style_tag in soup('link'):
+    style_tag.decompose()
+for style_tag in soup('meta'):
+    style_tag.decompose()
+for style_tag in soup('title'):
+    style_tag.decompose()
+# Get the inner text
+inner_text = soup.get_text(separator=' ', strip=True)
+
+print(inner_text)
