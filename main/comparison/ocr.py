@@ -1,5 +1,6 @@
 import difflib
-from difflib import SequenceMatcher
+import cdifflib
+# import difflib
 from dataclasses import dataclass
 from main.logger import console_logger
 from bs4 import BeautifulSoup
@@ -20,9 +21,12 @@ class OpticalCharacterRecognition:
         # console_logger.debug("="*40)
         # console_logger.debug(self.NEW_TEXT)
         # console_logger.debug("="*40)
-        sequence_matcher = SequenceMatcher(None, self.OLD_TEXT, self.NEW_TEXT)
-        similarity_ratio = sequence_matcher.ratio()
+        csequencematcher = cdifflib.CSequenceMatcher(a=self.OLD_TEXT,  b=self.NEW_TEXT)
+        # console_logger.debug("="*40)
+        similarity_ratio = csequencematcher.ratio()
+        # console_logger.debug("="*40)
         percentage_change = round((1 - similarity_ratio) * 100, 2)
+        # console_logger.debug("="*40)
         console_logger.info(f"Calculated Similarity: {percentage_change} %")
         if percentage_change == 0.00:
             return False, percentage_change

@@ -33,6 +33,6 @@ def monitor_containers():
                         log_file.write(f"Container {container_name} (ID: {container_id}) stopped at {end_time}\n")
             
         # time.sleep(10)  # Adjust the interval as needed
-
+        break
 if __name__ == "__main__":
     monitor_containers()

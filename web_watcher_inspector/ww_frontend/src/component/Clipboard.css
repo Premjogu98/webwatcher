@@ -1,0 +1,20 @@
+.copy-input{
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    text-align: end;
+    color: #5b5b5b;
+    pointer-events: none;
+    font-family: ui-serif;
+    width: 100%;
+}
+.copy-btn{
+    background: none;
+    border: none;
+    text-align: end;
+    cursor: copy;
+}
+.xpath-input-box{
+    display: inline-flex;
+    width: 100%;
+}

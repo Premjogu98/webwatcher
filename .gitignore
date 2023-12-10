@@ -9,3 +9,5 @@ htmldocs
 grafana
 docker-compose-monitor.yml
 logs
+web_watcher_inspector/ww_frontend/node_modules
+web_watcher_inspector/frontend/node_modules

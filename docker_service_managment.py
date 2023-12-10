@@ -13,7 +13,7 @@ class DockerServiceManagement:
         QUERY_HANDLER = QueryHandler(
             connection=self.dbconnection.connection, cur=self.dbconnection.cur
         )
-        query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.compare_changed_on, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.compare_by,data.compare_changed_on, data.last_compare_changed_on,links.tender_link FROM dms_wpw_tenderlinksdata_test AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
+        query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.compare_changed_on, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.compare_by,data.compare_changed_on, data.last_compare_changed_on,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchall=True)
         if not status:
             raise Exception

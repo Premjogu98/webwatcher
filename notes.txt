@@ -6,7 +6,7 @@ sudo apt-get -y install libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libatspi2.0
 sudo chmod 777 /var/run/docker.sock
 docker system df
 docker build -t selenium:0.0.4 -f Dockerfile.selenium .
-docker run -d --name selenium --memory=100m -t selenium:0.0.4 /bin/bash
+docker run -d --name selenium --memory=100m -t playwight:0.0.1 /bin/bash
 docker build -t playwight:0.0.1 -f Dockerfile.playwight .
 
 ps -aux

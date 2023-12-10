@@ -77,6 +77,17 @@ class AsyncScraping:
             text = f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
             console_logger.debug(text)
 
+    async def browse_with_timeout(self,**data):
+            try:
+                return await asyncio.wait_for(
+                    self.browseManagement(**data), timeout=60
+                )
+            except asyncio.TimeoutError:
+                raise Exception("BrowseManagement Function timeout")
+            except Exception as e:
+                self.GLOBAL_VARIABLE.exceptions += 1
+                self.QUERY_HANDLER.error_log(error=e, id=data["id"])
+
     async def manageConcurrency(self):
         total_completed_loop = 0
         running_tasks = set()
@@ -94,7 +105,6 @@ class AsyncScraping:
                 running_tasks.add(task)
                 in_progress_tasks.add(task)
                 detail_index += 1
-
             done, _ = await asyncio.wait(
                 in_progress_tasks, return_when=asyncio.FIRST_COMPLETED
             )

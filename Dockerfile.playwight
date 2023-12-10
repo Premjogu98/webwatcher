@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/playwright/python:v1.33.0-focal
-
+# FROM python:3.9
 # Create user with root access
 RUN useradd -ms /bin/bash gts
 RUN usermod -aG sudo gts

@@ -4,8 +4,7 @@ import RecordsManagement from './pages/RecordsManagement';
 import {
     BrowserRouter as Router,
     Routes,
-    Route,
-    NavLink
+    Route
 } from "react-router-dom";
 import ComparisonManagement from './pages/ComparisonManagement';
 import WebInspector from './pages/WebInspector';

@@ -7,7 +7,7 @@ dotenv_path = Path(os.path.join(os.getcwd(),'.env'))
 load_dotenv(dotenv_path=dotenv_path)
 
 @dataclass
-class EnvHandler():
+class EnvHandler:
     MARK = "ww".upper()
     DB_CONNECTION = {
         "DB_HOST" : os.getenv(f"{MARK}_DB_IP"),
