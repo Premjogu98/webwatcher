@@ -13,7 +13,7 @@ class DockerManagement:
         QUERY_HANDLER = QueryHandler(
             connection=self.dbconnection.connection, cur=self.dbconnection.cur
         )
-        query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.compare_changed_on, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.compare_by,data.compare_changed_on, data.last_compare_changed_on,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
+        query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy,data.CompareChangedOn, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchall=True)
         if not status:
             raise Exception
@@ -128,8 +128,8 @@ class DockerManagement:
         container_count = 0
         offset = 0
         while True:
-            # if container_count != container_limit:
-            if offset <= self.data_count:
+            if container_count != container_limit:
+            # if offset <= self.data_count:
                 self.createContainer(container_count=container_count,offset=offset,limit=batch_size,threads=total_thread)
                 offset += batch_size
                 console_logger.info(f"OFFSET = {offset} | TOTAL DATA: {self.data_count}")
@@ -305,11 +305,11 @@ class DockerManagement:
 if __name__ == "__main__":
     ObjDockerManagement = DockerManagement()
     ObjDockerManagement.stop_and_remove_all_containers()
-    # time.sleep(5)
-    # ObjDockerManagement.start_process(container_limit=30,batch_size=500,total_thread=3)
+    time.sleep(5)
+    ObjDockerManagement.start_process(container_limit=50,batch_size=1400,total_thread=4)
     # time.sleep(60)
-    # ObjDockerManagement.insert_webwatcher_monitor_log()
-    # console_logger.debug("1 hr sleep after monitor")
+    # # ObjDockerManagement.insert_webwatcher_monitor_log()
+    # # console_logger.debug("1 hr sleep after monitor")
     # time.sleep(3600)
     # ObjDockerManagement.monitor_containers()
     

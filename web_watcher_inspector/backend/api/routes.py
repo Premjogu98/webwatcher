@@ -16,3 +16,7 @@ def generate_html_response(url):
 @router.get("/get/html",response_class=HTMLResponse)
 async def test(url:str):
     return generate_html_response(url)
+
+@router.get("/get/data",response_class=HTMLResponse)
+async def test(url:str):
+    return generate_html_response(url)

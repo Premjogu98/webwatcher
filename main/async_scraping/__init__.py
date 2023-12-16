@@ -126,7 +126,7 @@ class AsyncScraping:
         start_time = self.getCurrentTime()
         COUNT = self.COUNT
         console_logger.debug(
-            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m:"
+            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
         )
         self.COUNT += 1
         try:
@@ -149,7 +149,7 @@ class AsyncScraping:
                     raise Exception(error)
                 except Exception as error:
                     error = str(error).lower()
-                    console_logger.error(f"Error: {error}")
+                    console_logger.error(f"\033[91m Error \033[00m: {error}")
                     self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
                     await self.process_element(page, **details)
@@ -157,7 +157,10 @@ class AsyncScraping:
             console_logger.error(f"Exception: {error}")
             self.GLOBAL_VARIABLE.exceptions += 1
         finally:
-            await browser.close()
+            try:
+                await browser.close()
+            except Exception as e:
+                console_logger.error(f"\033[91m Error \033[00m: ",e)
             self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),

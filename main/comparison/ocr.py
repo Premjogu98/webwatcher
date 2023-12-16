@@ -20,13 +20,13 @@ class OpticalCharacterRecognition:
         # console_logger.debug(self.OLD_TEXT)
         # console_logger.debug("="*40)
         # console_logger.debug(self.NEW_TEXT)
-        # console_logger.debug("="*40)
+        console_logger.debug("="*40)
         csequencematcher = cdifflib.CSequenceMatcher(a=self.OLD_TEXT,  b=self.NEW_TEXT)
-        # console_logger.debug("="*40)
+        console_logger.debug("="*40)
         similarity_ratio = csequencematcher.ratio()
-        # console_logger.debug("="*40)
+        console_logger.debug("="*40)
         percentage_change = round((1 - similarity_ratio) * 100, 2)
-        # console_logger.debug("="*40)
+        console_logger.debug("="*40)
         console_logger.info(f"Calculated Similarity: {percentage_change} %")
         if percentage_change == 0.00:
             return False, percentage_change

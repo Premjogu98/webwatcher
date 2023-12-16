@@ -4,38 +4,41 @@ import "react-table-6/react-table.css";
 import { columns,makeData } from "../globalVariables/global.js";
 
 export default function ReactTable6() {
-    const data = makeData(12);
+    const data = makeData(100);
     console.log(data)
     return (
         <>
+        console.log(data.length)
             <ReactTable
                 data={data}
                 columns={columns}
-                minRows={0}
-                defaultPageSize={data.length}
+                minRows={10}
+                showPageSizeOptions={false}
+                defaultPageSize={20}
+                showPageJump={false}
                 className="-striped -highlight"
                 showPagination={true}
-                getTdProps={(state, rowInfo, col, instance) => {
-                    return {
-                        onClick: (e) => {
-                            if (col.Header === undefined) {
-                                const { expanded } = state;
-                                const path = rowInfo.nestingPath[0];
-                                const diff = { [path]: expanded[path] ? false : true };
-                                instance.setState({
-                                    expanded: {
-                                        ...expanded,
-                                        ...diff,
-                                    },
-                                });
-                            } else {
-                                alert(
-                                    `Hello ${rowInfo.original.firstName} ${rowInfo.original.lastName}`
-                                );
-                            }
-                        },
-                    };
-                }}
+                // getTdProps={(state, rowInfo, col, instance) => {
+                //     return {
+                //         onClick: (e) => {
+                //             if (col.Header === undefined) {
+                //                 const { expanded } = state;
+                //                 const path = rowInfo.nestingPath[0];
+                //                 const diff = { [path]: expanded[path] ? false : true };
+                //                 instance.setState({
+                //                     expanded: {
+                //                         ...expanded,
+                //                         ...diff,
+                //                     },
+                //                 });
+                //             } else {
+                //                 alert(
+                //                     `Hello ${rowInfo.original.firstName} ${rowInfo.original.lastName}`
+                //                 );
+                //             }
+                //         },
+                //     };
+                // }}
                 SubComponent={(row) => {
                     return (
                         <div style={{ padding: "20px" }}>

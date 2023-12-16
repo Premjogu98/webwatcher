@@ -10,8 +10,8 @@ class QueryHandler:
     cur: MySQL_cursor
 
     def requestForData(self, limit: int, offset: int):
-        query = f"""SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.compare_changed_on, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.compare_by, data.last_compare_changed_on,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' ORDER BY data.id LIMIT {limit} OFFSET {offset};"""
-        # query = f"""SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.compare_changed_on, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.compare_by, data.last_compare_changed_on,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE data.id = 64;"""
+        query = f"""SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' ORDER BY data.id LIMIT {limit} OFFSET {offset};"""
+        # query = f"""SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE data.id = 64;"""
         _, data = self.getQueryAndExecute(query=query, fetchall=True)
         if not isinstance(data, list):
             return []
