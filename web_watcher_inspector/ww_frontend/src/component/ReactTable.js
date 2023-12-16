@@ -8,7 +8,6 @@ export default function ReactTable6() {
     console.log(data)
     return (
         <>
-        console.log(data.length)
             <ReactTable
                 data={data}
                 columns={columns}

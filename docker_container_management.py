@@ -305,8 +305,8 @@ class DockerManagement:
 if __name__ == "__main__":
     ObjDockerManagement = DockerManagement()
     ObjDockerManagement.stop_and_remove_all_containers()
-    time.sleep(5)
-    ObjDockerManagement.start_process(container_limit=50,batch_size=1400,total_thread=4)
+    # time.sleep(5)
+    # ObjDockerManagement.start_process(container_limit=50,batch_size=1400,total_thread=2)
     # time.sleep(60)
     # # ObjDockerManagement.insert_webwatcher_monitor_log()
     # # console_logger.debug("1 hr sleep after monitor")
