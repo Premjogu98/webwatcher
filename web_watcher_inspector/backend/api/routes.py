@@ -24,6 +24,6 @@ async def test(url: str):
 
 
 @router.get("/get/data",)
-async def test():
-    data = fetchDataCompleteData()
+async def test(offset:int,limit:int):
+    data = fetchDataCompleteData(offset,limit)
     return {"detail": data}

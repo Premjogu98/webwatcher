@@ -90,7 +90,7 @@ export function makeData(...lens) {
         return range(len).map((d) => {
             return {
                 ...newPerson(),
-                
+
                 subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined
             };
         });
@@ -98,6 +98,21 @@ export function makeData(...lens) {
 
     return makeDataLevel();
 }
+
+export const getData = async (page, pageSize) => {
+    console.debug(page, pageSize)
+    const offset = page * pageSize;
+    try {
+        const response = await fetch(
+            `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}`
+        );
+        const data = await response.json();
+        console.log(data)
+        return data;
+    } catch (e) {
+        throw new Error(`API error:${e?.message}`);
+    }
+};
 
 
 export const fromHTML =
