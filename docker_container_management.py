@@ -3,7 +3,7 @@ from main.db_connection import DbConnection
 from main.env_handler import EnvHandler
 from main.db_connection.query_handler import QueryHandler
 from main.logger import console_logger
-import random
+import string,random
 
 class DockerManagement:
 
@@ -13,11 +13,15 @@ class DockerManagement:
         QUERY_HANDLER = QueryHandler(
             connection=self.dbconnection.connection, cur=self.dbconnection.cur
         )
-        query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy,data.CompareChangedOn, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
-        status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchall=True)
+        query = """SELECT COUNT(*) AS record_count
+                FROM dms_wpw_tenderlinksdata AS data
+                JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id
+                WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"""
+        status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchone=True)
+        console_logger.debug(data)
         if not status:
             raise Exception
-        self.data_count = len(data)
+        self.data_count = data["record_count"]
         console_logger.info(f"DATA COUNT : {self.data_count}")
         self.session = requests_unixsocket.Session()
         self.docker_api_url = "http+unix://%2Fvar%2Frun%2Fdocker.sock"
@@ -25,9 +29,14 @@ class DockerManagement:
         self.container_stoped_details = {}
         self.startime = None
         self.batch_size = None
-        self.group_id = random.randint(1000000000000000, 9999999999999999)
+        self.group_id = self.generate_random_password()
         console_logger.debug(self.group_id)
 
+    def generate_random_password(length=20):
+        characters = string.digits
+        password = ''.join(str(random.randint(characters)) for _ in range(20))
+        return password
+    
     def createContainer(self,container_count,offset, limit,threads,frozen=False):
         if frozen:
             container_name = f"{container_count}-{offset}-{limit}-frozen-restored"
@@ -305,8 +314,8 @@ class DockerManagement:
 if __name__ == "__main__":
     ObjDockerManagement = DockerManagement()
     ObjDockerManagement.stop_and_remove_all_containers()
-    # time.sleep(5)
-    # ObjDockerManagement.start_process(container_limit=50,batch_size=1000,total_thread=2)
+    time.sleep(5)
+    ObjDockerManagement.start_process(container_limit=55,batch_size=1300,total_thread=2)
     # time.sleep(60)
     # # ObjDockerManagement.insert_webwatcher_monitor_log()
     # # console_logger.debug("1 hr sleep after monitor")

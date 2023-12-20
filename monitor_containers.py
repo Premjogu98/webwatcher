@@ -1,38 +1,53 @@
-import requests_unixsocket
-import json
-import time
+import docker
+import datetime
+import pytz
+import secrets
+import string,random
 
-CONTAINER_LOGS_FILE = 'container_logs.txt'
-DOCKER_API_VERSION = 'v1.41'  # Change this to match your Docker API version
+client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
-def get_containers():
-    url = f'http+unix://%2Fvar%2Frun%2Fdocker.sock/containers/json?all=1'
-    session = requests_unixsocket.Session()
-    response = session.get(url)
-    containers = response.json()
-    return containers
 
-def monitor_containers():
-    while True:
-        containers = get_containers()
-        # print(containers)
-        for container in containers:
-            container_id = container['Id'][:12]
-            container_name = container['Names'][0]
-            container_status = container['State']
-            if container_status != 'running':
-                print(container)
-            # break
-            if "nginx" not in container_name:
-                with open(CONTAINER_LOGS_FILE, 'a') as log_file:
-                    if container_status != 'running':
-                        start_time = time.strftime('%Y-%m-%d %H:%M:%S')
-                        log_file.write(f"Container {container_name} (ID: {container_id}) started at {start_time}\n")
-                    else:
-                        end_time = time.strftime('%Y-%m-%d %H:%M:%S')
-                        log_file.write(f"Container {container_name} (ID: {container_id}) stopped at {end_time}\n")
-            
-        # time.sleep(10)  # Adjust the interval as needed
-        break
+
+def convert_to_local_time(utc_time):
+    # Convert UTC time to datetime object
+    utc_time = utc_time[:26]  # Truncate the string to 26 characters
+    datetime_obj = datetime.datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%f')
+
+    # Convert to UTC timezone
+    utc_timezone = pytz.timezone('UTC')
+    datetime_obj = utc_timezone.localize(datetime_obj)
+
+    # Convert to local timezone
+    local_timezone = pytz.timezone('Asia/Kolkata')  # Replace with your local timezone
+    local_time = datetime_obj.astimezone(local_timezone)
+    return local_time
+
+def generate_random_password(length=20):
+    characters = string.digits  # This includes numbers 0-9
+    print(characters)
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
+def get_container_start_stop_events():
+    for container in client.containers.list(filters={"status": "exited"}):
+        print(container.name)
+        container_info = container.attrs
+
+        start_time = container_info['State']['StartedAt']
+        end_time = container_info['State']['FinishedAt']
+
+        local_start_time = convert_to_local_time(start_time)
+        local_end_time = convert_to_local_time(end_time)
+
+        time_diff = local_end_time - local_start_time
+        
+        print(f"Start time (local) of container '{container.name}': {local_start_time.strftime('%Y-%m-%d %I:%M:%S')}")
+        print(f"End time (local) of container '{container.name}': {local_end_time.strftime('%Y-%m-%d %I:%M:%S')}")
+        print(f"Duration of container '{container.name}': {round(time_diff.total_seconds() / 60)} MINUTE")
+        # break
+
+
+
+
 if __name__ == "__main__":
-    monitor_containers()
+    get_container_start_stop_events()
