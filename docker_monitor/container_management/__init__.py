@@ -1,9 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 import requests_unixsocket,datetime,time,string,random,docker,pytz
 from main.db_connection import DbConnection
 from main.env_handler import EnvHandler
 from main.db_connection.query_handler import QueryHandler
 from main.logger import console_logger
+from typing import List
 
 @dataclass
 class ContainerManagement:
@@ -13,12 +14,13 @@ class ContainerManagement:
     BATCH_SIZE = None
     GROUP_ID = 0
     DATA_COUNT = 0
+    LIST_OF_CONTAINERS:List[str] = field(default_factory=list) 
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
-        self.GROUP_ID = self.generateRandomNumber()
-        self.DATA_COUNT = self.getDataCount()
+        self.GROUP_ID = self.__generateRandomNumber()
+        self.DATA_COUNT = self.__getDataCount()
 
-    def getDataCount(self):
+    def __getDataCount(self):
         DATABASE_DETAILS = EnvHandler.DB_CONNECTION
         self.dbconnection = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
         QUERY_HANDLER = QueryHandler(
@@ -31,10 +33,10 @@ class ContainerManagement:
             raise Exception
         return data["record_count"]
     
-    def generateRandomNumber(self):
+    def __generateRandomNumber(self):
         return ''.join(str(random.randint(0, 9)) for _ in range(20))
     
-    def containerMetaData(self,container_name,offset,limit,threads):
+    def __containerMetaData(self,container_name,offset,limit,threads):
         volumes = [
             "/home/gts/web-watcher/htmldocs:/home/gts/code/htmldocs",
             "/home/gts/web-watcher/main:/home/gts/code/main",
@@ -65,19 +67,13 @@ class ContainerManagement:
         }
         return container_create_data
     
-    def startDockerContainer(self,container_name,metadata:dict):
+    def __startDockerContainer(self,container_name,metadata:dict):
         response = self.SESSION.post(f"{self.DOCKER_URL}/containers/create?name={container_name}", json=metadata)
         container_id = response.json()["Id"]
         self.SESSION.post(f"{self.DOCKER_URL}/containers/{container_id}/start")
         console_logger.debug(f"{container_name} STARTED")
 
-    def stop_container(self,container_id):
-        self.SESSION.post(f"{self.DOCKER_URL}/containers/{container_id}/stop")
-    
-    def delete_container(self,container_id):
-        self.SESSION.delete(f"{self.DOCKER_URL}/containers/{container_id}")
-
-    def deployContainerWithBatch(self,batch_size,container_limit,total_thread):
+    def __deployContainerWithBatch(self,batch_size,container_limit,total_thread):
         self.BATCH_SIZE = batch_size
         container_count = 0
         offset = 0
@@ -85,30 +81,29 @@ class ContainerManagement:
             if container_count != container_limit:
             # if offset <= self.data_count:
                 container_name = f"{container_count}-{offset}-{batch_size}"
-                self.startDockerContainer(container_name=container_name,metadata=self.containerMetaData(container_name,offset,batch_size,total_thread))
+                self.__startDockerContainer(container_name=container_name,metadata=self.__containerMetaData(container_name,offset,batch_size,total_thread))
                 offset += batch_size
                 container_count += 1
+                self.LIST_OF_CONTAINERS.append(container_name)
                 continue
             else:
                 break
     
-    def stopAndRemoveContainers(self):
+    def __stopAndRemoveContainers(self):
         console_logger.info("*** DOCKER CONTINER START PRUNING *** ")
         for container in self.DOCKER_CLIENT.containers.list(all=True):
             if "web-watcher-nginx-1" not in container.name:
-                console_logger.debug(container.name)
                 container_info = container.attrs
-                dt_start_time,str_start_time = self.convertToLocalTime(container_info['State']['StartedAt'])
-                dt_end_time,str_end_time = self.convertToLocalTime(container_info['State']['FinishedAt'])
+                dt_start_time,str_start_time = self.__convertToLocalTime(container_info['State']['StartedAt'])
+                dt_end_time,str_end_time = self.__convertToLocalTime(container_info['State']['FinishedAt'])
                 dif = None
                 if dt_end_time and dt_start_time:
                     dif = dt_end_time - dt_start_time
                 console_logger.info(f"{container.name} = STARTIME {str_start_time} | ENDTIME : {str_end_time} | TOTAL DIF (MIN) : {dif}")
-                container.stop()
-        self.DOCKER_CLIENT.containers.prune()
-        console_logger.info("*** ALL DOCKER CONTAINER PRUNED ***")
+                self.__stopContainer(container_obj=container)
+        console_logger.info("*** ALL DOCKER CONTAINER PRUNED ***\n")
 
-    def convertToLocalTime(self, utc_time):
+    def __convertToLocalTime(self, utc_time):
         try:
             utc_time = utc_time[:26]
             datetime_obj = datetime.datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%f')
@@ -123,10 +118,35 @@ class ContainerManagement:
             return local_time , local_time.strftime('%Y-%m-%d %I:%M:%S')
         except:
             return None,None
+        
+    def __stopContainer(self,container_name=None, container_obj=None):
+        try:
+            if not container_obj:
+                container_obj = self.DOCKER_CLIENT.containers.get(container_name)
+            container_obj.stop()
+            container_obj.remove()
+            console_logger.info(f"Container '{container_obj.name}' stopped and removed successfully.")
+        except docker.errors.NotFound:
+            console_logger.error(f"Container '{container_obj.name}' not found.")
+
     def startContainers(self,batch_size,container_limit,total_thread):
-        self.deployContainerWithBatch(batch_size=batch_size,container_limit=container_limit,total_thread=total_thread)
+        console_logger.info("*** CONTAINER DEPLOYMENT PROCESS START ***")
+        self.__deployContainerWithBatch(batch_size=batch_size,container_limit=container_limit,total_thread=total_thread)
+        console_logger.info("*** ALL CONTAINER DEPLOYMED SUCESSFULLY ***\n")
 
     def stopAllContainers(self):
-        self.stopAndRemoveContainers()
+        self.__stopAndRemoveContainers()
+
+    def monitorContainers(self):
+        while True:
+            while len(self.LIST_OF_CONTAINERS) != 0:
+                for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
+                    if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
+                        del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
+                        self.__stopContainer(container.name)
+                        console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")
+                console_logger.info("SLEEP FOR 10 MIN")
+                time.sleep(600)
+            containerManagement.startContainers(container_limit=65,batch_size=1000,total_thread=3)
 
 containerManagement = ContainerManagement()
