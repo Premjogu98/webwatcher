@@ -106,32 +106,29 @@
 # print(selected_html_elements)
 
 
-from bs4 import BeautifulSoup
+import mysql.connector
 
-# Your HTML string
-html_string = """
+# Establish a connection to MySQL
+connection = mysql.connector.connect(
+    host='your_host',
+    user='your_username',
+    password='your_password',
+    database='your_database',
+    connection_timeout=10  # Set connection timeout (optional)
+)
 
-"""
+# Create a cursor object to execute queries
+cursor = connection.cursor()
 
-# Create a BeautifulSoup object
-soup = BeautifulSoup(html_string, 'html.parser')
+# Set query timeout
+query = "SELECT * FROM your_table"
+cursor.execute(query, params=None, operation_timeout=5)  # Set query timeout to 5 seconds
 
-# Remove custom tags
-for style_tag in soup('style'):
-    style_tag.decompose()
-for style_tag in soup('script'):
-    style_tag.decompose()
-for style_tag in soup('noscript'):
-    style_tag.decompose()
-for style_tag in soup('svg'):
-    style_tag.decompose()
-for style_tag in soup('link'):
-    style_tag.decompose()
-for style_tag in soup('meta'):
-    style_tag.decompose()
-for style_tag in soup('title'):
-    style_tag.decompose()
-# Get the inner text
-inner_text = soup.get_text(separator=' ', strip=True)
+# Fetch results
+results = cursor.fetchall()
+for row in results:
+    print(row)
 
-print(inner_text)
+# Close the cursor and connection
+cursor.close()
+connection.close()

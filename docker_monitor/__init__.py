@@ -3,4 +3,5 @@ from dataclasses import dataclass
 @dataclass
 class DockerMonitor:    
     containerManagement.stopAllContainers()
-    containerManagement.monitorContainers()
+    containerManagement.startContainers(container_limit=65,batch_size=1000,total_thread=3)
+    # containerManagement.monitorContainers()

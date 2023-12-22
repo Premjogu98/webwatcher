@@ -44,12 +44,18 @@ class AsyncScraping:
 
         loop = asyncio.get_event_loop()
         try:
-            loop.run_until_complete(self.manageConcurrency())
+            # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
+            loop.run_until_complete(self.manageConcurrency(),)
+        except asyncio.TimeoutError:
+            console_logger.error("\033[91m 1.5 HRS MAIN THREAD TIME COMPLETED \033[00m")
         finally:
-            self.infoLog(processEnd=True)
+            try:
+                loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=20))
+            except Exception as e:
+                console_logger.error(f"\033[91m {e} \033[00m")
             loop.close()
 
-    def infoLog(
+    async def infoLog(
         self,
         processEnd: bool = False,
         method_start_time: str = "",
@@ -77,17 +83,6 @@ class AsyncScraping:
             text = f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
             console_logger.debug(text)
 
-    async def browse_with_timeout(self,**data):
-            try:
-                return await asyncio.wait_for(
-                    self.browseManagement(**data), timeout=60
-                )
-            except asyncio.TimeoutError:
-                raise Exception("BrowseManagement Function timeout")
-            except Exception as e:
-                self.GLOBAL_VARIABLE.exceptions += 1
-                self.QUERY_HANDLER.error_log(error=e, id=data["id"])
-
     async def manageConcurrency(self):
         total_completed_loop = 0
         running_tasks = set()
@@ -106,7 +101,7 @@ class AsyncScraping:
                 in_progress_tasks.add(task)
                 detail_index += 1
             done, _ = await asyncio.wait(
-                in_progress_tasks, return_when=asyncio.FIRST_COMPLETED
+                in_progress_tasks, return_when=asyncio.FIRST_COMPLETED,timeout=25
             )
 
             for task in done:
@@ -161,7 +156,7 @@ class AsyncScraping:
                 await browser.close()
             except Exception as e:
                 console_logger.error(f"\033[91m Error \033[00m: ",e)
-            self.infoLog(
+            await self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),
             )
