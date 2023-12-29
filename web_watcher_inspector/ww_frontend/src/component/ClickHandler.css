@@ -1,0 +1,13 @@
+#inspect-btn{
+    border-radius: 3px;
+    background-color: #007cff;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 0.9rem;
+    transition: all 0.5s;
+    cursor: pointer;
+    height: 4vh;
+    font-family: ui-serif;
+    width: 7vw;
+}

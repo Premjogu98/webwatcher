@@ -30,12 +30,12 @@ class QueryHandler:
             return False, {}
 
     def executeQuery(self, query):
-        console_logger.debug(f"QUERY ==> {query}")
+        # console_logger.debug(f"QUERY ==> {query}")
         self.cur.execute(query)
 
     def insertQuery(self, query:str, value:tuple):
-        console_logger.debug(f"QUERY ==> {query}")
-        console_logger.debug(f"VALUE ==> {value}")
+        # console_logger.debug(f"QUERY ==> {query}")
+        # console_logger.debug(f"VALUE ==> {value}")
         self.cur.execute(query, value)
 
     def error_log(self, error, id):

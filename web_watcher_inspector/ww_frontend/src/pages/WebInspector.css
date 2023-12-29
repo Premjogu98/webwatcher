@@ -1,14 +1,16 @@
 .insider-left-input{
-    padding-bottom:5px
+    padding-bottom:5px;
+    margin-right: 20px;
 }
 .insider-left-input input{
     width: 100%;
     outline: none;
     border: none;
-    padding: 5px 1px 5px 1px;
-    font-size: 0.8vw;
+    padding: 5px 8px 5px 8px;
+    font-size: 16px;
     border-radius: 3px;
-    background-color: #e3e3e3;
+    background-color: #d7d7d7;
+    height: 30px;
 }
 .insider-left-button{
     text-align: end;
@@ -21,12 +23,11 @@
     border: none;
     color: #FFFFFF;
     text-align: center;
-    font-size: 0.9rem;
-    transition: all 0.5s;
-    width: 3.7vw;
+    font-size: 1.1rem;
+    width: 5vw;
     transition: all 0.5s;
     cursor: pointer;
-    height: 2.6vh;
+    height: 4vh;
     font-family: ui-serif;
 }
 
@@ -53,4 +54,17 @@
 .go-btn:hover span:after {
     opacity: 1;
     right: 0;
+}
+.web-inspector-d{
+    display: inline-grid;
+    position: fixed;
+    width: 100%;
+    z-index: 99999;
+    background-color: #e9e9e9;
+    padding: 13px 0px 10px 10px ;
+}
+#contentbox{
+    margin: 70px 10px 10px 10px;
+    background-color: white !important;
+    overflow-x: auto;
 }

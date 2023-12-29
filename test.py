@@ -106,29 +106,50 @@
 # print(selected_html_elements)
 
 
-import mysql.connector
+# import mysql.connector
 
-# Establish a connection to MySQL
-connection = mysql.connector.connect(
-    host='your_host',
-    user='your_username',
-    password='your_password',
-    database='your_database',
-    connection_timeout=10  # Set connection timeout (optional)
-)
+# # Establish a connection to MySQL
+# connection = mysql.connector.connect(
+#     host='your_host',
+#     user='your_username',
+#     password='your_password',
+#     database='your_database',
+#     connection_timeout=10  # Set connection timeout (optional)
+# )
 
-# Create a cursor object to execute queries
-cursor = connection.cursor()
+# # Create a cursor object to execute queries
+# cursor = connection.cursor()
 
-# Set query timeout
-query = "SELECT * FROM your_table"
-cursor.execute(query, params=None, operation_timeout=5)  # Set query timeout to 5 seconds
+# # Set query timeout
+# query = "SELECT * FROM your_table"
+# cursor.execute(query, params=None, operation_timeout=5)  # Set query timeout to 5 seconds
 
-# Fetch results
-results = cursor.fetchall()
-for row in results:
-    print(row)
+# # Fetch results
+# results = cursor.fetchall()
+# for row in results:
+#     print(row)
 
-# Close the cursor and connection
-cursor.close()
-connection.close()
+# # Close the cursor and connection
+# cursor.close()
+# connection.close()
+
+
+import cupy as cp
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Sample text data
+text1 = "This is the first text sample."
+text2 = "Here is the second text example."
+
+# Create a TF-IDF Vectorizer and transform the texts
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform([text1, text2])
+
+# Convert the TF-IDF matrix to a Cupy array for GPU computation
+tfidf_matrix_cupy = cp.sparse.csr_matrix(tfidf_matrix.astype(cp.float32))
+
+# Compute cosine similarity on the GPU
+similarity = cosine_similarity(tfidf_matrix_cupy, dense_output=False)
+
+print(f"Cosine Similarity Matrix (GPU):\n{similarity}")

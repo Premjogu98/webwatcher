@@ -41,30 +41,24 @@ class AsyncScraping:
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__ (self):
         self.ManageVariables()
-
         loop = asyncio.get_event_loop()
-        try:
-            # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
-            loop.run_until_complete(self.manageConcurrency(),)
-        except asyncio.TimeoutError:
-            console_logger.error("\033[91m 1.5 HRS MAIN THREAD TIME COMPLETED \033[00m")
-        finally:
-            try:
-                loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=20))
-            except Exception as e:
-                console_logger.error(f"\033[91m {e} \033[00m")
-            loop.close()
+        # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
+        loop.run_until_complete(self.manageConcurrency(),)
+        loop.close()
+        self.infoLog(processEnd=True)
+        
 
-    async def infoLog(
+    def infoLog(
         self,
         processEnd: bool = False,
         method_start_time: str = "",
         method_end_time: str = "",
+        count:int = 0
     ):
         text = ""
         if processEnd:
             self.MAIN_END_TIME = self.getCurrentTime()
-            text = f"\nTOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\n"
+            text = f"\033[92m TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\033[00m"
             console_logger.debug(text)
             LogHandler(
                 QUERY_HANDLER=self.QUERY_HANDLER,
@@ -77,10 +71,10 @@ class AsyncScraping:
                 DIFF_TIME=round(float(self.getDatetimeDifference(first=self.MAIN_START_TIME,second=self.MAIN_END_TIME)),2)
             )
         else:
-            console_logger.debug(
-                f"Execution START/END => {method_start_time} / {method_end_time}"
-            )
-            text = f"""Total : {self.COUNT}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
+            # console_logger.debug(
+            #     f"Execution START/END => {method_start_time} / {method_end_time}"
+            # )
+            text = f"""Total : {count}/{self.TOTAL_DATA_COUNT} | \033[92m Compared \033[00m: {self.GLOBAL_VARIABLE.compared} | \033[93m Nothing Changed \033[00m: {self.GLOBAL_VARIABLE.nothing_changed} | \033[91m Path Error \033[00m: {self.GLOBAL_VARIABLE.path_error} | \033[91m Timeout Error \033[00m: {self.GLOBAL_VARIABLE.timeout_error} | \033[91m Url Error \033[00m: {self.GLOBAL_VARIABLE.url_error} | \033[91m Exceptions \033[00m: {self.GLOBAL_VARIABLE.exceptions}\n"""
             console_logger.debug(text)
 
     async def manageConcurrency(self):
@@ -90,12 +84,9 @@ class AsyncScraping:
         detail_index = 0
 
         while total_completed_loop < self.TOTAL_DATA_COUNT or in_progress_tasks:
-            while (
-                len(in_progress_tasks) < self.BATCH_SIZE
-                and detail_index < self.TOTAL_DATA_COUNT
-            ):
+            while (len(in_progress_tasks) < self.BATCH_SIZE and detail_index < self.TOTAL_DATA_COUNT):
                 task = asyncio.create_task(
-                    self.browseManagement(**self.FETCHED_DATA[detail_index])
+                    self.browseManagement(**self.FETCHED_DATA[detail_index]),name=f"{self.FETCHED_DATA[detail_index]['id']}-{self.LIMIT}-{self.OFFSET}"
                 )
                 running_tasks.add(task)
                 in_progress_tasks.add(task)
@@ -103,10 +94,15 @@ class AsyncScraping:
             done, _ = await asyncio.wait(
                 in_progress_tasks, return_when=asyncio.FIRST_COMPLETED,timeout=25
             )
-
             for task in done:
                 in_progress_tasks.remove(task)
                 total_completed_loop += 1
+            # console_logger.debug(f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}")
+            
+            if detail_index == self.TOTAL_DATA_COUNT or total_completed_loop == self.TOTAL_DATA_COUNT-1:
+                console_logger.debug(f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}")
+                if len(in_progress_tasks) == 1:
+                    break
 
     def getCurrentTime(self):
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -120,9 +116,9 @@ class AsyncScraping:
     async def browseManagement(self, **details):
         start_time = self.getCurrentTime()
         COUNT = self.COUNT
-        console_logger.debug(
-            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
-        )
+        # console_logger.debug(
+        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
+        # )
         self.COUNT += 1
         try:
             async with async_playwright() as playwrigh:
@@ -144,7 +140,7 @@ class AsyncScraping:
                     raise Exception(error)
                 except Exception as error:
                     error = str(error).lower()
-                    console_logger.error(f"\033[91m Error \033[00m: {error}")
+                    # console_logger.error(f"\033[91m {COUNT} Error \033[00m: {error}")
                     self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
                     await self.process_element(page, **details)
@@ -155,14 +151,15 @@ class AsyncScraping:
             try:
                 await browser.close()
             except Exception as e:
-                console_logger.error(f"\033[91m Error \033[00m: ",e)
-            await self.infoLog(
+                console_logger.error("\033[91m Error \033[00m: ",e)
+            self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),
+                count=COUNT
             )
-        console_logger.debug(
-            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
-        )
+        # console_logger.debug(
+        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
+        # )
 
     async def process_element(self, page, **details):
         element = await page.query_selector(details["XPath"].replace("/", "//", 1))

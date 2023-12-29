@@ -73,7 +73,7 @@ class ContainerManagement:
         self.SESSION.post(f"{self.DOCKER_URL}/containers/{container_id}/start")
         console_logger.debug(f"{container_name} STARTED")
 
-    def __deployContainerWithBatch(self,batch_size,container_limit,total_thread):
+    def __deployContainer(self,batch_size,container_limit,total_thread):
         self.BATCH_SIZE = batch_size
         container_count = 0
         offset = 0
@@ -88,7 +88,21 @@ class ContainerManagement:
                 continue
             else:
                 break
-    
+
+    def __deployContainerWithBatch(self,batch_size,container_limit,total_thread,offset=0):
+        container_count = 0
+        while True:
+            if container_count != container_limit:
+            # if offset <= self.data_count:
+                container_name = f"{container_count}-{offset}-{batch_size}"
+                self.__startDockerContainer(container_name=container_name,metadata=self.__containerMetaData(container_name,offset,batch_size,total_thread))
+                offset += batch_size
+                container_count += 1
+                self.LIST_OF_CONTAINERS.append(container_name)
+                continue
+            else:
+                break
+        return offset
     def __stopAndRemoveContainers(self):
         console_logger.info("*** DOCKER CONTINER START PRUNING *** ")
         for container in self.DOCKER_CLIENT.containers.list(all=True):
@@ -101,6 +115,7 @@ class ContainerManagement:
                     dif = dt_end_time - dt_start_time
                 console_logger.info(f"{container.name} = STARTIME {str_start_time} | ENDTIME : {str_end_time} | TOTAL DIF (MIN) : {dif}")
                 self.__stopContainer(container_obj=container)
+
         console_logger.info("*** ALL DOCKER CONTAINER PRUNED ***\n")
 
     def __convertToLocalTime(self, utc_time):
@@ -131,7 +146,7 @@ class ContainerManagement:
 
     def startContainers(self,batch_size,container_limit,total_thread):
         console_logger.info("*** CONTAINER DEPLOYMENT PROCESS START ***")
-        self.__deployContainerWithBatch(batch_size=batch_size,container_limit=container_limit,total_thread=total_thread)
+        self.__deployContainer(batch_size=batch_size,container_limit=container_limit,total_thread=total_thread)
         console_logger.info("*** ALL CONTAINER DEPLOYMED SUCESSFULLY ***\n")
 
     def stopAllContainers(self):
@@ -139,14 +154,20 @@ class ContainerManagement:
 
     def monitorContainers(self):
         while True:
-            while len(self.LIST_OF_CONTAINERS) != 0:
-                for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
-                    if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
-                        del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
-                        self.__stopContainer(container.name)
-                        console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")
-                console_logger.info("SLEEP FOR 10 MIN")
-                time.sleep(600)
-            containerManagement.startContainers(container_limit=65,batch_size=1000,total_thread=3)
+            batch_size = 500
+            offset = 0
+            container_count = round(round(self.DATA_COUNT / batch_size) / 2)
+            console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 2} ")
+            for idx in range(2):
+                console_logger.debug(idx)
+                offset += self.__deployContainerWithBatch(offset=offset,container_limit=container_count,batch_size=batch_size,total_thread=3)
+                while len(self.LIST_OF_CONTAINERS) != 0:
+                    for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
+                        if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
+                            self.__stopContainer(container.name)
+                            del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
+                            console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")
+                    console_logger.info(f"continue sleep for 30 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}")
+                    time.sleep(30)
 
 containerManagement = ContainerManagement()

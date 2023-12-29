@@ -20,14 +20,14 @@ class ConditionHandler:
         newhtmlfile = f"{details['id']}-newhtmlfile.html"
         
         if not details["oldHtmlPath"] and not details["newHtmlPath"]:
-            console_logger.debug("DB Condition 1.....")
+            # console_logger.debug("DB Condition 1.....")
             if self.fileHandler.generateHtmlFile(htmlstring=details["onlyhtml"], filename=oldhtmlfile):
                 self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET oldHtmlPath = "{oldhtmlfile}" WHERE id = {details["id"]}""")
                 self.GLOBAL_VARIABLE.nothing_changed += 1
                 return True
             
         elif details["oldHtmlPath"] and not details["newHtmlPath"]:
-            console_logger.debug("DB Condition 2.....")
+            # console_logger.debug("DB Condition 2.....")
             _, old_text = self.fileHandler.extractInnerText(filename=oldhtmlfile)
             ObjComparison = Comparison(OLD_TEXT=old_text, NEW_TEXT=details["onlytext"])
             result,compare_per = ObjComparison.startCompare()
@@ -39,23 +39,18 @@ class ConditionHandler:
                     return True
                 
         elif details["oldHtmlPath"] and details["newHtmlPath"]:
-            console_logger.debug("DB Condition 3.....")
+            # console_logger.debug("DB Condition 3.....")
             old_html, old_text = self.fileHandler.extractInnerText(newhtmlfile)
-            # console_logger.debug("Comparison .....")
             ObjComparison = Comparison(OLD_TEXT=old_text,NEW_TEXT=details["onlytext"])
-            # console_logger.debug("startCompare .....")
             result,compare_per = ObjComparison.startCompare()
-            # console_logger.debug("generateHtmlFile .....")
             if result:
                 if self.fileHandler.generateHtmlFile(htmlstring=details["onlyhtml"],filename=newhtmlfile) and self.fileHandler.generateHtmlFile(htmlstring=old_html,filename=oldhtmlfile):
-                    # console_logger.debug("executeQuery .....")
                     self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET newHtmlPath = "{newhtmlfile}", oldHtmlPath = "{oldhtmlfile}", compare_per = "{str(compare_per)}", CompareChangedOn = "{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}", LastCompareChangedOn="{details["CompareChangedOn"]}", entrydone = "N" WHERE id = {details["id"]}""")
-                    # console_logger.debug("updateChangesCount .....")
                     self.updateChangesCount(id=details["id"])
                     self.GLOBAL_VARIABLE.compared += 1
                     return True
         else:
             raise Exception("checkConditionBeforeTextComparison NO DB Condition Matched.....")
         
-        self.GLOBAL_VARIABLE.nothing_changed += 1
+        # self.GLOBAL_VARIABLE.nothing_changed += 1
         return False

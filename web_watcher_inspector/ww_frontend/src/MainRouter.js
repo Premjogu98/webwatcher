@@ -19,7 +19,7 @@ class App extends Component {
             <Router>
                 <>
                     <Navbar />
-                    <div className='content'>
+                    <>
                         <Routes>
                             <Route index element="" />
                             <Route path='/web-inspector' element={<WebInspector />} />
@@ -27,7 +27,7 @@ class App extends Component {
                             <Route path='/comparison' element={<ComparisonManagement />} />
                             <Route path='*' element={<div>NOT FOUND</div>} />  {/* IF ROUTES NOT MATCHED */}
                         </Routes>
-                    </div>
+                    </>
                 </>
             </Router>
         );

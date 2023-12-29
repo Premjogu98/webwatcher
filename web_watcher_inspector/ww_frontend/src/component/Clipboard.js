@@ -4,7 +4,7 @@ import { NotificationContainer } from 'react-notifications';
 import { Notifications } from './Notifications.js';
 import { getSessionData, setSessionData } from "../globalVariables/global.js";
 import "./Clipboard.css";
-
+import ClickHandler from '../component/ClickHandler';
 class Clipboard extends Component {
     constructor(props) {
         super(props);
@@ -40,6 +40,12 @@ class Clipboard extends Component {
     render() {
         return (
             <div className="xpath-input-box">
+                <input
+                    id="copy-input"
+                    className="copy-input"
+                    defaultValue={this.state.value}
+                    onChange={this.state.value}
+                />
                 <button
                     className="copy-btn"
                     onClick={this.copyToClipboard}
@@ -51,12 +57,7 @@ class Clipboard extends Component {
                         }
                     }} />
                 </button>
-                <input
-                    id="copy-input"
-                    className="copy-input"
-                    defaultValue={this.state.value}
-                    onChange={this.state.value}
-                />
+                <ClickHandler/>
                 <NotificationContainer />
             </div>
         );
