@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import ComparisonManagement from './pages/ComparisonManagement';
 import WebInspector from './pages/WebInspector';
+import { ViewContent } from './component/ViewContent';
 
 class App extends Component {
     constructor(props) {
@@ -21,15 +22,21 @@ class App extends Component {
                     <Navbar />
                     <>
                         <Routes>
+
                             <Route index element="" />
                             <Route path='/web-inspector' element={<WebInspector />} />
                             <Route path='/records' element={<RecordsManagement />} />
                             <Route path='/comparison' element={<ComparisonManagement />} />
-                            <Route path='*' element={<div>NOT FOUND</div>} />  {/* IF ROUTES NOT MATCHED */}
+                            {/* <Route path='*' element={<div>PAGE NOT FOUND</div>} />  IF ROUTES NOT MATCHED */}
                         </Routes>
                     </>
                 </>
+                <Routes>
+                    <Route path='/page/:id' element={<ViewContent />} />
+                </Routes>
             </Router>
+
+
         );
     }
 }

@@ -1,0 +1,160 @@
+2023-12-30 14:58:20,059,59 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '36-36000-1000' stopped and removed successfully.
+2023-12-30 14:58:20,060,60 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 35-35000-1000 = STARTIME 2023-12-30 02:50:23 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:58:31,638,638 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '35-35000-1000' stopped and removed successfully.
+2023-12-30 14:58:31,638,638 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 34-34000-1000 = STARTIME 2023-12-30 02:50:22 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:58:44,094,94 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '34-34000-1000' stopped and removed successfully.
+2023-12-30 14:58:44,095,95 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 33-33000-1000 = STARTIME 2023-12-30 02:50:22 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:58:54,918,918 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '33-33000-1000' stopped and removed successfully.
+2023-12-30 14:58:54,918,918 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 32-32000-1000 = STARTIME 2023-12-30 02:50:22 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:59:05,975,975 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '32-32000-1000' stopped and removed successfully.
+2023-12-30 14:59:05,976,976 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 31-31000-1000 = STARTIME 2023-12-30 02:50:22 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:59:16,867,867 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '31-31000-1000' stopped and removed successfully.
+2023-12-30 14:59:16,867,867 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 30-30000-1000 = STARTIME 2023-12-30 02:50:21 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:59:27,693,693 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '30-30000-1000' stopped and removed successfully.
+2023-12-30 14:59:27,694,694 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 29-29000-1000 = STARTIME 2023-12-30 02:50:21 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:59:39,603,603 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '29-29000-1000' stopped and removed successfully.
+2023-12-30 14:59:39,603,603 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 28-28000-1000 = STARTIME 2023-12-30 02:50:21 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 14:59:50,277,277 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '28-28000-1000' stopped and removed successfully.
+2023-12-30 14:59:50,277,277 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 27-27000-1000 = STARTIME 2023-12-30 02:50:21 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:01,077,77 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '27-27000-1000' stopped and removed successfully.
+2023-12-30 15:00:01,078,78 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 26-26000-1000 = STARTIME 2023-12-30 02:50:20 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:11,914,914 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '26-26000-1000' stopped and removed successfully.
+2023-12-30 15:00:11,914,914 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 25-25000-1000 = STARTIME 2023-12-30 02:50:20 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:25,222,222 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '25-25000-1000' stopped and removed successfully.
+2023-12-30 15:00:25,222,222 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 24-24000-1000 = STARTIME 2023-12-30 02:50:20 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:36,134,134 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '24-24000-1000' stopped and removed successfully.
+2023-12-30 15:00:36,134,134 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 23-23000-1000 = STARTIME 2023-12-30 02:50:20 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:46,761,761 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '23-23000-1000' stopped and removed successfully.
+2023-12-30 15:00:46,762,762 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 22-22000-1000 = STARTIME 2023-12-30 02:50:20 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:00:59,121,121 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '22-22000-1000' stopped and removed successfully.
+2023-12-30 15:00:59,122,122 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 21-21000-1000 = STARTIME 2023-12-30 02:50:19 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:01:09,914,914 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '21-21000-1000' stopped and removed successfully.
+2023-12-30 15:01:09,914,914 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 20-20000-1000 = STARTIME 2023-12-30 02:50:19 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:01:20,326,326 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '20-20000-1000' stopped and removed successfully.
+2023-12-30 15:01:20,327,327 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 19-19000-1000 = STARTIME 2023-12-30 02:50:19 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:01:30,904,904 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '19-19000-1000' stopped and removed successfully.
+2023-12-30 15:01:30,905,905 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 18-18000-1000 = STARTIME 2023-12-30 02:50:19 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:01:41,296,296 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '18-18000-1000' stopped and removed successfully.
+2023-12-30 15:01:41,296,296 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 17-17000-1000 = STARTIME 2023-12-30 02:50:19 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:01:52,227,227 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '17-17000-1000' stopped and removed successfully.
+2023-12-30 15:01:52,227,227 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 16-16000-1000 = STARTIME 2023-12-30 02:50:18 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:02,659,659 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '16-16000-1000' stopped and removed successfully.
+2023-12-30 15:02:02,660,660 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 15-15000-1000 = STARTIME 2023-12-30 02:50:18 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:13,181,181 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '15-15000-1000' stopped and removed successfully.
+2023-12-30 15:02:13,182,182 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 14-14000-1000 = STARTIME 2023-12-30 02:50:18 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:23,506,506 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '14-14000-1000' stopped and removed successfully.
+2023-12-30 15:02:23,506,506 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 13-13000-1000 = STARTIME 2023-12-30 02:50:18 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:34,107,107 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '13-13000-1000' stopped and removed successfully.
+2023-12-30 15:02:34,108,108 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 12-12000-1000 = STARTIME 2023-12-30 02:50:18 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:44,390,390 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '12-12000-1000' stopped and removed successfully.
+2023-12-30 15:02:44,391,391 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 11-11000-1000 = STARTIME 2023-12-30 02:50:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:02:55,381,381 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '11-11000-1000' stopped and removed successfully.
+2023-12-30 15:02:55,381,381 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 10-10000-1000 = STARTIME 2023-12-30 02:50:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:05,605,605 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '10-10000-1000' stopped and removed successfully.
+2023-12-30 15:03:05,606,606 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 9-9000-1000 = STARTIME 2023-12-30 02:50:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:16,207,207 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '9-9000-1000' stopped and removed successfully.
+2023-12-30 15:03:16,208,208 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 8-8000-1000 = STARTIME 2023-12-30 02:50:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:26,521,521 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '8-8000-1000' stopped and removed successfully.
+2023-12-30 15:03:26,522,522 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 7-7000-1000 = STARTIME 2023-12-30 02:50:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:36,770,770 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '7-7000-1000' stopped and removed successfully.
+2023-12-30 15:03:36,770,770 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 6-6000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:46,970,970 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '6-6000-1000' stopped and removed successfully.
+2023-12-30 15:03:46,971,971 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 5-5000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:03:57,251,251 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '5-5000-1000' stopped and removed successfully.
+2023-12-30 15:03:57,252,252 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 4-4000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:04:07,488,488 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '4-4000-1000' stopped and removed successfully.
+2023-12-30 15:04:07,488,488 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 3-3000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:04:17,779,779 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '3-3000-1000' stopped and removed successfully.
+2023-12-30 15:04:17,780,780 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 2-2000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:04:28,004,4 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '2-2000-1000' stopped and removed successfully.
+2023-12-30 15:04:28,004,4 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 1-1000-1000 = STARTIME 2023-12-30 02:50:16 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:04:38,161,161 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '1-1000-1000' stopped and removed successfully.
+2023-12-30 15:04:38,162,162 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 0-0-1000 = STARTIME 2023-12-30 02:50:15 | ENDTIME : None | TOTAL DIF (MIN) : None
+2023-12-30 15:04:48,325,325 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:143] Container '0-0-1000' stopped and removed successfully.
+2023-12-30 15:04:48,328,328 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:119] *** ALL DOCKER CONTAINER PRUNED ***
+
+2023-12-30 15:04:48,329,329 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:160] TOTAL RECORDS : 66164 | CONTAINER COUNT : 66 
+2023-12-30 15:04:48,329,329 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:162] 0
+2023-12-30 15:04:48,490,490 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 0-0-1000 STARTED
+2023-12-30 15:04:48,654,654 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 1-1000-1000 STARTED
+2023-12-30 15:04:48,834,834 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 2-2000-1000 STARTED
+2023-12-30 15:04:49,021,21 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 3-3000-1000 STARTED
+2023-12-30 15:04:49,190,190 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 4-4000-1000 STARTED
+2023-12-30 15:04:49,352,352 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 5-5000-1000 STARTED
+2023-12-30 15:04:49,536,536 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 6-6000-1000 STARTED
+2023-12-30 15:04:49,697,697 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 7-7000-1000 STARTED
+2023-12-30 15:04:49,886,886 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 8-8000-1000 STARTED
+2023-12-30 15:04:50,055,55 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 9-9000-1000 STARTED
+2023-12-30 15:04:50,233,233 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 10-10000-1000 STARTED
+2023-12-30 15:04:50,402,402 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 11-11000-1000 STARTED
+2023-12-30 15:04:50,564,564 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 12-12000-1000 STARTED
+2023-12-30 15:04:50,738,738 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 13-13000-1000 STARTED
+2023-12-30 15:04:50,934,934 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 14-14000-1000 STARTED
+2023-12-30 15:04:51,153,153 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 15-15000-1000 STARTED
+2023-12-30 15:04:51,371,371 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 16-16000-1000 STARTED
+2023-12-30 15:04:51,578,578 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 17-17000-1000 STARTED
+2023-12-30 15:04:51,775,775 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 18-18000-1000 STARTED
+2023-12-30 15:04:51,984,984 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 19-19000-1000 STARTED
+2023-12-30 15:04:52,212,212 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 20-20000-1000 STARTED
+2023-12-30 15:04:52,419,419 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 21-21000-1000 STARTED
+2023-12-30 15:04:52,632,632 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 22-22000-1000 STARTED
+2023-12-30 15:04:52,850,850 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 23-23000-1000 STARTED
+2023-12-30 15:04:53,089,89 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 24-24000-1000 STARTED
+2023-12-30 15:04:53,342,342 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 25-25000-1000 STARTED
+2023-12-30 15:04:53,561,561 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 26-26000-1000 STARTED
+2023-12-30 15:04:53,787,787 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 27-27000-1000 STARTED
+2023-12-30 15:04:53,988,988 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 28-28000-1000 STARTED
+2023-12-30 15:04:54,247,247 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 29-29000-1000 STARTED
+2023-12-30 15:04:54,458,458 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 30-30000-1000 STARTED
+2023-12-30 15:04:54,707,707 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 31-31000-1000 STARTED
+2023-12-30 15:04:54,924,924 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 32-32000-1000 STARTED
+2023-12-30 15:04:55,173,173 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 33-33000-1000 STARTED
+2023-12-30 15:04:55,391,391 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 34-34000-1000 STARTED
+2023-12-30 15:04:55,636,636 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 35-35000-1000 STARTED
+2023-12-30 15:04:55,902,902 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 36-36000-1000 STARTED
+2023-12-30 15:04:56,181,181 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 37-37000-1000 STARTED
+2023-12-30 15:04:56,452,452 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 38-38000-1000 STARTED
+2023-12-30 15:04:56,675,675 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 39-39000-1000 STARTED
+2023-12-30 15:04:56,904,904 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 40-40000-1000 STARTED
+2023-12-30 15:04:57,116,116 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 41-41000-1000 STARTED
+2023-12-30 15:04:57,357,357 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 42-42000-1000 STARTED
+2023-12-30 15:04:57,558,558 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 43-43000-1000 STARTED
+2023-12-30 15:04:57,904,904 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 44-44000-1000 STARTED
+2023-12-30 15:04:58,223,223 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 45-45000-1000 STARTED
+2023-12-30 15:04:58,496,496 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 46-46000-1000 STARTED
+2023-12-30 15:04:58,789,789 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 47-47000-1000 STARTED
+2023-12-30 15:04:59,128,128 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 48-48000-1000 STARTED
+2023-12-30 15:04:59,385,385 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 49-49000-1000 STARTED
+2023-12-30 15:04:59,839,839 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 50-50000-1000 STARTED
+2023-12-30 15:05:00,074,74 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 51-51000-1000 STARTED
+2023-12-30 15:05:00,463,463 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 52-52000-1000 STARTED
+2023-12-30 15:05:00,727,727 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 53-53000-1000 STARTED
+2023-12-30 15:05:01,002,2 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 54-54000-1000 STARTED
+2023-12-30 15:05:01,246,246 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 55-55000-1000 STARTED
+2023-12-30 15:05:01,706,706 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 56-56000-1000 STARTED
+2023-12-30 15:05:03,197,197 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 57-57000-1000 STARTED
+2023-12-30 15:05:04,777,777 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 58-58000-1000 STARTED
+2023-12-30 15:05:05,902,902 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 59-59000-1000 STARTED
+2023-12-30 15:05:08,702,702 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 60-60000-1000 STARTED
+2023-12-30 15:05:09,836,836 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 61-61000-1000 STARTED
+2023-12-30 15:05:11,603,603 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 62-62000-1000 STARTED
+2023-12-30 15:05:12,445,445 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 63-63000-1000 STARTED
+2023-12-30 15:05:14,240,240 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 64-64000-1000 STARTED
+2023-12-30 15:05:15,132,132 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:74] 65-65000-1000 STARTED
+2023-12-30 15:05:15,137,137 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:05:45,171,171 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:06:15,203,203 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:06:45,238,238 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:07:15,273,273 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:07:45,307,307 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:08:15,340,340 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:08:45,371,371 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:09:15,405,405 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] continue sleep for 30 sec until container count 0 current count 66
+2023-12-30 15:09:28,536,536 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2023-12-30 15:09:28,539,539 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2023-12-30 15:09:28,557,557 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2023-12-30 15:09:28,559,559 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2023-12-30 15:09:28,559,559 INFO  [/home/gts/web-watcher/main/db_connection/query_handler.py/query_handler.py:21] QUERY ==> SELECT COUNT(*) AS record_count FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';
+2023-12-30 15:09:30,856,856 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:31] TOTAL RECORDS : {'record_count': 66145}
+2023-12-30 15:09:30,856,856 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:107] *** DOCKER CONTINER START PRUNING *** 
+2023-12-30 15:09:31,134,134 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:116] 65-65000-1000 = STARTIME 2023-12-30 03:05:15 | ENDTIME : None | TOTAL DIF (MIN) : None

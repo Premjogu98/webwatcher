@@ -154,13 +154,13 @@ class ContainerManagement:
 
     def monitorContainers(self):
         while True:
-            batch_size = 500
+            batch_size = 1000
             offset = 0
-            container_count = round(round(self.DATA_COUNT / batch_size) / 2)
-            console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 2} ")
-            for idx in range(2):
+            container_count = round(round(self.DATA_COUNT / batch_size) / 1)
+            console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 1} ")
+            for idx in range(1):
                 console_logger.debug(idx)
-                offset += self.__deployContainerWithBatch(offset=offset,container_limit=container_count,batch_size=batch_size,total_thread=3)
+                offset += self.__deployContainerWithBatch(offset=offset,container_limit=container_count,batch_size=batch_size,total_thread=1)
                 while len(self.LIST_OF_CONTAINERS) != 0:
                     for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
                         if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:

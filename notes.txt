@@ -85,3 +85,5 @@ pip3 install playwright
 python -m playwright install
 
 sudo kill -9 $(sudo lsof -t -i:9001)
+
+nohup python3 deploy_container.py output.log>&1 &
