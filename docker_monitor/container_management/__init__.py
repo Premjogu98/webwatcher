@@ -154,7 +154,7 @@ class ContainerManagement:
 
     def monitorContainers(self):
         while True:
-            batch_size = 1000
+            batch_size = 500
             offset = 0
             container_count = round(round(self.DATA_COUNT / batch_size) / 1)
             console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 1} ")
@@ -168,6 +168,8 @@ class ContainerManagement:
                             del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
                             console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")
                     console_logger.info(f"continue sleep for 30 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}")
+                    return
                     time.sleep(30)
+            
 
 containerManagement = ContainerManagement()

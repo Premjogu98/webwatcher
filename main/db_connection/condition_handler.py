@@ -43,7 +43,7 @@ class ConditionHandler:
             result,compare_per = ObjComparison.startCompare()
             if result:
                 if self.fileHandler.generateHtmlFile(htmlstring=details["onlyhtml"],filename=newhtmlfile):
-                    self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET newHtmlPath = "{newhtmlfile}", compare_per = "{str(compare_per)}", CompareChangedOn = "{self.getCurrentTime.strftime("%Y-%m-%d %H:%M:%S")}", entrydone = "N" WHERE id = {details["id"]}""")
+                    self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET newHtmlPath = "{newhtmlfile}", compare_per = "{str(compare_per)}", CompareChangedOn = "{self.getCurrentTime()}", entrydone = "N" WHERE id = {details["id"]}""")
                     self.updateChangesCount(id=details["id"])
                     self.GLOBAL_VARIABLE.compared += 1
                     return True
@@ -55,7 +55,7 @@ class ConditionHandler:
             result,compare_per = ObjComparison.startCompare()
             if result:
                 if self.fileHandler.generateHtmlFile(htmlstring=details["onlyhtml"],filename=newhtmlfile) and self.fileHandler.generateHtmlFile(htmlstring=old_html,filename=oldhtmlfile):
-                    self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET newHtmlPath = "{newhtmlfile}", oldHtmlPath = "{oldhtmlfile}", compare_per = "{str(compare_per)}", CompareChangedOn = "{self.getCurrentTime.strftime("%Y-%m-%d %H:%M:%S")}", LastCompareChangedOn="{details["CompareChangedOn"]}", entrydone = "N" WHERE id = {details["id"]}""")
+                    self.QUERY_HANDLER.executeQuery(f"""UPDATE dms_wpw_tenderlinksdata SET newHtmlPath = "{newhtmlfile}", oldHtmlPath = "{oldhtmlfile}", compare_per = "{str(compare_per)}", CompareChangedOn = "{self.getCurrentTime()}", LastCompareChangedOn="{details["CompareChangedOn"]}", entrydone = "N" WHERE id = {details["id"]}""")
                     self.updateChangesCount(id=details["id"])
                     self.GLOBAL_VARIABLE.compared += 1
                     return True

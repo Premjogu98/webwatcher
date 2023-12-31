@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import ComparisonManagement from './pages/ComparisonManagement';
 import WebInspector from './pages/WebInspector';
-import { ViewContent } from './component/ViewContent';
+import { InspectContent } from './component/ViewContent';
 
 class App extends Component {
     constructor(props) {
@@ -19,21 +19,18 @@ class App extends Component {
         return (
             <Router>
                 <>
-                    <Navbar />
-                    <>
+                    {/* <Navbar /> */}
+                    {/* <> */}
                         <Routes>
-
-                            <Route index element="" />
-                            <Route path='/web-inspector' element={<WebInspector />} />
-                            <Route path='/records' element={<RecordsManagement />} />
-                            <Route path='/comparison' element={<ComparisonManagement />} />
-                            {/* <Route path='*' element={<div>PAGE NOT FOUND</div>} />  IF ROUTES NOT MATCHED */}
+                            <Route index element={<Navbar />} />
+                            <Route path='/web-inspector' element={<><Navbar /><WebInspector /></>} />
+                            <Route path='/records' element={<><Navbar /><RecordsManagement /></>} />
+                            <Route path='/comparison' element={<><Navbar /><ComparisonManagement /></>} />
+                            <Route path='/inspect/:id' element={<InspectContent />} />
+                            <Route path='*' element={<div>PAGE NOT FOUND</div>} />  {/*IF ROUTES NOT MATCHED */}
                         </Routes>
-                    </>
+                    {/* </> */}
                 </>
-                <Routes>
-                    <Route path='/page/:id' element={<ViewContent />} />
-                </Routes>
             </Router>
 
 

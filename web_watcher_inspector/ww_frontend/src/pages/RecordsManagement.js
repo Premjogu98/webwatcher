@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactTable6 from '../component/ReactTable';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import PokemonTable from '../component/PokemonTable';
+import WeakMap from '../component/WebWTable';
 
 const queryClient = new QueryClient();
 
@@ -17,7 +17,7 @@ class RecordsManagement extends Component {
             <div className="records-management">
                 {/* <ReactTable6 /> */}
                 <QueryClientProvider client={queryClient} >
-                    <PokemonTable />
+                    <WeakMap />
                     <ReactQueryDevtools initialIsClose position={"bottom-right"} />
                 </QueryClientProvider>
             </div>

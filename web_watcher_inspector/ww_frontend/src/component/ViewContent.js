@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
-
-export const ViewContent = () => {
-    // Accessing URL parameters using useParams hook from react-router-dom
-    const { id } = useParams(); // Assuming the parameter name is 'id'
-
-    return (
-        <div>
-            <h1>Parameter Value: {id}</h1>
-        </div>
-    );
+import { loadHtmlUsingID } from '../apiManagement/apiService';
+import { specificDivRef } from "../globalVariables/global.js";
+import { NotificationContainer } from 'react-notifications';
+import { Notifications } from '../component/Notifications';
+export function handleButtonClick (id) {
+    loadHtmlUsingID(id)
+        .then((result) => {
+            const element = document.getElementById("contentbox");
+            if (element) {
+                element.innerHTML = result;
+            }
+        })
+        .catch((error) => {
+            const element = document.getElementById("contentbox");
+            if (element) {
+                Notifications("error",error.response.data,"error",3000)();
+                console.log(error.response.data)
+            }
+        });
 };
-// class ViewContent extends Component {
-//     constructor() {
-//         super();
-//         this.state = {
-//         };
-//     }
-
-//     render() {
-//         return (
-//             <>
-//                 {console.log(this.props)}
-//                 <h1>{this.props.match}</h1>
-//             </>
-//         );
-//     }
-// }
-
-// export default ViewContent;
+export const InspectContent = () => {
+    const { id } = useParams();
+    handleButtonClick(id)
+    return (
+        <>
+        <NotificationContainer/> 
+        <div id="contentbox" ref={specificDivRef}>
+            <h3>Loading.....</h3>
+        </div>
+        </>
+    )
+}

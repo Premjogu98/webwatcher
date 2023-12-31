@@ -11,3 +11,14 @@ export const loadHtml = async (url) => {
         throw error;
     }
 }
+export const loadHtmlUsingID = async (id) => {
+    try {
+        const main_url = `${globalVariables.apiUrl}/get/html?id=${id}`
+        const response = await axios.get(main_url);
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+}

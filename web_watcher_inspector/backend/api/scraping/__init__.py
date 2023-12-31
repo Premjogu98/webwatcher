@@ -3,16 +3,19 @@ from urllib.parse import urlparse,urljoin
 from bs4 import BeautifulSoup
 from api.logger import console_logger
 import re
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+from fastapi import Depends, HTTPException
+from api.database_handler.condition_handler import getUrlFromID
 class Scraping:
 
     def __init__(self) -> None:
         pass
 
-    def get_html(self,url):
+    def get_html(self,url,id):
         try:
+            if not url and not id:
+                return HTTPException(content="url or id not found", status_code=400)
+            if id:
+                url = getUrlFromID(id)
             response = requests.get(url,verify=False)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')

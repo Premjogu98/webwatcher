@@ -3,55 +3,17 @@ import styled from 'styled-components';
 import { useTable, usePagination } from 'react-table';
 import { useQuery } from 'react-query';
 import { getData } from '../globalVariables/global';
+import "./WebWTable.css"
 
-const TableContainer = styled.div`
-    padding: 1rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    table {
-    border-spacing: 0;
-    border: 1px solid black;
-
-    tr {
-        :last-child {
-            td {
-                border-bottom: 0;
-            }
-        }
-    }
-
-    th,
-    td {
-            margin: 0;
-            padding: 0.5rem;
-            border-bottom: 1px solid black;
-            border-right: 1px solid black;
-
-            :last-child {
-                border-right: 0;
-            }
-        }
-    }
-
-    .pagination {
-        padding: 0.5rem;
-    }`;
-
-// const columns = [
-//     {
-//         Header: 'Name',
-//         accessor: 'name',
-//     },
-//     {
-//         Header: 'Url',
-//         accessor: 'url',
-//     },
-// ];
 const columns = [
     {
-        Header: "Id",
-        accessor: "id"
+        Header: "Sr",
+        accessor: "sr_no"
     },
+    // {
+    //     Header: "Id",
+    //     accessor: "id"
+    // },
     {
         Header: "Tlid",
         accessor: "tlid"
@@ -60,13 +22,17 @@ const columns = [
         Header: "Title",
         accessor: "title"
     },
+    // {
+    //     Header: "Xpath",
+    //     accessor: "XPath"
+    // },
+    // {
+    //     Header: "Compare Per",
+    //     accessor: "compare_per"
+    // },
     {
-        Header: "Xpath",
-        accessor: "XPath"
-    },
-    {
-        Header: "Compare Per",
-        accessor: "compare_per"
+        Header: "Tender_Link",
+        accessor: "tender_link"
     },
     {
         Header: "Compared On",
@@ -76,24 +42,17 @@ const columns = [
         Header: "Last Compared On",
         accessor: "LastCompareChangedOn"
     },
-    {
-        Header: "Oldhtmlpath",
-        accessor: "oldHtmlPath"
-    },
-    {
-        Header: "Newhtmlpath",
-        accessor: "newHtmlPath"
-    },
-    {
-        Header: "Tender_Link",
-        accessor: "tender_link"
-    }];
+    // {
+    //     Header: "Newhtmlpath",
+    //     accessor: "newHtmlPath"
+    // },
+];
 const trimData = (data = []) =>
     data.map(({ name, url }) => ({
         name,
         url,
     }));
-    
+
 
 const initialState = {
     queryPageIndex: 0,
@@ -127,7 +86,7 @@ const reducer = (state, { type, payload }) => {
     }
 };
 
-function PokemonTable() {
+function WebWTable() {
     const [{ queryPageIndex, queryPageSize, totalCount }, dispatch] =
         React.useReducer(reducer, initialState);
 
@@ -197,7 +156,7 @@ function PokemonTable() {
     }
 
     return (
-        <TableContainer>
+        <div id='record-table'>
             {isSuccess ? (
                 <>
                     <table {...getTableProps()}>
@@ -217,37 +176,54 @@ function PokemonTable() {
                                 prepareRow(row);
                                 return (
                                     <tr {...row.getRowProps()}>
-                                        {row.cells.map((cell) => (
-                                            <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        ))}
+                                        
+                                        {/* <td> <button>inspect</button></td> */}
+                                        {row.cells.map((cell) => {
+                                            console.log(cell)
+                                            console.log(row.cells)
+                                            console.log('Logging information before rendering td:',cell);
+                                            console.log(cell.column)
+                                            if(cell.column.Header == "Tender_Link"){
+                                                return (
+                                                    <td><a href={"/inspect/"+cell.row.original.tlid} style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
+                                                );
+                                            }
+                                            return (
+                                                <td>{cell.value}</td>
+                                            );
+                                        })}
+                                        <td style={{ "border": 'none'}}> <button>+</button></td>
+                                        
                                     </tr>
                                 );
                             })}
                         </tbody>
                     </table>
-                    <div className="pagination">
-                        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                            {'<<'}
-                        </button>{' '}
-                        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                            {'<'}
-                        </button>{' '}
-                        <button onClick={() => nextPage()} disabled={!canNextPage}>
-                            {'>'}
-                        </button>{' '}
-                        <button
+                    <ul className="pagination">
+                        <li onClick={() => gotoPage(0)} className={canPreviousPage ? "active" : "disable"}>
+                            {'First'}
+                        </li>{' '}
+                        <li onClick={() => previousPage()} className={canPreviousPage ? "active" : "disable"}>
+                            {'Previous'}
+                        </li>{' '}
+                        <li onClick={() => nextPage()} className={canNextPage ? "active" : "disable"}>
+                            {'Next'}
+                        </li>{' '}
+                        <li
                             onClick={() => gotoPage(pageCount - 1)}
-                            disabled={!canNextPage}
+                            className={canNextPage ? "active" : "disable"}
                         >
-                            {'>>'}
-                        </button>{' '}
-                        <span>
+                            {'Last'}
+                        </li>{' '}
+                        <li><span>
                             Page{' '}
                             <strong>
                                 {pageIndex + 1} of {pageOptions.length}
                             </strong>{' '}
                         </span>
-                        <span>
+                        </li>
+
+                        <li>
                             | Go to page:{' '}
                             <input
                                 type="number"
@@ -256,10 +232,9 @@ function PokemonTable() {
                                     const page = e.target.value ? Number(e.target.value) - 1 : 0;
                                     gotoPage(page);
                                 }}
-                                style={{ width: '100px' }}
                             />
-                        </span>{' '}
-                        <select
+                        </li>{' '}
+                        <li><select
                             value={pageSize}
                             onChange={(e) => {
                                 setPageSize(Number(e.target.value));
@@ -271,11 +246,12 @@ function PokemonTable() {
                                 </option>
                             ))}
                         </select>
-                    </div>
+                        </li>
+                    </ul>
                 </>
             ) : null}
-        </TableContainer>
+        </div>
     );
 }
 
-export default PokemonTable;
+export default WebWTable;

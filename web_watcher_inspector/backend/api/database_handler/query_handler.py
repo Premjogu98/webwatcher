@@ -14,7 +14,7 @@ class QueryHandler:
         self.connection, self.cursor = globVar.connectDB()
 
     def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
-        console_logger.info(f"QUERY ==> {query}")
+        # console_logger.info(f"QUERY ==> {query}")
         if fetchone or fetchall:
             self.cursor.execute(query)
             if fetchone:
@@ -26,12 +26,12 @@ class QueryHandler:
             return False, {}
 
     def executeQuery(self, query):
-        console_logger.debug(f"QUERY ==> {query}")
+        # console_logger.debug(f"QUERY ==> {query}")
         self.cursor.execute(query)
 
     def insertQuery(self, query: str, value: tuple):
-        console_logger.debug(f"QUERY ==> {query}")
-        console_logger.debug(f"VALUE ==> {value}")
+        # console_logger.debug(f"QUERY ==> {query}")
+        # console_logger.debug(f"VALUE ==> {value}")
         self.cursor.execute(query, value)
 
 
