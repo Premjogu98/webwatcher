@@ -4,7 +4,10 @@ from bs4 import BeautifulSoup
 from api.logger import console_logger
 import re
 from fastapi import Depends, HTTPException
-from api.database_handler.condition_handler import getUrlFromID
+from api.database_handler.condition_handler import getDataFromID
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class Scraping:
 
     def __init__(self) -> None:
@@ -15,12 +18,13 @@ class Scraping:
             if not url and not id:
                 return HTTPException(content="url or id not found", status_code=400)
             if id:
-                url = getUrlFromID(id)
+                url = getDataFromID(id)["Url"]
+                console_logger.debug(url)
             response = requests.get(url,verify=False)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
                 # Make relative URLs absolute
-                for tag in soup.find_all(['a', 'img', 'script']):
+                for tag in soup.find_all(['a', 'img', 'script','link']):
                     for attr in ['href', 'src']:
                         if attr in tag.attrs:
                             tag[attr] = urljoin(url, tag[attr])
@@ -43,3 +47,4 @@ class Scraping:
         except Exception as e:
             console_logger.error(e)
             return ("Something went wrong",500)
+    

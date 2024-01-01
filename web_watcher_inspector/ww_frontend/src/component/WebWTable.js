@@ -2,10 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTable, usePagination } from 'react-table';
 import { useQuery } from 'react-query';
-import { getData } from '../globalVariables/global';
+import { getData, globalVariables } from '../globalVariables/global';
 import "./WebWTable.css"
-
+import { FetchAdditionalInfo } from '../apiManagement/apiService';
+import axios from 'axios';
 const columns = [
+    {
+        Header: "Options",
+        accessor: "Options"
+    },
     {
         Header: "Sr",
         accessor: "sr_no"
@@ -31,7 +36,7 @@ const columns = [
     //     accessor: "compare_per"
     // },
     {
-        Header: "Tender_Link",
+        Header: "Tender Link",
         accessor: "tender_link"
     },
     {
@@ -43,8 +48,8 @@ const columns = [
         accessor: "LastCompareChangedOn"
     },
     // {
-    //     Header: "Newhtmlpath",
-    //     accessor: "newHtmlPath"
+    //     Header: "More",
+    //     accessor: "More"
     // },
 ];
 const trimData = (data = []) =>
@@ -85,7 +90,46 @@ const reducer = (state, { type, payload }) => {
             throw new Error(`Unhandled action type: ${type}`);
     }
 };
+function Modal({ data, shown, close }) {
+    console.log(data)
+    return data && shown ? (
 
+        <div
+            className="modal-backdrop"
+            onClick={() => {
+                // close modal when outside of modal is clicked
+                close();
+            }}
+        >
+            <div
+                className="modal-content"
+                onClick={e => {
+                    // do not close modal if anything inside modal content is clicked
+                    e.stopPropagation();
+                }}
+            >
+                <div>
+                    <div className='closing-d'><button onClick={close} className='close-button'>X</button></div>
+                    <div>
+                        <table>
+                            <tbody>
+                                {
+                                    Object.entries(data.detail)
+                                        .map(([key, value]) => {
+                                            if (key == "Url") {
+                                                return (<tr><td>{key}</td><td><a href={value}>{value}</a></td></tr>)
+                                            }
+                                            return (<tr><td>{key}</td><td>{value}</td></tr>)
+                                        })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ) : null;
+}
 function WebWTable() {
     const [{ queryPageIndex, queryPageSize, totalCount }, dispatch] =
         React.useReducer(reducer, initialState);
@@ -98,6 +142,27 @@ function WebWTable() {
             staleTime: Infinity,
         }
     );
+    const [modalShown, toggleModal] = React.useState(false);
+    const [getselectedData, setSelectedData] = React.useState(null);
+
+    const FetchAdditionalInfo1 = async (id) => {
+        try {
+            const main_url = `${globalVariables.apiUrl}/addition/data?id=${id}`
+            const response = await axios.get(main_url);
+            console.log(response.data)
+            setSelectedData(response.data)
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            throw error;
+        }
+    }
+    const handleButtonClick = (value, modalState) => {
+        toggleModal(modalState)
+        console.log(value)
+        FetchAdditionalInfo1(value)
+
+    };
+
 
     const {
         getTableProps,
@@ -154,7 +219,7 @@ function WebWTable() {
     if (isLoading) {
         return <p>Loading...</p>;
     }
-
+    let sr = 0;
     return (
         <div id='record-table'>
             {isSuccess ? (
@@ -174,31 +239,43 @@ function WebWTable() {
                         <tbody {...getTableBodyProps()}>
                             {page.map((row) => {
                                 prepareRow(row);
+                                sr++;
                                 return (
                                     <tr {...row.getRowProps()}>
-                                        
-                                        {/* <td> <button>inspect</button></td> */}
+
+
                                         {row.cells.map((cell) => {
-                                            console.log(cell)
-                                            console.log(row.cells)
-                                            console.log('Logging information before rendering td:',cell);
-                                            console.log(cell.column)
-                                            if(cell.column.Header == "Tender_Link"){
+                                            { console.log(cell) }
+
+                                            if (cell.column.Header == "Tender Link") {
                                                 return (
-                                                    <td><a href={"/inspect/"+cell.row.original.tlid} style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
+                                                    // <td><a href={"/inspect/" + cell.row.original.tlid} style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
+                                                    <td><a href={cell.value} target='/' style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
                                                 );
+                                            } else if (cell.column.Header == "Sr") {
+                                                return (
+                                                    <td>{sr}</td>
+                                                )
+                                            } else if (cell.column.Header == "Options") {
+                                                return (
+                                                    <td>
+                                                        <a href={"/inspect/" + cell.row.original.tlid} target='/' className='view-more inspect-btn'>inspect</a>&nbsp;
+                                                        <button className='view-more' onClick={() => handleButtonClick(row.original.tlid, !modalShown)}>view more</button>&nbsp;
+                                                    </td>
+                                                )
+                                            }else{
+                                                return (<td>{cell.value}</td>)
                                             }
-                                            return (
-                                                <td>{cell.value}</td>
-                                            );
+
                                         })}
-                                        <td style={{ "border": 'none'}}> <button>+</button></td>
-                                        
+
                                     </tr>
                                 );
+
                             })}
                         </tbody>
                     </table>
+                    <Modal data={getselectedData} shown={modalShown} close={() => { toggleModal(false); }} />
                     <ul className="pagination">
                         <li onClick={() => gotoPage(0)} className={canPreviousPage ? "active" : "disable"}>
                             {'First'}
@@ -234,20 +311,22 @@ function WebWTable() {
                                 }}
                             />
                         </li>{' '}
-                        <li><select
-                            value={pageSize}
-                            onChange={(e) => {
-                                setPageSize(Number(e.target.value));
-                            }}
-                        >
-                            {[10, 20, 30, 40, 50].map((pageSize) => (
-                                <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
-                                </option>
-                            ))}
-                        </select>
+                        <li>
+                            <select
+                                value={pageSize}
+                                onChange={(e) => {
+                                    setPageSize(Number(e.target.value));
+                                }}
+                            >
+                                {[10, 20, 30, 40, 50].map((pageSize) => (
+                                    <option key={pageSize} value={pageSize}>
+                                        Show {pageSize}
+                                    </option>
+                                ))}
+                            </select>
                         </li>
                     </ul>
+
                 </>
             ) : null}
         </div>

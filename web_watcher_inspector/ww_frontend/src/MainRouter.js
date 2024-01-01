@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import ComparisonManagement from './pages/ComparisonManagement';
 import WebInspector from './pages/WebInspector';
-import { InspectContent } from './component/ViewContent';
+import InspectContent from './component/InspectContent';
 
 class App extends Component {
     constructor(props) {
         super(props);
     }
+    
     render() {
 
         return (

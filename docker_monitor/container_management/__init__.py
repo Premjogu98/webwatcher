@@ -158,9 +158,9 @@ class ContainerManagement:
             offset = 0
             container_count = round(round(self.DATA_COUNT / batch_size) / 1)
             console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 1} ")
-            for idx in range(1):
+            for idx in range(3):
                 console_logger.debug(idx)
-                offset += self.__deployContainerWithBatch(offset=offset,container_limit=container_count,batch_size=batch_size,total_thread=1)
+                offset += self.__deployContainerWithBatch(offset=offset,container_limit=50,batch_size=batch_size,total_thread=2)
                 while len(self.LIST_OF_CONTAINERS) != 0:
                     for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
                         if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
@@ -168,8 +168,8 @@ class ContainerManagement:
                             del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
                             console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")
                     console_logger.info(f"continue sleep for 30 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}")
-                    return
                     time.sleep(30)
+            return
             
 
 containerManagement = ContainerManagement()

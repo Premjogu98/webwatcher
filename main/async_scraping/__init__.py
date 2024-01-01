@@ -102,6 +102,7 @@ class AsyncScraping:
             if detail_index == self.TOTAL_DATA_COUNT or total_completed_loop == self.TOTAL_DATA_COUNT-1:
                 console_logger.debug(f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}")
                 if len(in_progress_tasks) == 1:
+                    self.GLOBAL_VARIABLE.url_error += 1
                     break
 
     def getCurrentTime(self):

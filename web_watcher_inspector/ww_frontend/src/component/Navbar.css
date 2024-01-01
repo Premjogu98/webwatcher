@@ -37,11 +37,11 @@
     list-style-type: none;
     margin: 0 1rem;
 }
-
 .navigation-menu li a {
     text-decoration: none;
     display: block;
     width: 100%;
+    color: darkcyan;
 }
 
 .hamburger {

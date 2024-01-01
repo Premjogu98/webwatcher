@@ -62,5 +62,5 @@ class ConditionHandler:
         else:
             raise Exception("checkConditionBeforeTextComparison NO DB Condition Matched.....")
         
-        # self.GLOBAL_VARIABLE.nothing_changed += 1
+        self.GLOBAL_VARIABLE.nothing_changed += 1
         return False
