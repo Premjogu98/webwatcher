@@ -42,10 +42,12 @@ th {
 }
 
 td {
-    text-align: center;
+    text-align: start;
     border : none
 }
-
+.error{
+    color: red;
+}
 tr:nth-child(even) {
     background-color: #e5e5e5;
 }
@@ -144,4 +146,37 @@ li input {
     background-color: #00a1df;
     padding: 3px;
     text-decoration: none;
+}
+.table-filter{
+    display: flex;
+  flex-wrap: nowrap;
+}
+.filter-d{
+    width: 50%;
+}
+.filter-d input{
+    border: none;
+    background-color: #e5e5e5;
+    padding: 8px;
+    margin: 0px 0px 10px 6px;
+    width: 50%;
+    text-decoration: none;
+    border-radius: 4px;
+    color: black;
+    font-size: 15px;
+}
+.filter-d label{
+    font-size: 17px;
+    color: #838383;
+}
+.search-btn{
+    border: none;
+    background: #008b8bcc;
+    color: white;
+    border-radius: 4px;
+    font-size: 17px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    font-family: math;
+    padding: 6px 17px;
 }

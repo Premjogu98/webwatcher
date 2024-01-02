@@ -16,20 +16,12 @@ const columns = [
         accessor: "sr_no"
     },
     // {
-    //     Header: "Id",
-    //     accessor: "id"
+    //     "Header": "Id",
+    //     "accessor": "id"
     // },
-    {
-        Header: "Tlid",
-        accessor: "tlid"
-    },
-    {
-        Header: "Title",
-        accessor: "title"
-    },
     // {
-    //     Header: "Xpath",
-    //     accessor: "XPath"
+    //     Header: "Tlid",
+    //     accessor: "tlid"
     // },
     // {
     //     Header: "Compare Per",
@@ -40,13 +32,13 @@ const columns = [
         accessor: "tender_link"
     },
     {
-        Header: "Compared On",
-        accessor: "CompareChangedOn"
+        Header: "Compare_Error",
+        accessor: "compare_error"
     },
     {
-        Header: "Last Compared On",
-        accessor: "LastCompareChangedOn"
-    },
+        Header: "Added_On",
+        accessor: "added_on"
+    }
     // {
     //     Header: "More",
     //     accessor: "More"
@@ -134,16 +126,41 @@ function WebWTable() {
     const [{ queryPageIndex, queryPageSize, totalCount }, dispatch] =
         React.useReducer(reducer, initialState);
 
-    const { isLoading, error, data, isSuccess } = useQuery(
-        ['pokemons', queryPageIndex, queryPageSize],
-        () => getData(queryPageIndex, queryPageSize),
-        {
-            keepPreviousData: true,
-            staleTime: Infinity,
-        }
-    );
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
+    const [data, setData] = React.useState(null);
+    const [isSuccess, setIsSuccess] = React.useState(false);
     const [modalShown, toggleModal] = React.useState(false);
     const [getselectedData, setSelectedData] = React.useState(null);
+    const [getlink, setlink] = React.useState(null);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+        try {
+            setIsLoading(true);
+            const result = await getData(queryPageIndex, queryPageSize);
+            console.log(result)
+            setData(result);
+            setIsSuccess(true);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
+        };
+    
+        fetchData();
+    }, [queryPageIndex, queryPageSize]);
+
+    // const { isLoading, error, data, isSuccess } = useQuery(
+    //     ['pokemons', queryPageIndex, queryPageSize],
+    //     () => getData(queryPageIndex, queryPageSize),
+    //     {
+    //         keepPreviousData: true,
+    //         staleTime: Infinity,
+    //     }
+    // );
+    
 
     const FetchAdditionalInfo1 = async (id) => {
         try {
@@ -162,8 +179,23 @@ function WebWTable() {
         FetchAdditionalInfo1(value)
 
     };
+    const changeInput = (e) => {
+        setlink(e.target.value);
+    };
 
-
+    const getsearchdata = async () => {
+        try {
+            setIsLoading(true);
+            const result = await getData(queryPageIndex, queryPageSize,getlink);
+            console.log(result)
+            setData(result);
+            setIsSuccess(true);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
+        };
     const {
         getTableProps,
         getTableBodyProps,
@@ -224,6 +256,9 @@ function WebWTable() {
         <div id='record-table'>
             {isSuccess ? (
                 <>
+                    <div class="table-filter">
+                        <div className='filter-d'><label>Tender link</label> <input className='search' onChange={changeInput}></input> <button className='search-btn' onClick={getsearchdata}> search </button></div>
+                    </div>
                     <table {...getTableProps()}>
                         <thead>
                             {headerGroups.map((headerGroup) => (
@@ -249,9 +284,12 @@ function WebWTable() {
 
                                             if (cell.column.Header == "Tender Link") {
                                                 return (
-                                                    // <td><a href={"/inspect/" + cell.row.original.tlid} style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
                                                     <td><a href={cell.value} target='/' style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
                                                 );
+                                            } else if (cell.column.Header == "Compare_Error") {
+                                                return (
+                                                    <td className='error'>{cell.value}</td>
+                                                )
                                             } else if (cell.column.Header == "Sr") {
                                                 return (
                                                     <td>{sr}</td>
@@ -259,11 +297,11 @@ function WebWTable() {
                                             } else if (cell.column.Header == "Options") {
                                                 return (
                                                     <td>
-                                                        <a href={"/inspect/" + cell.row.original.tlid} target='/' className='view-more inspect-btn'>inspect</a>&nbsp;
-                                                        <button className='view-more' onClick={() => handleButtonClick(row.original.tlid, !modalShown)}>view more</button>&nbsp;
+                                                        <a href={"/inspect/" + cell.row.original.id} className='view-more inspect-btn'>inspect</a>&nbsp;
+                                                        {/* <button className='view-more' onClick={() => handleButtonClick(row.original.id, !modalShown)}>view more</button>&nbsp; */}
                                                     </td>
                                                 )
-                                            }else{
+                                            } else {
                                                 return (<td>{cell.value}</td>)
                                             }
 
@@ -311,7 +349,7 @@ function WebWTable() {
                                 }}
                             />
                         </li>{' '}
-                        <li>
+                        {/* <li>
                             <select
                                 value={pageSize}
                                 onChange={(e) => {
@@ -324,7 +362,7 @@ function WebWTable() {
                                     </option>
                                 ))}
                             </select>
-                        </li>
+                        </li> */}
                     </ul>
 
                 </>

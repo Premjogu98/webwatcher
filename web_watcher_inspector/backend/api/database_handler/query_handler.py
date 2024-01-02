@@ -30,8 +30,8 @@ class QueryHandler:
         self.cursor.execute(query)
 
     def insertQuery(self, query: str, value: tuple):
-        # console_logger.debug(f"QUERY ==> {query}")
-        # console_logger.debug(f"VALUE ==> {value}")
+        console_logger.debug(f"QUERY ==> {query}")
+        console_logger.debug(f"VALUE ==> {value}")
         self.cursor.execute(query, value)
 
 

@@ -2,6 +2,7 @@ import React from "react";
 import namor from "namor";
 
 export const globalVariables = {
+    // apiUrl: 'http://185.15.209.234:8007/api/v1/web/watcher',
     apiUrl: 'http://localhost:8007/api/v1/web/watcher',
     myGlobalVar2: 'Value 2',
 };
@@ -99,13 +100,23 @@ export function makeData(...lens) {
     return makeDataLevel();
 }
 
-export const getData = async (page, pageSize) => {
-    console.debug(page, pageSize)
+export const getData = async (page, pageSize,tenderlink=null) => {
+    console.debug(page, pageSize,tenderlink)
     const offset = page * pageSize;
     try {
         const response = await fetch(
-            `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}`
+            `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}&tenderlink=${tenderlink}`
         );
+        // if(tenderlink){
+        //     response = await fetch(
+        //         `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}`
+        //     );
+        // }else{
+        //     response = await fetch(
+        //         `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}`
+        //     );
+        // }
+        
         const data = await response.json();
         console.log(data)
         return data;

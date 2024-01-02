@@ -35,7 +35,7 @@ class GlobVar:
             password=self.CONNECTION_DETAILS["DB_PASSWORD"],
             database=self.CONNECTION_DETAILS["DB_NAME"],
         )
-        CURSOR = CONNECTION.cursor(dictionary=True)
+        CURSOR = CONNECTION.cursor(buffered=True,dictionary=True)
         console_logger.info("=========== CONNECTED ===========")
         return (CONNECTION,CURSOR)
 

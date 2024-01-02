@@ -38,9 +38,9 @@ class InspectContent extends Component {
     }
 
     handleButtonClick = () => {
-        const url = window.location.pathname.replace("/inspect/", "")
-        this.setState({ tlid: url })
-        loadHtmlUsingID(url)
+        const id = window.location.pathname.replace("/inspect/", "")
+        this.setState({ tlid: id })
+        loadHtmlUsingID(id)
             .then((result) => {
                 const element = document.getElementById("contentbox");
                 if (element) {
@@ -52,6 +52,9 @@ class InspectContent extends Component {
                 if (element) {
                     Notifications("error", error.response.data, "error", 3000)();
                     console.log(error.response.data)
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 3000);
                 }
             });
     };
@@ -65,7 +68,10 @@ class InspectContent extends Component {
         axios.patch(`${globalVariables.apiUrl}/update/xpath`, requestData)
             .then(response => {
                 console.log(response.data); // Log the response data
-                Notifications("success", "XPATH Updated Successfully", "error", 3000)();
+                Notifications("success", response.data.detail, "XPATH UPDATED SUCCESSFULLY", 5000)();
+                setTimeout(() => {
+                    window.history.back();
+                }, 6000);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -137,16 +143,18 @@ class InspectContent extends Component {
     };
     copyToClipboard = () => {
         if (getSessionData('xpath') !== this.inpuText) {
-            navigator.clipboard.writeText(getSessionData('xpath')).then(
-                () => {
-                    // Notifications("success", 'Xpath Copied', '', 1000)();
-                    setSessionData("xpath", this.inpuText)
-                    this.setState({ value: this.inpuText })
-                },
-                () => {
-                    Notifications("error", 'Copying failed', '', 4000)();
-                }
-            )
+            if (window.isSecureContext && navigator.clipboard) {
+                navigator.clipboard.writeText(getSessionData('xpath')).then(
+                    () => {
+                        Notifications("success", 'Xpath Copied', '', 1000)();
+                        setSessionData("xpath", this.inpuText)
+                        this.setState({ value: this.inpuText })
+                    },
+                    () => {
+                        Notifications("error", 'Copying failed', '', 4000)();
+                    }
+                )
+            }
         } else {
             Notifications("info", 'Nothing to copy', '', 3000)();
         }
@@ -159,10 +167,11 @@ class InspectContent extends Component {
         ) {
             setSessionData("xpath", this.state.xpath)
             this.copyToClipboard()
-            this.setState({ showDialog: true });
-            this.endListener()
-            this.clearHighlights();
-
+            setTimeout(() => {
+                this.setState({ showDialog: true });
+                this.endListener()
+                this.clearHighlights();
+            }, 2000);
         }
     };
 
@@ -194,7 +203,7 @@ class InspectContent extends Component {
                     <div className="confirmation-dialog">
                         <div>
                             <h6 className='alert-header'>Update Xpath <strong>{this.state.xpath}</strong></h6>
-                            <p className='alert-content'>Are you sure you want to update XPath with the previous one?</p>
+                            <p className='alert-content'>Are you sure you want to <strong>Update</strong> or <strong>Add</strong> XPath with the previous one?</p>
                             <button className='alert-button' onClick={this.handleConfirm}>Yes</button>
                             <button className='alert-button' onClick={this.handleCancel}>No</button>
                         </div>
