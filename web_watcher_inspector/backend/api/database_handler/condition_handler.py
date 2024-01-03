@@ -109,7 +109,7 @@ def conditionONE(xpath,url):
         found = eval(data["found"])
         if found:
             _, data = queryHandler.getQueryAndExecute(
-                    query=f"""UPDATE `dms_wpw_tenderlinksdata` SET XPath = "{xpath}", entrydone="Y" WHERE Url = "{url}";""",
+                    query=f"""UPDATE `dms_wpw_tenderlinksdata` SET XPath = "{xpath}", entrydone="Y", error_date = "", compare_error = "" WHERE Url = "{url}";""",
                     fetchone=True,
                 )
         return found
