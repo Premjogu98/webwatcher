@@ -47,9 +47,9 @@ class WebInspector extends Component {
                 <div className='grid-col-2 insider-left'>
                     <button className="go-btn" onClick={this.handleButtonClick} ><span >Goo.. </span></button>
                 </div>
-                <div className='grid-col-5 insider-left'>
+                {/* <div className='grid-col-5 insider-left'>
                     <Clipboard />
-                </div>
+                </div> */}
                 
                 <NotificationContainer/> 
             </div>

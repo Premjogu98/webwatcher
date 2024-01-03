@@ -1,6 +1,6 @@
 #record-table {
     border-spacing: 0;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgb(0 0 0 / 6%) 0px 0px 0px 1px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgb(0 0 0 / 6%) 0px 0px 0px 1px; */
     margin: 1rem;
     padding: 1rem;
     overflow-x: auto;
@@ -42,7 +42,7 @@ th {
 }
 
 td {
-    text-align: start;
+    text-align: center;
     border : none
 }
 .error{
@@ -148,13 +148,18 @@ li input {
     text-decoration: none;
 }
 .table-filter{
-    display: flex;
+    /* display: flex; */
   flex-wrap: nowrap;
 }
 .filter-d{
     width: 50%;
 }
-.filter-d input{
+
+.filter-d label{
+    font-size: 17px;
+    color: #838383;
+}
+.search-input{
     border: none;
     background-color: #e5e5e5;
     padding: 8px;
@@ -165,9 +170,8 @@ li input {
     color: black;
     font-size: 15px;
 }
-.filter-d label{
-    font-size: 17px;
-    color: #838383;
+.search-id{
+    width: 10%;
 }
 .search-btn{
     border: none;
@@ -179,4 +183,16 @@ li input {
     cursor: pointer;
     font-family: math;
     padding: 6px 17px;
+    margin-bottom: 12px;
+}
+.search-dropdown{
+    font-size: 17px;
+    border: none;
+    background-color: #e5e5e5;
+    padding: 8px;
+    margin-bottom: 10px;
+    color: #5c5c5c;
+    width: 108px;
+    border-radius: 4px;
+
 }

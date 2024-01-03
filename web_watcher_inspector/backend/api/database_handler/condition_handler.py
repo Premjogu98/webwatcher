@@ -20,15 +20,23 @@ def getTotalTenderlinksCount():
         console_logger.error('ERROR: {} Error on line {}'.format(e,sys.exc_info()[-1].tb_lineno))
         raise HTTPException(status_code=500, detail=str(e))
 
-def fetchDataCompleteData(offset:int,limit:int,tenderlink=None):
+def fetchDataCompleteData(offset:int,limit:int,tenderlink,tenderid,wpwflag):
     try:
-        if tenderlink != "null":
+        if tenderlink or tenderid or wpwflag:
+            whereCondition = ""
+            if tenderlink:
+                whereCondition += f"""wpwlink.tender_link LIKE '%{tenderlink.replace("/'",'//')}%' AND"""
+            if tenderid:
+                whereCondition += f" wpwlink.id = '{tenderlink}' AND"
+            if wpwflag:
+                whereCondition += f" wpwlink.added_WPW = '{wpwflag}' AND"
             _status, data = queryHandler.getQueryAndExecute(query= f"""
-                SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on 
+                SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on,wpwtender.error_date
                 FROM dms_wpw_tenderlinks AS wpwlink 
                 LEFT JOIN dms_wpw_tenderlinksdata AS wpwtender ON wpwlink.tender_link = wpwtender.Url 
-                WHERE wpwlink.tender_link = '{tenderlink}' 
-                GROUP BY wpwlink.tender_link; 
+                WHERE {whereCondition.rstrip("AND").strip()}
+                GROUP BY wpwlink.tender_link;
+                LIMIT {limit} OFFSET {offset};
             """,
             fetchall=True
             )
@@ -36,10 +44,10 @@ def fetchDataCompleteData(offset:int,limit:int,tenderlink=None):
             _status, data = queryHandler.getQueryAndExecute(
                 # query=f"""SET @row_number = 0; SELECT (@row_number:=@row_number + 1) AS sr_no, data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath,data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' ORDER BY data.id LIMIT {limit} OFFSET {offset};""",
                 query=f"""
-                    SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on 
+                    SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on, wpwlink.added_WPW,wpwtender.error_date
                     FROM dms_wpw_tenderlinks AS wpwlink 
                     LEFT JOIN dms_wpw_tenderlinksdata AS wpwtender ON wpwlink.tender_link = wpwtender.Url 
-                    WHERE wpwlink.process_type = 'Web Watcher' 
+                    WHERE wpwlink.process_type = 'Web Watcher' AND wpwlink.added_WPW = 'N'
                     GROUP BY wpwlink.id 
                     ORDER BY wpwlink.id 
                     LIMIT {limit} OFFSET {offset};
@@ -47,12 +55,11 @@ def fetchDataCompleteData(offset:int,limit:int,tenderlink=None):
                 fetchall=True,
             )
         if _status:
-            headers = [{"Header":keys.title(), "accessor":keys} for keys in list(data[0].keys())]
-            if tenderlink == "null":
-                data_count = getTotalTenderlinksCount()
-            else:
-                data_count = {"count":len(data)}
-            complete_details = {"headers":headers,"data": data}
+            # headers = [{"Header":keys.title(), "accessor":keys} for keys in list(data[0].keys())]
+            data_count = getTotalTenderlinksCount()
+
+            # complete_details = {"headers":headers,"data": data}
+            complete_details = {"data": data}
             complete_details.update(data_count)
             return complete_details
     except Exception as e:

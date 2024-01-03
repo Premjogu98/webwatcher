@@ -26,7 +26,15 @@ class ContainerManagement:
         QUERY_HANDLER = QueryHandler(
             connection=self.dbconnection.connection, cur=self.dbconnection.cur
         )
-        query = """SELECT COUNT(*) AS record_count FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"""
+        query = """
+                SELECT COUNT(*) AS record_count
+                FROM dms_wpw_tenderlinks tl 
+                INNER JOIN dms_wpw_tenderlinksdata td ON tl.id = td.tlid
+                INNER JOIN tbl_region re ON tl.country = re.Country_Short_Code
+                WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y' AND td.entrydone = 'N' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+                ORDER BY tl.id ASC
+            """
+        # query = """SELECT COUNT(*) AS record_count FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"""
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchone=True)
         console_logger.debug(f"TOTAL RECORDS : {data}")
         if not status:
@@ -154,7 +162,7 @@ class ContainerManagement:
 
     def monitorContainers(self):
         while True:
-            batch_size = 1000
+            batch_size = 500
             offset = 0
             container_count = round(round(self.DATA_COUNT / batch_size) / 1)
             console_logger.info(f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 1} ")

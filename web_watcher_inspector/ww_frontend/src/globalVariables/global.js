@@ -3,8 +3,12 @@ import namor from "namor";
 
 export const globalVariables = {
     // apiUrl: 'http://185.15.209.234:8007/api/v1/web/watcher',
-    apiUrl: 'http://localhost:8007/api/v1/web/watcher',
+    apiUrl: 'http://185.15.209.234:8007/api/v1/web/watcher',
     myGlobalVar2: 'Value 2',
+    authKey:"AUTH",
+    authStatus:"done",
+    loginUsername:"testuser@tot.com",
+    loginPassword:"Ivfbb5eUPQw7DBs"
 };
 
 export const specificDivRef = React.createRef();
@@ -100,12 +104,12 @@ export function makeData(...lens) {
     return makeDataLevel();
 }
 
-export const getData = async (page, pageSize,tenderlink=null) => {
+export const getData = async (page, pageSize,tenderlink="",tenderid="",wpwflag="") => {
     console.debug(page, pageSize,tenderlink)
     const offset = page * pageSize;
     try {
         const response = await fetch(
-            `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}&tenderlink=${tenderlink}`
+            `${globalVariables.apiUrl}/get/data?offset=${offset}&limit=${pageSize}&tenderlink=${tenderlink}&tenderid=${tenderid}&wpwflag=${wpwflag}`
         );
         // if(tenderlink){
         //     response = await fetch(
@@ -118,8 +122,13 @@ export const getData = async (page, pageSize,tenderlink=null) => {
         // }
         
         const data = await response.json();
-        console.log(data)
-        return data;
+        if (response.status === 200){
+            console.log(data)
+            return data;
+        }else{
+            throw new Error(data);
+        }
+        
     } catch (e) {
         throw new Error(`API error:${e?.message}`);
     }

@@ -36,13 +36,17 @@ const columns = [
         accessor: "compare_error"
     },
     {
+        Header: "Error Date",
+        accessor: "error_date"
+    },
+    {
         Header: "Added_On",
         accessor: "added_on"
-    }
-    // {
-    //     Header: "More",
-    //     accessor: "More"
-    // },
+    },
+    {
+        Header: "WPW",
+        accessor: "added_WPW"
+    },
 ];
 const trimData = (data = []) =>
     data.map(({ name, url }) => ({
@@ -132,23 +136,26 @@ function WebWTable() {
     const [isSuccess, setIsSuccess] = React.useState(false);
     const [modalShown, toggleModal] = React.useState(false);
     const [getselectedData, setSelectedData] = React.useState(null);
-    const [getlink, setlink] = React.useState(null);
+    const [getlink, setlink] = React.useState("");
+    const [getenderid, setenderid] = React.useState("");
+    const [getwpwflag, setwpwflag] = React.useState("N");
 
     React.useEffect(() => {
         const fetchData = async () => {
-        try {
-            setIsLoading(true);
-            const result = await getData(queryPageIndex, queryPageSize);
-            console.log(result)
-            setData(result);
-            setIsSuccess(true);
-        } catch (error) {
-            setError(error);
-        } finally {
-            setIsLoading(false);
-        }
+            try {
+                setIsLoading(true);
+                const result = await getData(queryPageIndex, queryPageSize, getlink, getenderid,getwpwflag);
+                console.log(result.data.stat)
+                setData(result);
+                setIsSuccess(true);
+            } catch (error) {
+                setError(error);
+                setIsLoading(false);
+            } finally {
+                setIsLoading(false);
+            }
         };
-    
+
         fetchData();
     }, [queryPageIndex, queryPageSize]);
 
@@ -160,7 +167,7 @@ function WebWTable() {
     //         staleTime: Infinity,
     //     }
     // );
-    
+
 
     const FetchAdditionalInfo1 = async (id) => {
         try {
@@ -179,14 +186,11 @@ function WebWTable() {
         FetchAdditionalInfo1(value)
 
     };
-    const changeInput = (e) => {
-        setlink(e.target.value);
-    };
-
+    
     const getsearchdata = async () => {
         try {
             setIsLoading(true);
-            const result = await getData(queryPageIndex, queryPageSize,getlink);
+            const result = await getData(queryPageIndex, queryPageSize, getlink, getenderid,getwpwflag);
             console.log(result)
             setData(result);
             setIsSuccess(true);
@@ -195,7 +199,13 @@ function WebWTable() {
         } finally {
             setIsLoading(false);
         }
-        };
+    };
+    const clearFilters = () => {
+        setlink("");
+        setenderid("");
+        setwpwflag("N");
+        getsearchdata()
+    };
     const {
         getTableProps,
         getTableBodyProps,
@@ -245,7 +255,7 @@ function WebWTable() {
     }, [data?.count]);
 
     if (error) {
-        return <p>Error</p>;
+        return <h2>Failed To Fetch Data Please Refresh page</h2>;
     }
 
     if (isLoading) {
@@ -256,8 +266,27 @@ function WebWTable() {
         <div id='record-table'>
             {isSuccess ? (
                 <>
-                    <div class="table-filter">
-                        <div className='filter-d'><label>Tender link</label> <input className='search' onChange={changeInput}></input> <button className='search-btn' onClick={getsearchdata}> search </button></div>
+                    <div className="table-filter">
+                        <div className='filter-d'><label>Tender ID</label> &nbsp;&nbsp;<input className='search-input search-id' defaultValue={getenderid} onChange={(e) => { setenderid(e.target.value); }}></input> </div>
+                        <div className='filter-d'>
+                            <label>WPW Flag</label> &nbsp;&nbsp;
+                            <select
+                                className='search-dropdown'
+                                value={getwpwflag}
+                                onChange={(e) => {
+                                    setwpwflag(e.target.value);
+                                }}
+                            >
+                                {['Y', 'N', 'H', 'D'].map((pageSize) => (
+                                    <option key={pageSize} value={pageSize}>
+                                        Flag ({pageSize})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className='filter-d'><label>Tender link</label> <input className='search-input' defaultValue={getlink} onChange={(e) => { setlink(e.target.value); }}></input></div>
+
+                        <div className='filter-d'><button className='search-btn' onClick={getsearchdata}> search </button> <button className='search-btn' onClick={clearFilters}> clear filters </button></div>
                     </div>
                     <table {...getTableProps()}>
                         <thead>

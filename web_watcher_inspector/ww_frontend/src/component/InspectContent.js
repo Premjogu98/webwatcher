@@ -5,6 +5,7 @@ import { Notifications } from './Notifications.js';
 import { clearSessionData, getSessionData, globalVariables, setSessionData, specificDivRef } from "../globalVariables/global.js";
 import "./InspectContent.css";
 import axios from 'axios';
+
 class InspectContent extends Component {
     constructor(props) {
         super(props);
@@ -15,11 +16,14 @@ class InspectContent extends Component {
             inspect: "Start Inspect",
             xpath: null,
             showDialog: false,
-            tlid: null
+            tlid: null,
+            loading: true
         };
     }
 
     componentDidMount() {
+
+        this.checkAuth()
         this.handleButtonClick();
         this.setState({ isHighlighting: true, inspect: "Press Escape" });
         clearSessionData()
@@ -36,7 +40,14 @@ class InspectContent extends Component {
         document.removeEventListener('keyup', this.handleKeyUp);
         document.removeEventListener('click', this.handleClick);
     }
-
+    checkAuth () {
+        const AUTH = localStorage.getItem(globalVariables.authKey);
+        if (AUTH === globalVariables.authStatus){
+            console.log("succsess")
+        }else{
+            window.location.href = '/login'
+        }
+    }
     handleButtonClick = () => {
         const id = window.location.pathname.replace("/inspect/", "")
         this.setState({ tlid: id })
@@ -45,6 +56,7 @@ class InspectContent extends Component {
                 const element = document.getElementById("contentbox");
                 if (element) {
                     element.innerHTML = result;
+                    this.setState({loading: false})
                 }
             })
             .catch((error) => {
@@ -79,7 +91,7 @@ class InspectContent extends Component {
             }).finally(re => {
                 this.handleCancel()
             });
-        
+
     }
 
 
@@ -215,8 +227,11 @@ class InspectContent extends Component {
                     defaultValue={this.state.value}
                     onChange={this.state.value}
                 />
+                {this.state.loading && (
+                    <h4>Loading......</h4>
+                )}
                 <div id="contentbox" ref={specificDivRef}>
-                </div>
+                    </div>
                 <NotificationContainer />
             </>
         );

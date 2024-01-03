@@ -19,8 +19,9 @@ async def endpoint_to_get_html_data(url: str=None,id:int=None):
 
 
 @router.get("/get/data",)
-async def endpoint_to_get_pagination_data(offset:int,limit:int,tenderlink=None):
-    data = fetchDataCompleteData(offset,limit,tenderlink)
+async def endpoint_to_get_pagination_data(offset:int,limit:int,tenderlink=None,tenderid=None,wpwflag=None):
+    console_logger.debug((tenderlink,tenderid,wpwflag))
+    data = fetchDataCompleteData(offset,limit,tenderlink,tenderid,wpwflag)
     return {"detail": data}
 
 @router.get("/addition/data",)
