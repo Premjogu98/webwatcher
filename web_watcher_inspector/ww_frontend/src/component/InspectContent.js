@@ -41,7 +41,7 @@ class InspectContent extends Component {
         document.removeEventListener('click', this.handleClick);
     }
     checkAuth () {
-        const AUTH = localStorage.getItem(globalVariables.authKey);
+        const AUTH = sessionStorage.getItem(globalVariables.authKey);
         if (AUTH === globalVariables.authStatus){
             console.log("succsess")
         }else{
@@ -65,7 +65,7 @@ class InspectContent extends Component {
                     Notifications("error", error.response.data, "error", 3000)();
                     console.log(error.response.data)
                     setTimeout(() => {
-                        window.history.back();
+                        window.close();
                     }, 3000);
                 }
             });

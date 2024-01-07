@@ -17,20 +17,23 @@ class App extends Component {
         super(props);
 
     }
-
+    NotFoundRedirect() {
+        window.location.href = '/login'
+        return
+    }
     render() {
         return (
             <Router>
                 <>
                     <Routes>
-                        <Route index element={<Navbar />} />
+                        <Route path='/home' element={<Navbar />} />
                         <Route path='/login' element={<LoginPage />} />
                         <Route path='/web-inspector' element={<><Navbar /><WebInspector /></>} />
                         <Route path='/records' element={<><Navbar /><RecordsManagement /></>} />
                         <Route path='/comparison' element={<><Navbar /><ComparisonManagement /></>} />
                         <Route path='/inspect/:id' element={<InspectContent />} />
                         <Route path='/logout' element={<Logout />} />
-                        <Route path='*' element={<div>PAGE NOT FOUND</div>} />  {/*IF ROUTES NOT MATCHED */}
+                        <Route path='*' element={this.NotFoundRedirect} />  {/*IF ROUTES NOT MATCHED */}
                     </Routes>
                 </>
             </Router>

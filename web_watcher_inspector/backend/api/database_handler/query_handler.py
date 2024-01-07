@@ -3,7 +3,8 @@ from api.logger import console_logger
 import mysql.connector.cursor as MySQL_cursor
 import mysql.connector.connection as MySQL_connection
 from api.globvar import globVar
-
+from fastapi import Depends, HTTPException
+import sys
 
 @dataclass
 class QueryHandler:
@@ -14,16 +15,20 @@ class QueryHandler:
         self.connection, self.cursor = globVar.connectDB()
 
     def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
-        # console_logger.info(f"QUERY ==> {query}")
-        if fetchone or fetchall:
-            self.cursor.execute(query)
-            if fetchone:
-                return True, self.cursor.fetchone()
-            elif fetchall:
-                return True, self.cursor.fetchall()
-        else:
-            console_logger.warning("Please select fetchone OR fetchall")
-            return False, {}
+        try:
+            console_logger.info(f"QUERY ==> {query}")
+            if fetchone or fetchall:
+                self.cursor.execute(query)
+                if fetchone:
+                    return True, self.cursor.fetchone()
+                elif fetchall:
+                    return True, self.cursor.fetchall()
+            else:
+                console_logger.warning("Please select fetchone OR fetchall")
+                return False, {}
+        except Exception as e:
+            console_logger.error('ERROR: {} Error on line {}'.format(e,sys.exc_info()[-1].tb_lineno))
+            raise HTTPException(status_code=404,detail="Data Not found")
 
     def executeQuery(self, query):
         # console_logger.debug(f"QUERY ==> {query}")

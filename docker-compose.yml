@@ -1,23 +1,31 @@
 version: '3'
+
 services:
-  prometheus:
-    image: prom/prometheus:v2.22.0
+  nginx:
+    image: nginx:latest  # Replace with your image name
+    ports:
+      - "185.15.209.234:80:80"  # Replace with your desired IP address
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+      - /home/gts/web-watcher/htmldocs:/usr/share/nginx/html
+      - /home/gts/web-watcher/config/nginx.conf:/etc/nginx/nginx.conf
+    restart: always
 
-  grafana:
-    image: grafana/grafana:7.2.2
+  web-watcher-frontend:
+    image: web-watcher-frontend:0.0.1
+    build:
+      context: ./web_watcher_inspector/ww_frontend/
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-
-  node-exporter:
-    image: prom/node-exporter:v0.18.1
+      - "185.15.209.234:5000:80"
+    restart: always
+  
+  web-watcher-backend:
+    image: web-watcher-backend:0.0.1
+    build:
+      context: ./web_watcher_inspector/backend/
+      dockerfile: Dockerfile
     ports:
-      - "9100:9100"
+      - "185.15.209.234:8007:80"
+    volumes:
+      - ./web_watcher_inspector/backend/:/home/gts/code
+    restart: always

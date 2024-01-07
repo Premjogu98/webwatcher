@@ -138,16 +138,17 @@ function WebWTable() {
     const [getselectedData, setSelectedData] = React.useState(null);
     const [getlink, setlink] = React.useState("");
     const [getenderid, setenderid] = React.useState("");
-    const [getwpwflag, setwpwflag] = React.useState("N");
+    const [getwpwflag, setwpwflag] = React.useState("");
 
     React.useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
                 const result = await getData(queryPageIndex, queryPageSize, getlink, getenderid,getwpwflag);
-                console.log(result.data.stat)
+                console.log(result)
                 setData(result);
                 setIsSuccess(true);
+
             } catch (error) {
                 setError(error);
                 setIsLoading(false);
@@ -203,8 +204,12 @@ function WebWTable() {
     const clearFilters = () => {
         setlink("");
         setenderid("");
-        setwpwflag("N");
-        getsearchdata()
+        setwpwflag("");
+        setIsLoading(true);
+        setTimeout(() => {
+            getsearchdata()
+        }, 3000);
+        
     };
     const {
         getTableProps,
@@ -277,11 +282,18 @@ function WebWTable() {
                                     setwpwflag(e.target.value);
                                 }}
                             >
-                                {['Y', 'N', 'H', 'D'].map((pageSize) => (
-                                    <option key={pageSize} value={pageSize}>
+                                {['select','Y', 'N', 'H', 'D'].map((pageSize) => {
+                                    if(pageSize == "select"){
+                                        return(
+                                            <option key="" value="">
+                                                {pageSize}
+                                            </option>
+                                        )
+                                    }
+                                    return(<option key={pageSize} value={pageSize}>
                                         Flag ({pageSize})
-                                    </option>
-                                ))}
+                                    </option>)
+})}
                             </select>
                         </div>
                         <div className='filter-d'><label>Tender link</label> <input className='search-input' defaultValue={getlink} onChange={(e) => { setlink(e.target.value); }}></input></div>
@@ -313,11 +325,11 @@ function WebWTable() {
 
                                             if (cell.column.Header == "Tender Link") {
                                                 return (
-                                                    <td><a href={cell.value} target='/' style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
+                                                    <td style={{"textAlign":"start"}}><a href={cell.value} target='/' style={{ "color": 'darkcyan', "text-decoration": 'none' }}>{cell.value}</a></td>
                                                 );
                                             } else if (cell.column.Header == "Compare_Error") {
                                                 return (
-                                                    <td className='error'>{cell.value}</td>
+                                                    <td style={{"textAlign":"start"}} className='error'>{cell.value}</td>
                                                 )
                                             } else if (cell.column.Header == "Sr") {
                                                 return (
@@ -326,7 +338,7 @@ function WebWTable() {
                                             } else if (cell.column.Header == "Options") {
                                                 return (
                                                     <td>
-                                                        <a href={"/inspect/" + cell.row.original.id} className='view-more inspect-btn'>inspect</a>&nbsp;
+                                                        <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'>inspect</a>&nbsp;
                                                         {/* <button className='view-more' onClick={() => handleButtonClick(row.original.id, !modalShown)}>view more</button>&nbsp; */}
                                                     </td>
                                                 )

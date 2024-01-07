@@ -11,9 +11,10 @@ class LoginPage extends React.Component {
         };
     }
     componentDidMount () {
-        const AUTH = localStorage.getItem(globalVariables.authKey);
+        const AUTH = sessionStorage.getItem(globalVariables.authKey);
         if (AUTH === globalVariables.authStatus){
-            window.history.back();
+            window.location.href = '/home'
+            console.log(AUTH)
         }
     }
     handleUsernameChange = (e) => {
@@ -30,8 +31,8 @@ class LoginPage extends React.Component {
         const main_username = globalVariables.loginUsername;
         const main_password = globalVariables.loginPassword;
         if (username === main_username && password === main_password) {
-            localStorage.setItem(globalVariables.authKey, globalVariables.authStatus);
-            window.location.href = '/'
+            sessionStorage.setItem(globalVariables.authKey, globalVariables.authStatus);
+            window.location.href = '/home'
         } else {
             alert('Invalid credentials. Please try again.');
         }

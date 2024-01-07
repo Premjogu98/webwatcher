@@ -27,15 +27,14 @@ def fetchDataCompleteData(offset:int,limit:int,tenderlink,tenderid,wpwflag):
             if tenderlink:
                 whereCondition += f"""wpwlink.tender_link LIKE '%{tenderlink.replace("/'",'//')}%' AND"""
             if tenderid:
-                whereCondition += f" wpwlink.id = '{tenderlink}' AND"
+                whereCondition += f" wpwlink.id = '{tenderid}' AND"
             if wpwflag:
-                whereCondition += f" wpwlink.added_WPW = '{wpwflag}' AND"
+                whereCondition += f" wpwlink.added_wpw = '{wpwflag}' AND"
             _status, data = queryHandler.getQueryAndExecute(query= f"""
                 SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on,wpwtender.error_date
                 FROM dms_wpw_tenderlinks AS wpwlink 
                 LEFT JOIN dms_wpw_tenderlinksdata AS wpwtender ON wpwlink.tender_link = wpwtender.Url 
-                WHERE {whereCondition.rstrip("AND").strip()}
-                GROUP BY wpwlink.tender_link;
+                WHERE wpwlink.process_type = 'Web Watcher' AND {whereCondition.rstrip("AND").strip()}
                 LIMIT {limit} OFFSET {offset};
             """,
             fetchall=True
@@ -47,17 +46,21 @@ def fetchDataCompleteData(offset:int,limit:int,tenderlink,tenderid,wpwflag):
                     SELECT wpwlink.id,wpwtender.tlid, wpwlink.tender_link, wpwlink.added_WPW, wpwtender.compare_error, wpwlink.added_on, wpwlink.added_WPW,wpwtender.error_date
                     FROM dms_wpw_tenderlinks AS wpwlink 
                     LEFT JOIN dms_wpw_tenderlinksdata AS wpwtender ON wpwlink.tender_link = wpwtender.Url 
-                    WHERE wpwlink.process_type = 'Web Watcher' AND wpwlink.added_WPW = 'N'
-                    GROUP BY wpwlink.id 
-                    ORDER BY wpwlink.id 
+                    WHERE wpwlink.process_type = 'Web Watcher' AND wpwlink.added_wpw = 'N'
+                    ORDER BY wpwlink.id
                     LIMIT {limit} OFFSET {offset};
                 """,
                 fetchall=True,
             )
         if _status:
             # headers = [{"Header":keys.title(), "accessor":keys} for keys in list(data[0].keys())]
-            data_count = getTotalTenderlinksCount()
-
+            if len(data) == 0:
+                data_count = {"count":0}
+            elif len(data) < 10:
+                data_count = {"count":len(data)}
+            else:
+                data_count = getTotalTenderlinksCount()
+            # console_logger.debug(data)
             # complete_details = {"headers":headers,"data": data}
             complete_details = {"data": data}
             complete_details.update(data_count)

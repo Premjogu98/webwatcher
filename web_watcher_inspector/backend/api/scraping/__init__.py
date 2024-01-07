@@ -45,7 +45,7 @@ class Scraping:
             return ("Request Timeout",408)
         except requests.RequestException as e:
             console_logger.error(e)
-            return ("Please enter valid url",400)
+            return ("Unable to load url please check url first",400)
         except Exception as e:
             console_logger.error(e)
             return ("Something went wrong",500)
