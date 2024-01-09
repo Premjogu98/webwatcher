@@ -340,8 +340,7 @@ function WebWTable() {
                                                 return (
                                                     <td>
                                                         <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'>Inspect</a>&nbsp;
-                                                        {/* <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'> Check Compare</a>&nbsp; */}
-                                                        <button className='view-more' onClick={() => <Comparison id={row.original.id} />}>Check Compare</button>&nbsp;
+                                                        <a href={"/comparison/" + cell.row.original.id} target='/' className='view-more inspect-btn'>Compare</a>&nbsp;
                                                         {/* <button className='view-more' onClick={() => handleButtonClick(row.original.id, !modalShown)}>view more</button>&nbsp; */}
                                                     </td>
                                                 )

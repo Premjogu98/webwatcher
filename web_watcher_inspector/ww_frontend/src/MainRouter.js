@@ -30,7 +30,7 @@ class App extends Component {
                         <Route path='/login' element={<LoginPage />} />
                         <Route path='/web-inspector' element={<><Navbar /><WebInspector /></>} />
                         <Route path='/records' element={<><Navbar /><RecordsManagement /></>} />
-                        <Route path='/comparison' element={<><Navbar /><ComparisonManagement /></>} />
+                        <Route path='/comparison/:id' element={<><Navbar /><ComparisonManagement /></>} />
                         <Route path='/inspect/:id' element={<InspectContent />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='*' element={this.NotFoundRedirect} />  {/*IF ROUTES NOT MATCHED */}

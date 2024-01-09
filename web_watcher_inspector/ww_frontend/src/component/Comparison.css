@@ -1,4 +1,14 @@
 .new_text {
     background-color: aqua;
   }
-  
+.comparison-content{
+  overflow-y: auto;
+    overflow-x: auto;
+    height: 110vh;
+}
+.comparison-content div:first-child{
+  position: fixed;
+}
+.comparison-content div:first-child div:first-child{
+  margin-top: 10px;
+}

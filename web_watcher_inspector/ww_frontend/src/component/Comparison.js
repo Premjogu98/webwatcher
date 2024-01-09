@@ -34,7 +34,13 @@ class Comparison extends Component {
     }
 
     componentDidMount() {
-        axios.get(`${globalVariables.apiUrl}/compared/html?id=5`)
+        this.checkAuth();
+        this.renderHtmlData();
+
+    }
+    renderHtmlData(){
+        const id = window.location.pathname.replace("/comparison/", "")
+        axios.get(`${globalVariables.apiUrl}/compared/html?id=${id}`)
             .then((response) => {
                 this.setState({ fromHTML: response.data });
             })
@@ -42,7 +48,7 @@ class Comparison extends Component {
                 console.error("Error fetching fromHTML:", error);
             });
 
-        axios.get(`${globalVariables.apiUrl}/compared/html?id=5&old=True`)
+        axios.get(`${globalVariables.apiUrl}/compared/html?id=${id}&old=True`)
             .then((response) => {
                 this.setState({ toHTML: response.data });
             })
@@ -50,9 +56,16 @@ class Comparison extends Component {
                 console.error("Error fetching toHTML:", error);
             });
 
-        window.addEventListener("click", (e) => console.log(e.target));
+        // window.addEventListener("click", (e) => console.log(e.target));
     }
-
+    checkAuth () {
+        const AUTH = sessionStorage.getItem(globalVariables.authKey);
+        if (AUTH === globalVariables.authStatus){
+            console.log("succsess")
+        }else{
+            window.location.href = '/login'
+        }
+    }
     render() {
         const { textOnly, fromHTML, toHTML } = this.state;
 
@@ -66,7 +79,7 @@ class Comparison extends Component {
         };
 
         return (
-            <div className="Comparison">
+            <div className="comparison-content">
                 <div>
                     Text only
                     <ToggleButton
@@ -82,8 +95,8 @@ class Comparison extends Component {
                     splitView={true}
                     compareMethod={DiffMethod.WORDS}
                     styles={compareStyles}
-                    leftTitle="Initial version"
-                    rightTitle="Adjusted solution"
+                    leftTitle="OLD HTML / TEXT"
+                    rightTitle="NEW HTML / TEXT"
                     onLineNumberClick={(lineId) => console.log(lineId)}
                     renderContent={(source) => {
                         return source;

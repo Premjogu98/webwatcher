@@ -52,9 +52,10 @@ class Scraping:
     
     def get_compared_html(self,id,old):
         try:
-            
+            headers = {'Content-Type': 'text/html; charset=utf-8'}
             response = requests.get(f"http://185.15.209.234/compared/files/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html")
             if response.status_code == 200:
+                response.encoding = 'utf-8'
                 html_content = response.text
                 return (html_content,200)  # Display the HTML content
             else:
