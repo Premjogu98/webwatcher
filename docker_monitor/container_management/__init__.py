@@ -171,7 +171,7 @@ class ContainerManagement:
                 offset += self.__deployContainerWithBatch(offset=offset,container_limit=container_count ,batch_size=batch_size,total_thread=1)
                 while len(self.LIST_OF_CONTAINERS) != 0:
                     for container in self.DOCKER_CLIENT.containers.list(filters={"status": "exited"}):
-                        if "web-watcher-nginx-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
+                        if "web-watcher-nginx-1" not in container.name and "web-watcher-web-watcher-backend-1" not in container.name and "web-watcher-web-watcher-frontend-1" not in container.name and container.name in self.LIST_OF_CONTAINERS:
                             self.__stopContainer(container.name)
                             del self.LIST_OF_CONTAINERS[self.LIST_OF_CONTAINERS.index(container.name)]
                             console_logger.info(f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining ")

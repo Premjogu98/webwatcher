@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer";
 import { html } from "js-beautify";
 import ToggleButton from "react-toggle-button";
@@ -8,8 +8,8 @@ import "./comparison.css";
 const htmlStylingOptions = {
     indent_size: 4,
     html: {
-        end_with_newline: true
-    }
+        end_with_newline: true,
+    },
 };
 
 function formatHTMLForDiff(htmlStr, textOnly) {
@@ -22,46 +22,57 @@ function formatHTMLForDiff(htmlStr, textOnly) {
     return formattedHTML;
 }
 
-export default function App() {
-    const [textOnly, setTextOnly] = useState(false);
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            textOnly: false,
+        };
+    }
 
-    const compareStyles = {
-        variables: {
-            light: {
-                codeFoldGutterBackground: "#6F767E",
-                codeFoldBackground: "#E2E4E5"
-            }
-        }
-    };
-
-    useEffect(() => {
+    componentDidMount() {
         window.addEventListener("click", (e) => console.log(e.target));
-    }, []);
+    }
 
-    return (
-        <div className="App">
-            <div>
-                Text only
-                <ToggleButton
-                    onToggle={(value) => {
-                        setTextOnly(!value);
+    render() {
+        const { textOnly } = this.state;
+
+        const compareStyles = {
+            variables: {
+                light: {
+                    codeFoldGutterBackground: "#6F767E",
+                    codeFoldBackground: "#E2E4E5",
+                },
+            },
+        };
+
+        return (
+            <div className="App">
+                <div>
+                    Text only
+                    <ToggleButton
+                        onToggle={(value) => {
+                            this.setState({ textOnly: !value });
+                        }}
+                        value={textOnly}
+                    />
+                </div>
+                <ReactDiffViewer
+                    oldValue={formatHTMLForDiff(fromHTML, textOnly)}
+                    newValue={formatHTMLForDiff(toHTML, textOnly)}
+                    splitView={true}
+                    compareMethod={DiffMethod.WORDS}
+                    styles={compareStyles}
+                    leftTitle="Initial version"
+                    rightTitle="Adjusted solution"
+                    onLineNumberClick={(lineId) => console.log(lineId)}
+                    renderContent={(source) => {
+                        return source;
                     }}
-                    value={textOnly}
                 />
             </div>
-            <ReactDiffViewer
-                oldValue={formatHTMLForDiff(fromHTML, textOnly)}
-                newValue={formatHTMLForDiff(toHTML, textOnly)}
-                splitView={true}
-                compareMethod={DiffMethod.WORDS}
-                styles={compareStyles}
-                leftTitle="Initial version"
-                rightTitle="Adjusted solution"
-                onLineNumberClick={(lineId) => console.log(lineId)}
-                renderContent={(source) => {
-                    return source;
-                }}
-            />
-        </div>
-    );
+        );
+    }
 }
+
+export default App;

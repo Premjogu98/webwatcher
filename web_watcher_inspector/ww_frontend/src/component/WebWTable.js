@@ -6,6 +6,7 @@ import { getData, globalVariables } from '../globalVariables/global';
 import "./WebWTable.css"
 import { FetchAdditionalInfo } from '../apiManagement/apiService';
 import axios from 'axios';
+import Comparison from './Comparison';
 const columns = [
     {
         Header: "Options",
@@ -338,7 +339,9 @@ function WebWTable() {
                                             } else if (cell.column.Header == "Options") {
                                                 return (
                                                     <td>
-                                                        <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'>inspect</a>&nbsp;
+                                                        <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'>Inspect</a>&nbsp;
+                                                        {/* <a href={"/inspect/" + cell.row.original.id} target='/' className='view-more inspect-btn'> Check Compare</a>&nbsp; */}
+                                                        <button className='view-more' onClick={() => <Comparison id={row.original.id} />}>Check Compare</button>&nbsp;
                                                         {/* <button className='view-more' onClick={() => handleButtonClick(row.original.id, !modalShown)}>view more</button>&nbsp; */}
                                                     </td>
                                                 )

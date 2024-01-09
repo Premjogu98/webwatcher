@@ -43,9 +43,9 @@ class Navbar extends Component {
                         {/* <li>
                             <NavLink to={'/web-inspector'}>Web Inspector</NavLink>
                         </li> */}
-                        {/* <li>
+                        <li>
                             <NavLink to={'/comparison'}>Comparison</NavLink>
-                        </li> */}
+                        </li>
                         <li>
                             <NavLink to={'/records'}>Check Records</NavLink>
                         </li>

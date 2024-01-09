@@ -50,3 +50,21 @@ class Scraping:
             console_logger.error(e)
             return ("Something went wrong",500)
     
+    def get_compared_html(self,id,old):
+        try:
+            
+            response = requests.get(f"http://185.15.209.234/compared/files/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html")
+            if response.status_code == 200:
+                html_content = response.text
+                return (html_content,200)  # Display the HTML content
+            else:
+                console_logger.debug(f"Failed to retrieve HTML. Status code: {response.status_code}")
+                return(response.text, response.status_code)
+        except requests.Timeout:
+            return ("Request Timeout",408)
+        except requests.RequestException as e:
+            console_logger.error(e)
+            return ("Unable to load url please check url first",400)
+        except Exception as e:
+            console_logger.error(e)
+            return ("Something went wrong",500)

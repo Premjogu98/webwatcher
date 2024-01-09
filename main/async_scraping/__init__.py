@@ -60,16 +60,16 @@ class AsyncScraping:
             self.MAIN_END_TIME = self.getCurrentTime()
             text = f"\033[92m TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\033[00m"
             console_logger.debug(text)
-            LogHandler(
-                QUERY_HANDLER=self.QUERY_HANDLER,
-                GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
-                START_TIME=self.MAIN_START_TIME,
-                END_TIME=self.MAIN_END_TIME,
-                GROUP_ID=self.GROUP_ID,
-                TOTAL_DATA=self.TOTAL_DATA_COUNT,
-                BATCH_SIZE=self.BATCH_SIZE,
-                DIFF_TIME=round(float(self.getDatetimeDifference(first=self.MAIN_START_TIME,second=self.MAIN_END_TIME)),2)
-            )
+            # LogHandler(
+            #     QUERY_HANDLER=self.QUERY_HANDLER,
+            #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+            #     START_TIME=self.MAIN_START_TIME,
+            #     END_TIME=self.MAIN_END_TIME,
+            #     GROUP_ID=self.GROUP_ID,
+            #     TOTAL_DATA=self.TOTAL_DATA_COUNT,
+            #     BATCH_SIZE=self.BATCH_SIZE,
+            #     DIFF_TIME=round(float(self.getDatetimeDifference(first=self.MAIN_START_TIME,second=self.MAIN_END_TIME)),2)
+            # )
         else:
             # console_logger.debug(
             #     f"Execution START/END => {method_start_time} / {method_end_time}"

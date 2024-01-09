@@ -24,7 +24,7 @@ class FileHandler:
                                     <title>Tender Document</title>
                                 </head>
                                 <body>
-                                    {self.blockquotestart}{str(htmlstring)}{self.blockquotend}
+                                { htmlstring if self.blockquotend in htmlstring else f"{self.blockquotestart}{str(htmlstring)}{self.blockquotend}" }
                                 </body>
                             </html>"""
             file1.write(Final_Doc)

@@ -17,7 +17,6 @@ async def endpoint_to_get_html_data(url: str=None,id:int=None):
     result, status = scraping.get_html(url,id)
     return HTMLResponse(content=result, status_code=status)
 
-
 @router.get("/get/data",)
 async def endpoint_to_get_pagination_data(offset:int,limit:int,tenderlink=None,tenderid=None,wpwflag=None):
     console_logger.debug((tenderlink,tenderid,wpwflag))
@@ -33,3 +32,8 @@ async def endpoint_to_get_addition_data(id:int):
 async def endpoint_to_update_xpath(payload:UpdateXpath):
     data = updateXpath(payload.xpath,payload.tlid)
     return {"detail": data}
+
+@router.get("/compared/html", response_class=HTMLResponse)
+async def endpoint_to_get_addition_data(id:int,old:bool=True):
+    result, status = scraping.get_compared_html(id,old)
+    return HTMLResponse(content=result, status_code=status)

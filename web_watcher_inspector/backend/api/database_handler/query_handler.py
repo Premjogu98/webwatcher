@@ -12,8 +12,11 @@ class QueryHandler:
     cursor: MySQL_cursor = None
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
-        self.connection, self.cursor = globVar.connectDB()
+        self.reconnect()
 
+    def reconnect(self):
+        self.connection, self.cursor = globVar.connectDB()
+        
     def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
         try:
             console_logger.info(f"QUERY ==> {query}")
@@ -27,8 +30,13 @@ class QueryHandler:
                 console_logger.warning("Please select fetchone OR fetchall")
                 return False, {}
         except Exception as e:
-            console_logger.error('ERROR: {} Error on line {}'.format(e,sys.exc_info()[-1].tb_lineno))
-            raise HTTPException(status_code=404,detail="Data Not found")
+            if "Lost connection" in str(e):
+                console_logger.debug("Reconnecting Connenction")
+                self.reconnect()
+                self.getQueryAndExecute(query =query,fetchone=fetchone,fetchall=fetchall)
+            else:
+                console_logger.error('ERROR: {} Error on line {}'.format(e,sys.exc_info()[-1].tb_lineno))
+                raise HTTPException(status_code=404,detail="Data Not found")
 
     def executeQuery(self, query):
         # console_logger.debug(f"QUERY ==> {query}")
