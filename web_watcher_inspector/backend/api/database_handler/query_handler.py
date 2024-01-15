@@ -13,9 +13,9 @@ class QueryHandler:
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
         self.reconnect()
-
     def reconnect(self):
         self.connection, self.cursor = globVar.connectDB()
+        console_logger.debug(f"connection OBJ : {self.connection} | cursor OBJ : {self.cursor}")
         
     def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
         try:

@@ -172,7 +172,8 @@ class AsyncScraping:
             details["onlyhtml"] = re.sub(
                 "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
             )
-            details["onlytext"] = extractStringFromHTML(element_html)
+            details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
+            console_logger.debug(details["onlytext"])
             self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
         else:
             self.GLOBAL_VARIABLE.path_error += 1
