@@ -59,7 +59,7 @@ class Comparison extends Component {
         // window.addEventListener("click", (e) => console.log(e.target));
     }
     checkAuth () {
-        const AUTH = sessionStorage.getItem(globalVariables.authKey);
+        const AUTH = localStorage.getItem(globalVariables.authKey);
         if (AUTH === globalVariables.authStatus){
             console.log("succsess")
         }else{

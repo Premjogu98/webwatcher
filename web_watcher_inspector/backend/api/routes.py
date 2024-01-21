@@ -14,7 +14,7 @@ async def test(url: str):
 
 @router.get("/get/html", response_class=HTMLResponse)
 async def endpoint_to_get_html_data(url: str=None,id:int=None):
-    result, status = scraping.get_html(url,id)
+    result, status = await scraping.get_html(url,id)
     return HTMLResponse(content=result, status_code=status)
 
 @router.get("/get/data",)

@@ -7,18 +7,18 @@ export const globalVariables = {
 export const specificDivRef = React.createRef();
 
 export const setSessionData = (key, value) => {
-  sessionStorage.setItem(key, value);
+  localStorage.setItem(key, value);
 };
 export const getSessionData = (key) => {
-  const data = sessionStorage.getItem(key);
+  const data = localStorage.getItem(key);
   return data
 };
 export const removeSessionData = (key) => {
-  sessionStorage.removeItem(key);
+  localStorage.removeItem(key);
 }
 
 export const clearSessionData = () => {
-  sessionStorage.clear();
+  localStorage.clear();
 }
 
 export const fromHTML =

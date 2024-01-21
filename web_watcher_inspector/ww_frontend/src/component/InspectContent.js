@@ -19,14 +19,13 @@ class InspectContent extends Component {
             tlid: null,
             loading: true
         };
+        this.checkAuth()
+        this.handleButtonClick();
     }
 
     componentDidMount() {
-
-        this.checkAuth()
-        this.handleButtonClick();
         this.setState({ isHighlighting: true, inspect: "Press Escape" });
-        clearSessionData()
+        // clearSessionData()
         this.startListener()
     }
     startListener() {
@@ -41,7 +40,7 @@ class InspectContent extends Component {
         document.removeEventListener('click', this.handleClick);
     }
     checkAuth () {
-        const AUTH = sessionStorage.getItem(globalVariables.authKey);
+        const AUTH = localStorage.getItem(globalVariables.authKey);
         if (AUTH === globalVariables.authStatus){
             console.log("succsess")
         }else{
@@ -71,7 +70,8 @@ class InspectContent extends Component {
             });
     };
     updateXpathOnYes = () => {
-        const { xpath, tlid } = this.state;
+        const tlid = window.location.pathname.replace("/inspect/", "")
+        const { xpath } = this.state;
         const requestData = {
             xpath,
             tlid,
@@ -204,7 +204,7 @@ class InspectContent extends Component {
 
     handleCancel = () => {
         this.setState({ isHighlighting: true, inspect: "Press Escape" });
-        clearSessionData()
+        // clearSessionData()
         this.startListener()
         this.setState({ showDialog: false });
     };
@@ -215,7 +215,7 @@ class InspectContent extends Component {
                     <div className="confirmation-dialog">
                         <div>
                             <h6 className='alert-header'>Update Xpath <strong>{this.state.xpath}</strong></h6>
-                            <p className='alert-content'>Are you sure you want to <strong>Update</strong> or <strong>Add</strong> XPath with the previous one?</p>
+                            <p className='alert-content'>Are you sure you want to <strong className='alert-strong'>Update</strong> or <strong className='alert-strong'>Add</strong> XPath with the previous one?</p>
                             <button className='alert-button' onClick={this.handleConfirm}>Yes</button>
                             <button className='alert-button' onClick={this.handleCancel}>No</button>
                         </div>

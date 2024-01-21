@@ -8,7 +8,7 @@ docker system df
 docker build -t selenium:0.0.4 -f Dockerfile.selenium .
 docker run -d --name selenium --memory=100m -t playwight:0.0.1 /bin/bash
 docker build -t playwight:0.0.1 -f Dockerfile.playwight .
-
+docker build -t web-watcher-backend:0.0.2 .
 ps -aux
 ps aux | wc -l = count how many processes are running
 ps -A -ostat,pid,ppid | grep -e '[zZ]' = check how many zombie processes are running

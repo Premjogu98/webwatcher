@@ -6,7 +6,7 @@ class Logout extends React.Component {
         super(props);
     }
     componentDidMount () {
-        sessionStorage.removeItem(globalVariables.authKey);
+        localStorage.removeItem(globalVariables.authKey);
         window.location.href = '/login'
     }
     

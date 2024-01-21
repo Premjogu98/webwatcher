@@ -1,3 +1,38 @@
-2024-01-16 12:33:49,059,59 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 23
-2024-01-16 12:34:19,094,94 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 23
-2024-01-16 12:34:49,127,127 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 23
+2024-01-21 15:29:35,849,849 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2024-01-21 15:29:35,852,852 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2024-01-21 15:29:35,867,867 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2024-01-21 15:29:35,870,870 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2024-01-21 15:29:38,643,643 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:39] TOTAL RECORDS : {'record_count': 778}
+2024-01-21 15:29:38,643,643 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:115] *** DOCKER CONTINER START PRUNING *** 
+2024-01-21 15:29:38,684,684 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-web-watcher-frontend-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2024-01-21 15:29:39,521,521 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-web-watcher-frontend-1' stopped and removed successfully.
+2024-01-21 15:29:39,522,522 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-web-watcher-backend-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2024-01-21 15:29:40,084,84 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-web-watcher-backend-1' stopped and removed successfully.
+2024-01-21 15:29:40,084,84 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-nginx-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
+2024-01-21 15:29:40,517,517 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-nginx-1' stopped and removed successfully.
+2024-01-21 15:29:40,518,518 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 0-0-500 = STARTIME 2024-01-21 12:48:30 | ENDTIME : 2024-01-21 01:22:46 | TOTAL DIF (MIN) : 0:34:15.679736
+2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-0-500' stopped and removed successfully.
+2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:127] *** ALL DOCKER CONTAINER PRUNED ***
+
+2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:168] TOTAL RECORDS : 778 | CONTAINER COUNT : 2 
+2024-01-21 15:29:40,535,535 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 0
+2024-01-21 15:29:40,723,723 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-0-500 STARTED
+2024-01-21 15:29:40,921,921 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-500-500 STARTED
+2024-01-21 15:29:40,925,925 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-01-21 15:34:17,805,805 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2024-01-21 15:34:17,808,808 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2024-01-21 15:34:17,825,825 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
+2024-01-21 15:34:17,827,827 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
+2024-01-21 15:34:18,487,487 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:39] TOTAL RECORDS : {'record_count': 778}
+2024-01-21 15:34:18,487,487 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:115] *** DOCKER CONTINER START PRUNING *** 
+2024-01-21 15:34:18,531,531 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 1-500-500 = STARTIME 2024-01-21 03:29:40 | ENDTIME : 2024-01-21 03:30:12 | TOTAL DIF (MIN) : 0:00:32.060911
+2024-01-21 15:34:18,548,548 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '1-500-500' stopped and removed successfully.
+2024-01-21 15:34:18,549,549 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 0-0-500 = STARTIME 2024-01-21 03:29:40 | ENDTIME : 2024-01-21 03:30:11 | TOTAL DIF (MIN) : 0:00:31.023711
+2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-0-500' stopped and removed successfully.
+2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:127] *** ALL DOCKER CONTAINER PRUNED ***
+
+2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:168] TOTAL RECORDS : 778 | CONTAINER COUNT : 2 
+2024-01-21 15:34:18,561,561 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 0
+2024-01-21 15:34:18,741,741 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-0-500 STARTED
+2024-01-21 15:34:18,928,928 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-500-500 STARTED
+2024-01-21 15:34:18,932,932 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2

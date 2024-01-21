@@ -14,7 +14,7 @@ class Navbar extends Component {
         this.handleNavClick = this.handleNavClick.bind(this);
     }
     componentDidMount () {
-        const AUTH = sessionStorage.getItem(globalVariables.authKey);
+        const AUTH = localStorage.getItem(globalVariables.authKey);
         if (AUTH === globalVariables.authStatus){
             console.log("succsess")
         }else{

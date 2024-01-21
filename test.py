@@ -134,22 +134,53 @@
 # connection.close()
 
 
-import cupy as cp
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+# import cupy as cp
+# from sklearn.feature_extraction.text import TfidfVectorizer
+# from sklearn.metrics.pairwise import cosine_similarity
 
-# Sample text data
-text1 = "This is the first text sample."
-text2 = "Here is the second text example."
+# # Sample text data
+# text1 = "This is the first text sample."
+# text2 = "Here is the second text example."
 
-# Create a TF-IDF Vectorizer and transform the texts
-vectorizer = TfidfVectorizer()
-tfidf_matrix = vectorizer.fit_transform([text1, text2])
+# # Create a TF-IDF Vectorizer and transform the texts
+# vectorizer = TfidfVectorizer()
+# tfidf_matrix = vectorizer.fit_transform([text1, text2])
 
-# Convert the TF-IDF matrix to a Cupy array for GPU computation
-tfidf_matrix_cupy = cp.sparse.csr_matrix(tfidf_matrix.astype(cp.float32))
+# # Convert the TF-IDF matrix to a Cupy array for GPU computation
+# tfidf_matrix_cupy = cp.sparse.csr_matrix(tfidf_matrix.astype(cp.float32))
 
-# Compute cosine similarity on the GPU
-similarity = cosine_similarity(tfidf_matrix_cupy, dense_output=False)
+# # Compute cosine similarity on the GPU
+# similarity = cosine_similarity(tfidf_matrix_cupy, dense_output=False)
 
-print(f"Cosine Similarity Matrix (GPU):\n{similarity}")
+# print(f"Cosine Similarity Matrix (GPU):\n{similarity}")
+
+from playwright.sync_api import sync_playwright
+
+
+
+def main():
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        context = browser.new_context()
+        page = context.new_page()
+
+        # Navigate to different websites
+        websites = ['https://powerlak.gov.in/eBCMsConsumerPortal/frmTenders_Orders.aspx']
+
+        for website in websites:
+            page.goto(website)
+
+            # Wait for a specific timeout (adjust the timeout based on your needs)
+            page.wait_for_timeout(10000)  # Wait for 5 seconds
+
+            # Extract the HTML content after the page has loaded
+            html_content = page.content()
+
+            # Process the HTML content as needed
+            print(html_content[:200])  # Print the first 200 characters for illustration
+
+        # Close the browser
+        browser.close()
+
+if __name__ == "__main__":
+    main()

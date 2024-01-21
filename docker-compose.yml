@@ -20,7 +20,7 @@ services:
     restart: always
   
   web-watcher-backend:
-    image: web-watcher-backend:0.0.1
+    image: web-watcher-backend:0.0.2
     build:
       context: ./web_watcher_inspector/backend/
       dockerfile: Dockerfile

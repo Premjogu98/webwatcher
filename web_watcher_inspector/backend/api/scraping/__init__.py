@@ -6,21 +6,52 @@ import re
 from fastapi import Depends, HTTPException
 from api.database_handler.condition_handler import *
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from playwright.async_api import async_playwright
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class Scraping:
 
     def __init__(self) -> None:
         pass
-
-    def get_html(self,url,id):
+    async def get_html_from_playwight(self,url,id):
+        url = getLinkFromID(id)
+        console_logger.debug(url)
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            context = await browser.new_context()
+            page = await context.new_page()
+            await page.goto(url)
+            await page.wait_for_timeout(10000)  # Wait for 10 seconds
+            html_content = await page.content()
+            await browser.close()
+            return self.manageOuterHtml(html_content,url)
+        
+    def manageOuterHtml(self,html,url):
+        soup = BeautifulSoup(html, 'html.parser')
+        for tag in soup.find_all(['a', 'img', 'script','link']):
+            for attr in ['href', 'src']:
+                if attr in tag.attrs:
+                    tag[attr] = urljoin(url, tag[attr])
+        html_content = soup.prettify()
+        for script in re.findall(r"(?<=<script).*?(?=</script>)", html):
+            html_content = html_content.replace(f"<script{script}</script>","")
+        # console_logger.debug(soup.find_all(['header']))
+        # for header in soup.find_all(['header']):
+        #     console_logger.de(header)
+        #     html_content = html_content.replace(f"<header {header}</header>","")
+        html_content = html_content.replace('href="',f'style="pointer-events: none;cursor: default;" href="')
+        return html_content
+    
+    async def get_html(self,url,id):
         try:
             if not url and not id:
                 return HTTPException(content="url or id not found", status_code=400)
             if id:
+                return (await self.get_html_from_playwight(url,id),200)
                 url = getLinkFromID(id)
                 console_logger.debug(url)
             response = requests.get(url,verify=False,timeout=20)
+            self.get_html_from_playwight(url,id)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
                 # Make relative URLs absolute
@@ -28,10 +59,10 @@ class Scraping:
                     for attr in ['href', 'src']:
                         if attr in tag.attrs:
                             tag[attr] = urljoin(url, tag[attr])
-
+                            console_logger.debug(tag[attr])
                 html_content = soup.prettify()
                 for script in re.findall(r"(?<=<script).*?(?=</script>)", response.text):
-                    html_content = html_content.replace(f"<header{script}</script>","")
+                    html_content = html_content.replace(f"<script{script}</script>","")
                 # console_logger.debug(soup.find_all(['header']))
                 # for header in soup.find_all(['header']):
                 #     console_logger.de(header)
