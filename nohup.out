@@ -1,38 +1,605 @@
-2024-01-21 15:29:35,849,849 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
-2024-01-21 15:29:35,852,852 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
-2024-01-21 15:29:35,867,867 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
-2024-01-21 15:29:35,870,870 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
-2024-01-21 15:29:38,643,643 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:39] TOTAL RECORDS : {'record_count': 778}
-2024-01-21 15:29:38,643,643 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:115] *** DOCKER CONTINER START PRUNING *** 
-2024-01-21 15:29:38,684,684 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-web-watcher-frontend-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
-2024-01-21 15:29:39,521,521 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-web-watcher-frontend-1' stopped and removed successfully.
-2024-01-21 15:29:39,522,522 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-web-watcher-backend-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
-2024-01-21 15:29:40,084,84 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-web-watcher-backend-1' stopped and removed successfully.
-2024-01-21 15:29:40,084,84 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] web-watcher-nginx-1 = STARTIME 2024-01-21 03:26:17 | ENDTIME : None | TOTAL DIF (MIN) : None
-2024-01-21 15:29:40,517,517 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container 'web-watcher-nginx-1' stopped and removed successfully.
-2024-01-21 15:29:40,518,518 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 0-0-500 = STARTIME 2024-01-21 12:48:30 | ENDTIME : 2024-01-21 01:22:46 | TOTAL DIF (MIN) : 0:34:15.679736
-2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-0-500' stopped and removed successfully.
-2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:127] *** ALL DOCKER CONTAINER PRUNED ***
-
-2024-01-21 15:29:40,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:168] TOTAL RECORDS : 778 | CONTAINER COUNT : 2 
-2024-01-21 15:29:40,535,535 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 0
-2024-01-21 15:29:40,723,723 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-0-500 STARTED
-2024-01-21 15:29:40,921,921 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-500-500 STARTED
-2024-01-21 15:29:40,925,925 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
-2024-01-21 15:34:17,805,805 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
-2024-01-21 15:34:17,808,808 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
-2024-01-21 15:34:17,825,825 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:15] ===== DATABASE CONNECTION PROCESSING =====
-2024-01-21 15:34:17,827,827 INFO  [/home/gts/web-watcher/main/db_connection/__init__.py/__init__.py:24] ===== DATABASE CONNECTED SUCCESSFULLY =====
-2024-01-21 15:34:18,487,487 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:39] TOTAL RECORDS : {'record_count': 778}
-2024-01-21 15:34:18,487,487 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:115] *** DOCKER CONTINER START PRUNING *** 
-2024-01-21 15:34:18,531,531 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 1-500-500 = STARTIME 2024-01-21 03:29:40 | ENDTIME : 2024-01-21 03:30:12 | TOTAL DIF (MIN) : 0:00:32.060911
-2024-01-21 15:34:18,548,548 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '1-500-500' stopped and removed successfully.
-2024-01-21 15:34:18,549,549 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:124] 0-0-500 = STARTIME 2024-01-21 03:29:40 | ENDTIME : 2024-01-21 03:30:11 | TOTAL DIF (MIN) : 0:00:31.023711
-2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-0-500' stopped and removed successfully.
-2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:127] *** ALL DOCKER CONTAINER PRUNED ***
-
-2024-01-21 15:34:18,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:168] TOTAL RECORDS : 778 | CONTAINER COUNT : 2 
-2024-01-21 15:34:18,561,561 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 0
-2024-01-21 15:34:18,741,741 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-0-500 STARTED
-2024-01-21 15:34:18,928,928 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-500-500 STARTED
-2024-01-21 15:34:18,932,932 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:14:53,974,974 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:15:24,007,7 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:15:54,041,41 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:16:24,066,66 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:16:54,100,100 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:17:24,134,134 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:17:54,167,167 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:18:24,201,201 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:18:54,258,258 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '11-5500-500' stopped and removed successfully.
+2024-02-11 12:18:54,258,258 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 0 Containers Remaining 
+2024-02-11 12:18:54,258,258 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 0
+2024-02-11 12:19:24,288,288 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 1
+2024-02-11 12:19:24,490,490 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-17500-500 STARTED
+2024-02-11 12:19:24,681,681 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-18000-500 STARTED
+2024-02-11 12:19:24,868,868 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 2-18500-500 STARTED
+2024-02-11 12:19:25,059,59 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 3-19000-500 STARTED
+2024-02-11 12:19:25,254,254 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 4-19500-500 STARTED
+2024-02-11 12:19:25,456,456 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 5-20000-500 STARTED
+2024-02-11 12:19:25,650,650 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 6-20500-500 STARTED
+2024-02-11 12:19:25,846,846 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 7-21000-500 STARTED
+2024-02-11 12:19:26,042,42 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 8-21500-500 STARTED
+2024-02-11 12:19:26,242,242 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 9-22000-500 STARTED
+2024-02-11 12:19:26,456,456 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 10-22500-500 STARTED
+2024-02-11 12:19:26,672,672 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 11-23000-500 STARTED
+2024-02-11 12:19:26,894,894 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 12-23500-500 STARTED
+2024-02-11 12:19:27,107,107 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 13-24000-500 STARTED
+2024-02-11 12:19:27,331,331 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 14-24500-500 STARTED
+2024-02-11 12:19:27,564,564 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 15-25000-500 STARTED
+2024-02-11 12:19:27,804,804 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 16-25500-500 STARTED
+2024-02-11 12:19:28,045,45 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 17-26000-500 STARTED
+2024-02-11 12:19:28,273,273 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 18-26500-500 STARTED
+2024-02-11 12:19:28,506,506 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 19-27000-500 STARTED
+2024-02-11 12:19:28,741,741 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 20-27500-500 STARTED
+2024-02-11 12:19:28,994,994 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 21-28000-500 STARTED
+2024-02-11 12:19:29,236,236 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 22-28500-500 STARTED
+2024-02-11 12:19:29,489,489 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 23-29000-500 STARTED
+2024-02-11 12:19:29,728,728 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 24-29500-500 STARTED
+2024-02-11 12:19:29,990,990 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 25-30000-500 STARTED
+2024-02-11 12:19:30,197,197 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 26-30500-500 STARTED
+2024-02-11 12:19:30,427,427 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 27-31000-500 STARTED
+2024-02-11 12:19:30,674,674 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 28-31500-500 STARTED
+2024-02-11 12:19:30,965,965 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 29-32000-500 STARTED
+2024-02-11 12:19:31,228,228 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 30-32500-500 STARTED
+2024-02-11 12:19:31,485,485 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 31-33000-500 STARTED
+2024-02-11 12:19:31,734,734 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 32-33500-500 STARTED
+2024-02-11 12:19:31,950,950 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 33-34000-500 STARTED
+2024-02-11 12:19:32,153,153 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 34-34500-500 STARTED
+2024-02-11 12:19:32,156,156 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 12:20:02,327,327 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '34-34500-500' stopped and removed successfully.
+2024-02-11 12:20:02,327,327 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 34 Containers Remaining 
+2024-02-11 12:20:02,457,457 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '33-34000-500' stopped and removed successfully.
+2024-02-11 12:20:02,457,457 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 33 Containers Remaining 
+2024-02-11 12:20:02,480,480 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '32-33500-500' stopped and removed successfully.
+2024-02-11 12:20:02,480,480 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 32 Containers Remaining 
+2024-02-11 12:20:02,504,504 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '31-33000-500' stopped and removed successfully.
+2024-02-11 12:20:02,504,504 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 31 Containers Remaining 
+2024-02-11 12:20:02,529,529 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '30-32500-500' stopped and removed successfully.
+2024-02-11 12:20:02,529,529 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 30 Containers Remaining 
+2024-02-11 12:20:02,552,552 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '29-32000-500' stopped and removed successfully.
+2024-02-11 12:20:02,553,553 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 29 Containers Remaining 
+2024-02-11 12:20:02,570,570 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '28-31500-500' stopped and removed successfully.
+2024-02-11 12:20:02,570,570 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 28 Containers Remaining 
+2024-02-11 12:20:02,570,570 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:20:32,603,603 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:21:02,634,634 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:21:32,666,666 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:22:02,699,699 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:22:32,729,729 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:23:02,762,762 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:23:32,794,794 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:24:02,827,827 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:24:32,858,858 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:25:02,891,891 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:25:32,926,926 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:26:02,959,959 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:26:32,991,991 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:27:03,023,23 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:27:33,056,56 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:28:03,087,87 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:28:33,118,118 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:29:03,150,150 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:29:33,182,182 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:30:03,214,214 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 12:30:33,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '8-21500-500' stopped and removed successfully.
+2024-02-11 12:30:33,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 27 Containers Remaining 
+2024-02-11 12:30:33,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 12:31:03,311,311 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 12:31:33,342,342 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 12:32:03,381,381 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 12:32:33,414,414 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 12:33:03,483,483 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '7-21000-500' stopped and removed successfully.
+2024-02-11 12:33:03,483,483 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 26 Containers Remaining 
+2024-02-11 12:33:03,484,484 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 12:33:33,515,515 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 12:34:03,539,539 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 12:34:33,605,605 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '14-24500-500' stopped and removed successfully.
+2024-02-11 12:34:33,605,605 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 25 Containers Remaining 
+2024-02-11 12:34:33,632,632 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '13-24000-500' stopped and removed successfully.
+2024-02-11 12:34:33,633,633 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 24 Containers Remaining 
+2024-02-11 12:34:33,633,633 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 24
+2024-02-11 12:35:03,666,666 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 24
+2024-02-11 12:35:33,699,699 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 24
+2024-02-11 12:36:03,763,763 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '27-31000-500' stopped and removed successfully.
+2024-02-11 12:36:03,764,764 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 23 Containers Remaining 
+2024-02-11 12:36:03,791,791 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '12-23500-500' stopped and removed successfully.
+2024-02-11 12:36:03,791,791 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 22 Containers Remaining 
+2024-02-11 12:36:03,817,817 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '9-22000-500' stopped and removed successfully.
+2024-02-11 12:36:03,818,818 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 21 Containers Remaining 
+2024-02-11 12:36:03,818,818 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 21
+2024-02-11 12:36:33,882,882 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '10-22500-500' stopped and removed successfully.
+2024-02-11 12:36:33,883,883 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 20 Containers Remaining 
+2024-02-11 12:36:33,883,883 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 12:37:03,916,916 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 12:37:33,945,945 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 12:38:04,013,13 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '23-29000-500' stopped and removed successfully.
+2024-02-11 12:38:04,013,13 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 19 Containers Remaining 
+2024-02-11 12:38:04,041,41 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '21-28000-500' stopped and removed successfully.
+2024-02-11 12:38:04,041,41 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 18 Containers Remaining 
+2024-02-11 12:38:04,041,41 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 12:38:34,108,108 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '16-25500-500' stopped and removed successfully.
+2024-02-11 12:38:34,108,108 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 17 Containers Remaining 
+2024-02-11 12:38:34,132,132 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '15-25000-500' stopped and removed successfully.
+2024-02-11 12:38:34,132,132 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 16 Containers Remaining 
+2024-02-11 12:38:34,132,132 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 12:39:04,162,162 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 12:39:34,197,197 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 12:40:04,262,262 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '20-27500-500' stopped and removed successfully.
+2024-02-11 12:40:04,263,263 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 15 Containers Remaining 
+2024-02-11 12:40:04,263,263 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 15
+2024-02-11 12:40:34,334,334 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '22-28500-500' stopped and removed successfully.
+2024-02-11 12:40:34,334,334 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 14 Containers Remaining 
+2024-02-11 12:40:34,355,355 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '19-27000-500' stopped and removed successfully.
+2024-02-11 12:40:34,355,355 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 13 Containers Remaining 
+2024-02-11 12:40:34,355,355 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 13
+2024-02-11 12:41:04,420,420 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '17-26000-500' stopped and removed successfully.
+2024-02-11 12:41:04,421,421 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 12 Containers Remaining 
+2024-02-11 12:41:04,421,421 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 12
+2024-02-11 12:41:34,493,493 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '18-26500-500' stopped and removed successfully.
+2024-02-11 12:41:34,494,494 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 11 Containers Remaining 
+2024-02-11 12:41:34,494,494 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 12:42:04,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '24-29500-500' stopped and removed successfully.
+2024-02-11 12:42:04,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 10 Containers Remaining 
+2024-02-11 12:42:04,586,586 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '1-18000-500' stopped and removed successfully.
+2024-02-11 12:42:04,586,586 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 9 Containers Remaining 
+2024-02-11 12:42:04,586,586 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 9
+2024-02-11 12:42:34,657,657 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '11-23000-500' stopped and removed successfully.
+2024-02-11 12:42:34,657,657 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 8 Containers Remaining 
+2024-02-11 12:42:34,683,683 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-17500-500' stopped and removed successfully.
+2024-02-11 12:42:34,683,683 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 7 Containers Remaining 
+2024-02-11 12:42:34,683,683 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:43:04,713,713 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:43:34,732,732 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:44:04,766,766 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:44:34,801,801 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:45:04,834,834 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:45:34,869,869 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 12:46:04,933,933 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '6-20500-500' stopped and removed successfully.
+2024-02-11 12:46:04,933,933 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 6 Containers Remaining 
+2024-02-11 12:46:04,933,933 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 6
+2024-02-11 12:46:34,994,994 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '2-18500-500' stopped and removed successfully.
+2024-02-11 12:46:34,994,994 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 5 Containers Remaining 
+2024-02-11 12:46:34,994,994 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 5
+2024-02-11 12:47:05,025,25 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 5
+2024-02-11 12:47:35,088,88 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '5-20000-500' stopped and removed successfully.
+2024-02-11 12:47:35,088,88 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 4 Containers Remaining 
+2024-02-11 12:47:35,101,101 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '4-19500-500' stopped and removed successfully.
+2024-02-11 12:47:35,102,102 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 3 Containers Remaining 
+2024-02-11 12:47:35,102,102 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 3
+2024-02-11 12:48:05,162,162 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '3-19000-500' stopped and removed successfully.
+2024-02-11 12:48:05,163,163 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 2 Containers Remaining 
+2024-02-11 12:48:05,163,163 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:48:35,196,196 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:49:05,230,230 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:49:35,263,263 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:50:05,297,297 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 12:50:35,361,361 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '26-30500-500' stopped and removed successfully.
+2024-02-11 12:50:35,361,361 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 1 Containers Remaining 
+2024-02-11 12:50:35,361,361 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:51:05,393,393 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:51:35,427,427 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:52:05,460,460 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:52:35,494,494 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:53:05,527,527 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:53:35,561,561 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:54:05,595,595 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:54:35,629,629 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:55:05,662,662 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:55:35,696,696 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:56:05,730,730 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:56:35,763,763 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:57:05,797,797 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:57:35,831,831 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:58:05,836,836 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:58:35,870,870 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:59:05,904,904 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 12:59:35,937,937 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:00:05,971,971 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:00:36,005,5 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:01:06,039,39 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:01:36,073,73 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:02:06,106,106 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:02:36,140,140 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:03:06,173,173 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:03:36,233,233 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '25-30000-500' stopped and removed successfully.
+2024-02-11 13:03:36,233,233 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 0 Containers Remaining 
+2024-02-11 13:03:36,233,233 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 0
+2024-02-11 13:04:06,263,263 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:168] TOTAL RECORDS : 34886 | CONTAINER COUNT : 70 
+2024-02-11 13:04:06,264,264 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 0
+2024-02-11 13:04:06,467,467 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-0-500 STARTED
+2024-02-11 13:04:06,659,659 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-500-500 STARTED
+2024-02-11 13:04:06,860,860 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 2-1000-500 STARTED
+2024-02-11 13:04:07,052,52 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 3-1500-500 STARTED
+2024-02-11 13:04:07,243,243 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 4-2000-500 STARTED
+2024-02-11 13:04:07,441,441 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 5-2500-500 STARTED
+2024-02-11 13:04:07,646,646 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 6-3000-500 STARTED
+2024-02-11 13:04:07,853,853 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 7-3500-500 STARTED
+2024-02-11 13:04:08,061,61 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 8-4000-500 STARTED
+2024-02-11 13:04:08,263,263 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 9-4500-500 STARTED
+2024-02-11 13:04:08,483,483 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 10-5000-500 STARTED
+2024-02-11 13:04:08,711,711 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 11-5500-500 STARTED
+2024-02-11 13:04:08,953,953 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 12-6000-500 STARTED
+2024-02-11 13:04:09,187,187 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 13-6500-500 STARTED
+2024-02-11 13:04:09,408,408 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 14-7000-500 STARTED
+2024-02-11 13:04:09,645,645 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 15-7500-500 STARTED
+2024-02-11 13:04:09,874,874 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 16-8000-500 STARTED
+2024-02-11 13:04:10,114,114 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 17-8500-500 STARTED
+2024-02-11 13:04:10,350,350 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 18-9000-500 STARTED
+2024-02-11 13:04:10,590,590 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 19-9500-500 STARTED
+2024-02-11 13:04:10,829,829 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 20-10000-500 STARTED
+2024-02-11 13:04:11,070,70 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 21-10500-500 STARTED
+2024-02-11 13:04:11,318,318 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 22-11000-500 STARTED
+2024-02-11 13:04:11,549,549 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 23-11500-500 STARTED
+2024-02-11 13:04:11,795,795 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 24-12000-500 STARTED
+2024-02-11 13:04:12,047,47 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 25-12500-500 STARTED
+2024-02-11 13:04:12,284,284 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 26-13000-500 STARTED
+2024-02-11 13:04:12,522,522 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 27-13500-500 STARTED
+2024-02-11 13:04:12,771,771 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 28-14000-500 STARTED
+2024-02-11 13:04:13,026,26 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 29-14500-500 STARTED
+2024-02-11 13:04:13,268,268 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 30-15000-500 STARTED
+2024-02-11 13:04:13,518,518 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 31-15500-500 STARTED
+2024-02-11 13:04:13,760,760 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 32-16000-500 STARTED
+2024-02-11 13:04:13,996,996 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 33-16500-500 STARTED
+2024-02-11 13:04:14,242,242 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 34-17000-500 STARTED
+2024-02-11 13:04:14,247,247 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:04:44,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:05:14,310,310 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:05:44,344,344 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:06:14,374,374 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:06:44,406,406 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:07:14,438,438 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:07:44,470,470 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:08:14,502,502 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:08:44,535,535 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:09:14,568,568 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:09:44,598,598 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:10:14,631,631 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:10:44,662,662 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:11:14,695,695 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:11:44,727,727 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:12:14,742,742 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:12:44,774,774 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:13:14,807,807 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:13:44,840,840 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:14:14,870,870 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:14:44,904,904 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:15:14,938,938 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:15:44,971,971 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:16:15,003,3 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:16:45,036,36 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:17:15,071,71 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:17:45,103,103 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:18:15,135,135 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:18:45,166,166 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:19:15,198,198 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:19:45,230,230 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:20:15,264,264 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:20:45,296,296 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:21:15,331,331 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:21:45,362,362 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:22:15,396,396 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:22:45,426,426 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:23:15,459,459 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:23:45,490,490 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 13:24:15,556,556 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '20-10000-500' stopped and removed successfully.
+2024-02-11 13:24:15,556,556 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 34 Containers Remaining 
+2024-02-11 13:24:15,556,556 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 34
+2024-02-11 13:24:45,612,612 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '25-12500-500' stopped and removed successfully.
+2024-02-11 13:24:45,612,612 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 33 Containers Remaining 
+2024-02-11 13:24:45,612,612 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 33
+2024-02-11 13:25:15,646,646 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 33
+2024-02-11 13:25:45,679,679 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 33
+2024-02-11 13:26:15,723,723 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 33
+2024-02-11 13:26:45,786,786 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '29-14500-500' stopped and removed successfully.
+2024-02-11 13:26:45,787,787 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 32 Containers Remaining 
+2024-02-11 13:26:45,787,787 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 32
+2024-02-11 13:27:15,851,851 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '24-12000-500' stopped and removed successfully.
+2024-02-11 13:27:15,851,851 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 31 Containers Remaining 
+2024-02-11 13:27:15,877,877 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '9-4500-500' stopped and removed successfully.
+2024-02-11 13:27:15,877,877 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 30 Containers Remaining 
+2024-02-11 13:27:15,877,877 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 30
+2024-02-11 13:27:45,944,944 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '27-13500-500' stopped and removed successfully.
+2024-02-11 13:27:45,944,944 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 29 Containers Remaining 
+2024-02-11 13:27:45,944,944 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 29
+2024-02-11 13:28:15,975,975 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 29
+2024-02-11 13:28:46,047,47 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '19-9500-500' stopped and removed successfully.
+2024-02-11 13:28:46,048,48 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 28 Containers Remaining 
+2024-02-11 13:28:46,048,48 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 13:29:16,118,118 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '34-17000-500' stopped and removed successfully.
+2024-02-11 13:29:16,118,118 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 27 Containers Remaining 
+2024-02-11 13:29:16,148,148 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '33-16500-500' stopped and removed successfully.
+2024-02-11 13:29:16,148,148 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 26 Containers Remaining 
+2024-02-11 13:29:16,175,175 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '28-14000-500' stopped and removed successfully.
+2024-02-11 13:29:16,175,175 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 25 Containers Remaining 
+2024-02-11 13:29:16,175,175 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 25
+2024-02-11 13:29:46,201,201 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 25
+2024-02-11 13:30:16,286,286 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '22-11000-500' stopped and removed successfully.
+2024-02-11 13:30:16,286,286 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 24 Containers Remaining 
+2024-02-11 13:30:16,315,315 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '21-10500-500' stopped and removed successfully.
+2024-02-11 13:30:16,315,315 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 23 Containers Remaining 
+2024-02-11 13:30:16,315,315 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 23
+2024-02-11 13:30:46,379,379 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '32-16000-500' stopped and removed successfully.
+2024-02-11 13:30:46,379,379 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 22 Containers Remaining 
+2024-02-11 13:30:46,379,379 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 22
+2024-02-11 13:31:16,425,425 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '31-15500-500' stopped and removed successfully.
+2024-02-11 13:31:16,425,425 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 21 Containers Remaining 
+2024-02-11 13:31:16,453,453 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '26-13000-500' stopped and removed successfully.
+2024-02-11 13:31:16,453,453 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 20 Containers Remaining 
+2024-02-11 13:31:16,482,482 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '23-11500-500' stopped and removed successfully.
+2024-02-11 13:31:16,482,482 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 19 Containers Remaining 
+2024-02-11 13:31:16,482,482 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 19
+2024-02-11 13:31:46,501,501 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 19
+2024-02-11 13:32:16,572,572 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '30-15000-500' stopped and removed successfully.
+2024-02-11 13:32:16,572,572 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 18 Containers Remaining 
+2024-02-11 13:32:16,572,572 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 13:32:46,607,607 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 13:33:16,643,643 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 13:33:46,653,653 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 13:34:16,717,717 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '15-7500-500' stopped and removed successfully.
+2024-02-11 13:34:16,717,717 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 17 Containers Remaining 
+2024-02-11 13:34:16,717,717 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 17
+2024-02-11 13:34:46,738,738 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 17
+2024-02-11 13:35:16,771,771 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 17
+2024-02-11 13:35:46,832,832 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '10-5000-500' stopped and removed successfully.
+2024-02-11 13:35:46,832,832 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 16 Containers Remaining 
+2024-02-11 13:35:46,832,832 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:36:16,841,841 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:36:46,875,875 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:37:16,909,909 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:37:46,944,944 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:38:16,975,975 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 13:38:47,033,33 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '14-7000-500' stopped and removed successfully.
+2024-02-11 13:38:47,033,33 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 15 Containers Remaining 
+2024-02-11 13:38:47,033,33 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 15
+2024-02-11 13:39:17,102,102 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '16-8000-500' stopped and removed successfully.
+2024-02-11 13:39:17,102,102 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 14 Containers Remaining 
+2024-02-11 13:39:17,102,102 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 14
+2024-02-11 13:39:47,134,134 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 14
+2024-02-11 13:40:17,188,188 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '13-6500-500' stopped and removed successfully.
+2024-02-11 13:40:17,188,188 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 13 Containers Remaining 
+2024-02-11 13:40:17,188,188 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 13
+2024-02-11 13:40:47,210,210 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 13
+2024-02-11 13:41:17,244,244 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 13
+2024-02-11 13:41:47,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 13
+2024-02-11 13:42:17,342,342 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '12-6000-500' stopped and removed successfully.
+2024-02-11 13:42:17,342,342 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 12 Containers Remaining 
+2024-02-11 13:42:17,342,342 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 12
+2024-02-11 13:42:47,376,376 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 12
+2024-02-11 13:43:17,420,420 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '1-500-500' stopped and removed successfully.
+2024-02-11 13:43:17,420,420 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 11 Containers Remaining 
+2024-02-11 13:43:17,420,420 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 13:43:47,455,455 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 13:44:17,487,487 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 13:44:47,550,550 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '8-4000-500' stopped and removed successfully.
+2024-02-11 13:44:47,550,550 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 10 Containers Remaining 
+2024-02-11 13:44:47,550,550 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 10
+2024-02-11 13:45:17,568,568 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 10
+2024-02-11 13:45:47,602,602 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 10
+2024-02-11 13:46:17,637,637 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 10
+2024-02-11 13:46:47,702,702 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '6-3000-500' stopped and removed successfully.
+2024-02-11 13:46:47,702,702 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 9 Containers Remaining 
+2024-02-11 13:46:47,702,702 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 9
+2024-02-11 13:47:17,760,760 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '2-1000-500' stopped and removed successfully.
+2024-02-11 13:47:17,760,760 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 8 Containers Remaining 
+2024-02-11 13:47:17,761,761 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 13:47:47,795,795 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 13:48:17,821,821 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 13:48:47,855,855 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 13:49:17,918,918 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '18-9000-500' stopped and removed successfully.
+2024-02-11 13:49:17,918,918 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 7 Containers Remaining 
+2024-02-11 13:49:17,936,936 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '5-2500-500' stopped and removed successfully.
+2024-02-11 13:49:17,936,936 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 6 Containers Remaining 
+2024-02-11 13:49:17,936,936 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 6
+2024-02-11 13:49:47,998,998 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '17-8500-500' stopped and removed successfully.
+2024-02-11 13:49:47,998,998 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 5 Containers Remaining 
+2024-02-11 13:49:47,998,998 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 5
+2024-02-11 13:50:18,056,56 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '3-1500-500' stopped and removed successfully.
+2024-02-11 13:50:18,056,56 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 4 Containers Remaining 
+2024-02-11 13:50:18,056,56 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 4
+2024-02-11 13:50:48,120,120 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-0-500' stopped and removed successfully.
+2024-02-11 13:50:48,121,121 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 3 Containers Remaining 
+2024-02-11 13:50:48,121,121 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 3
+2024-02-11 13:51:18,182,182 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '4-2000-500' stopped and removed successfully.
+2024-02-11 13:51:18,182,182 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 2 Containers Remaining 
+2024-02-11 13:51:18,182,182 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 13:51:48,216,216 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 13:52:18,280,280 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '7-3500-500' stopped and removed successfully.
+2024-02-11 13:52:18,280,280 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 1 Containers Remaining 
+2024-02-11 13:52:18,280,280 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:52:48,313,313 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:53:18,346,346 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:53:48,380,380 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:54:18,414,414 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:54:48,447,447 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:55:18,480,480 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:55:48,513,513 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:56:18,546,546 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:56:48,580,580 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:57:18,613,613 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:57:48,647,647 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:58:18,680,680 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:58:48,714,714 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 13:59:18,776,776 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '11-5500-500' stopped and removed successfully.
+2024-02-11 13:59:18,776,776 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 0 Containers Remaining 
+2024-02-11 13:59:18,777,777 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 0
+2024-02-11 13:59:48,807,807 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:170] 1
+2024-02-11 13:59:48,991,991 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 0-17500-500 STARTED
+2024-02-11 13:59:49,185,185 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 1-18000-500 STARTED
+2024-02-11 13:59:49,373,373 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 2-18500-500 STARTED
+2024-02-11 13:59:49,566,566 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 3-19000-500 STARTED
+2024-02-11 13:59:49,747,747 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 4-19500-500 STARTED
+2024-02-11 13:59:49,931,931 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 5-20000-500 STARTED
+2024-02-11 13:59:50,111,111 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 6-20500-500 STARTED
+2024-02-11 13:59:50,315,315 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 7-21000-500 STARTED
+2024-02-11 13:59:50,513,513 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 8-21500-500 STARTED
+2024-02-11 13:59:50,715,715 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 9-22000-500 STARTED
+2024-02-11 13:59:50,900,900 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 10-22500-500 STARTED
+2024-02-11 13:59:51,105,105 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 11-23000-500 STARTED
+2024-02-11 13:59:51,317,317 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 12-23500-500 STARTED
+2024-02-11 13:59:51,563,563 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 13-24000-500 STARTED
+2024-02-11 13:59:51,787,787 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 14-24500-500 STARTED
+2024-02-11 13:59:52,029,29 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 15-25000-500 STARTED
+2024-02-11 13:59:52,256,256 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 16-25500-500 STARTED
+2024-02-11 13:59:52,499,499 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 17-26000-500 STARTED
+2024-02-11 13:59:52,731,731 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 18-26500-500 STARTED
+2024-02-11 13:59:52,950,950 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 19-27000-500 STARTED
+2024-02-11 13:59:53,182,182 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 20-27500-500 STARTED
+2024-02-11 13:59:53,429,429 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 21-28000-500 STARTED
+2024-02-11 13:59:53,671,671 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 22-28500-500 STARTED
+2024-02-11 13:59:53,907,907 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 23-29000-500 STARTED
+2024-02-11 13:59:54,132,132 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 24-29500-500 STARTED
+2024-02-11 13:59:54,378,378 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 25-30000-500 STARTED
+2024-02-11 13:59:54,622,622 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 26-30500-500 STARTED
+2024-02-11 13:59:54,864,864 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 27-31000-500 STARTED
+2024-02-11 13:59:55,111,111 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 28-31500-500 STARTED
+2024-02-11 13:59:55,374,374 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 29-32000-500 STARTED
+2024-02-11 13:59:55,636,636 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 30-32500-500 STARTED
+2024-02-11 13:59:55,921,921 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 31-33000-500 STARTED
+2024-02-11 13:59:56,162,162 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 32-33500-500 STARTED
+2024-02-11 13:59:56,418,418 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 33-34000-500 STARTED
+2024-02-11 13:59:56,686,686 DEBUG [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:82] 34-34500-500 STARTED
+2024-02-11 13:59:56,690,690 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 35
+2024-02-11 14:00:26,773,773 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '34-34500-500' stopped and removed successfully.
+2024-02-11 14:00:26,773,773 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 34 Containers Remaining 
+2024-02-11 14:00:26,795,795 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '33-34000-500' stopped and removed successfully.
+2024-02-11 14:00:26,795,795 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 33 Containers Remaining 
+2024-02-11 14:00:26,822,822 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '32-33500-500' stopped and removed successfully.
+2024-02-11 14:00:26,822,822 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 32 Containers Remaining 
+2024-02-11 14:00:26,847,847 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '31-33000-500' stopped and removed successfully.
+2024-02-11 14:00:26,847,847 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 31 Containers Remaining 
+2024-02-11 14:00:26,872,872 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '30-32500-500' stopped and removed successfully.
+2024-02-11 14:00:26,872,872 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 30 Containers Remaining 
+2024-02-11 14:00:26,904,904 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '29-32000-500' stopped and removed successfully.
+2024-02-11 14:00:26,904,904 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 29 Containers Remaining 
+2024-02-11 14:00:26,929,929 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '28-31500-500' stopped and removed successfully.
+2024-02-11 14:00:26,930,930 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 28 Containers Remaining 
+2024-02-11 14:00:26,930,930 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:00:56,962,962 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:01:26,994,994 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:01:57,026,26 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:02:27,059,59 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:02:57,091,91 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:03:27,123,123 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:03:57,155,155 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:04:27,187,187 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:04:57,221,221 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:05:27,254,254 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:05:57,286,286 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:06:27,318,318 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:06:57,351,351 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:07:27,383,383 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:07:57,413,413 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:08:27,446,446 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:08:57,478,478 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:09:27,511,511 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:09:57,542,542 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:10:27,575,575 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:10:57,607,607 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 28
+2024-02-11 14:11:27,672,672 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '8-21500-500' stopped and removed successfully.
+2024-02-11 14:11:27,672,672 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 27 Containers Remaining 
+2024-02-11 14:11:27,672,672 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 14:11:57,702,702 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 14:12:27,739,739 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 14:12:57,770,770 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 14:13:27,803,803 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 27
+2024-02-11 14:13:57,871,871 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '7-21000-500' stopped and removed successfully.
+2024-02-11 14:13:57,871,871 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 26 Containers Remaining 
+2024-02-11 14:13:57,872,872 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 14:14:27,902,902 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 14:14:57,935,935 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 26
+2024-02-11 14:15:27,999,999 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '14-24500-500' stopped and removed successfully.
+2024-02-11 14:15:27,999,999 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 25 Containers Remaining 
+2024-02-11 14:15:28,032,32 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '13-24000-500' stopped and removed successfully.
+2024-02-11 14:15:28,032,32 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 24 Containers Remaining 
+2024-02-11 14:15:28,032,32 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 24
+2024-02-11 14:15:58,061,61 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 24
+2024-02-11 14:16:28,126,126 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '27-31000-500' stopped and removed successfully.
+2024-02-11 14:16:28,127,127 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 23 Containers Remaining 
+2024-02-11 14:16:28,153,153 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '12-23500-500' stopped and removed successfully.
+2024-02-11 14:16:28,153,153 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 22 Containers Remaining 
+2024-02-11 14:16:28,153,153 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 22
+2024-02-11 14:16:58,218,218 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '10-22500-500' stopped and removed successfully.
+2024-02-11 14:16:58,218,218 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 21 Containers Remaining 
+2024-02-11 14:16:58,246,246 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '9-22000-500' stopped and removed successfully.
+2024-02-11 14:16:58,246,246 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 20 Containers Remaining 
+2024-02-11 14:16:58,246,246 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 14:17:28,280,280 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 14:17:58,310,310 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 20
+2024-02-11 14:18:28,371,371 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '23-29000-500' stopped and removed successfully.
+2024-02-11 14:18:28,371,371 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 19 Containers Remaining 
+2024-02-11 14:18:28,371,371 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 19
+2024-02-11 14:18:58,429,429 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '15-25000-500' stopped and removed successfully.
+2024-02-11 14:18:58,429,429 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 18 Containers Remaining 
+2024-02-11 14:18:58,429,429 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 18
+2024-02-11 14:19:28,490,490 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '21-28000-500' stopped and removed successfully.
+2024-02-11 14:19:28,490,490 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 17 Containers Remaining 
+2024-02-11 14:19:28,491,491 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 17
+2024-02-11 14:19:58,557,557 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '16-25500-500' stopped and removed successfully.
+2024-02-11 14:19:58,557,557 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 16 Containers Remaining 
+2024-02-11 14:19:58,557,557 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 16
+2024-02-11 14:20:28,618,618 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '20-27500-500' stopped and removed successfully.
+2024-02-11 14:20:28,618,618 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 15 Containers Remaining 
+2024-02-11 14:20:28,618,618 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 15
+2024-02-11 14:20:58,650,650 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 15
+2024-02-11 14:21:28,709,709 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '19-27000-500' stopped and removed successfully.
+2024-02-11 14:21:28,709,709 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 14 Containers Remaining 
+2024-02-11 14:21:28,709,709 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 14
+2024-02-11 14:21:58,748,748 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '22-28500-500' stopped and removed successfully.
+2024-02-11 14:21:58,748,748 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 13 Containers Remaining 
+2024-02-11 14:21:58,768,768 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '18-26500-500' stopped and removed successfully.
+2024-02-11 14:21:58,768,768 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 12 Containers Remaining 
+2024-02-11 14:21:58,791,791 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '17-26000-500' stopped and removed successfully.
+2024-02-11 14:21:58,791,791 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 11 Containers Remaining 
+2024-02-11 14:21:58,792,792 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 14:22:28,822,822 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 11
+2024-02-11 14:22:58,884,884 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '24-29500-500' stopped and removed successfully.
+2024-02-11 14:22:58,884,884 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 10 Containers Remaining 
+2024-02-11 14:22:58,907,907 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '11-23000-500' stopped and removed successfully.
+2024-02-11 14:22:58,907,907 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 9 Containers Remaining 
+2024-02-11 14:22:58,933,933 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '1-18000-500' stopped and removed successfully.
+2024-02-11 14:22:58,933,933 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 8 Containers Remaining 
+2024-02-11 14:22:58,934,934 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 14:23:28,965,965 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 14:23:58,999,999 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 8
+2024-02-11 14:24:29,058,58 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '0-17500-500' stopped and removed successfully.
+2024-02-11 14:24:29,058,58 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 7 Containers Remaining 
+2024-02-11 14:24:29,058,58 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 14:24:59,090,90 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 14:25:29,123,123 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 14:25:59,157,157 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 7
+2024-02-11 14:26:29,218,218 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '2-18500-500' stopped and removed successfully.
+2024-02-11 14:26:29,218,218 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 6 Containers Remaining 
+2024-02-11 14:26:29,218,218 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 6
+2024-02-11 14:26:59,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '6-20500-500' stopped and removed successfully.
+2024-02-11 14:26:59,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 5 Containers Remaining 
+2024-02-11 14:26:59,279,279 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 5
+2024-02-11 14:27:29,310,310 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 5
+2024-02-11 14:27:59,372,372 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '5-20000-500' stopped and removed successfully.
+2024-02-11 14:27:59,372,372 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 4 Containers Remaining 
+2024-02-11 14:27:59,388,388 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '4-19500-500' stopped and removed successfully.
+2024-02-11 14:27:59,388,388 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 3 Containers Remaining 
+2024-02-11 14:27:59,388,388 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 3
+2024-02-11 14:28:29,422,422 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 3
+2024-02-11 14:28:59,456,456 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 3
+2024-02-11 14:29:29,516,516 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '3-19000-500' stopped and removed successfully.
+2024-02-11 14:29:29,516,516 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 2 Containers Remaining 
+2024-02-11 14:29:29,516,516 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 14:29:59,536,536 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 14:30:29,570,570 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 14:30:59,604,604 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 2
+2024-02-11 14:31:29,665,665 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:151] Container '26-30500-500' stopped and removed successfully.
+2024-02-11 14:31:29,665,665 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:177] TOTAL 1 Containers Remaining 
+2024-02-11 14:31:29,665,665 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:31:59,699,699 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:32:29,733,733 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:32:59,766,766 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:33:29,800,800 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:33:59,834,834 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:34:29,867,867 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:34:59,901,901 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:35:29,935,935 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:35:59,968,968 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:36:30,002,2 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:37:00,035,35 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:37:30,069,69 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1
+2024-02-11 14:38:00,078,78 INFO  [/home/gts/web-watcher/docker_monitor/container_management/__init__.py/__init__.py:178] continue sleep for 30 sec until container count 0 current count 1

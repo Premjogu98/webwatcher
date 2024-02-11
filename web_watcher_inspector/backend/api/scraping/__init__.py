@@ -18,9 +18,9 @@ class Scraping:
         console_logger.debug(url)
         async with async_playwright() as p:
             browser = await p.chromium.launch()
-            context = await browser.new_context()
-            page = await context.new_page()
-            await page.goto(url)
+            # context = await browser.new_context()
+            page = await browser.new_page()
+            await page.goto(url,timeout=20000)
             await page.wait_for_timeout(10000)  # Wait for 10 seconds
             html_content = await page.content()
             await browser.close()
@@ -59,7 +59,7 @@ class Scraping:
                     for attr in ['href', 'src']:
                         if attr in tag.attrs:
                             tag[attr] = urljoin(url, tag[attr])
-                            console_logger.debug(tag[attr])
+                            # console_logger.debug(tag[attr])
                 html_content = soup.prettify()
                 for script in re.findall(r"(?<=<script).*?(?=</script>)", response.text):
                     html_content = html_content.replace(f"<script{script}</script>","")
@@ -78,7 +78,7 @@ class Scraping:
             console_logger.error(e)
             return ("Unable to load url please check url first",400)
         except Exception as e:
-            console_logger.error(e)
+            console_logger.error('ERROR: {} Error on line {}'.format(e,sys.exc_info()[-1].tb_lineno))
             return ("Something went wrong",500)
     
     def get_compared_html(self,id,old):

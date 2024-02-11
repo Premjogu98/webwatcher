@@ -1,6 +1,6 @@
 
 #copy-input {
-    background: transparent;
+    background: #ccf4ffb0;
     border: none;
     font-size: 1.1rem;
     text-align: end;
@@ -11,6 +11,7 @@
     bottom: 0;
     width: 100%;
     z-index: 100;
+    font-weight: bolder;
 }
 
 .confirmation-dialog {

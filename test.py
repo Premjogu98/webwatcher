@@ -154,33 +154,50 @@
 
 # print(f"Cosine Similarity Matrix (GPU):\n{similarity}")
 
-from playwright.sync_api import sync_playwright
+# from playwright.sync_api import sync_playwright
 
 
 
-def main():
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        context = browser.new_context()
-        page = context.new_page()
+# def main():
+#     with sync_playwright() as p:
+#         browser = p.chromium.launch()
+#         context = browser.new_context()
+#         page = context.new_page()
 
-        # Navigate to different websites
-        websites = ['https://powerlak.gov.in/eBCMsConsumerPortal/frmTenders_Orders.aspx']
+#         # Navigate to different websites
+#         websites = ['https://allduniv.ac.in/about-uoa/tender']
 
-        for website in websites:
-            page.goto(website)
+#         for website in websites:
+#             page.goto(website,wait_until="load")
 
-            # Wait for a specific timeout (adjust the timeout based on your needs)
-            page.wait_for_timeout(10000)  # Wait for 5 seconds
+#             # Wait for a specific timeout (adjust the timeout based on your needs)
+#             page.wait_for_timeout(10000)  # Wait for 5 seconds
 
-            # Extract the HTML content after the page has loaded
-            html_content = page.content()
+#             # Extract the HTML content after the page has loaded
+#             html_content = page.content()
 
-            # Process the HTML content as needed
-            print(html_content[:200])  # Print the first 200 characters for illustration
+#             # Process the HTML content as needed
+#             print(html_content[:200])  # Print the first 200 characters for illustration
 
-        # Close the browser
-        browser.close()
+#         # Close the browser
+#         browser.close()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+from selenium import webdriver
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-ssl-errors=yes')
+options.add_argument('--ignore-certificate-errors')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--headless')
+# options.add_argument("--window-size=1920,1080")
+driver = webdriver.Remote(
+command_executor='http://localhost:4444/wd/hub',
+options=options
+)
+print(driver)
+driver.get("https://allduniv.ac.in/about-uoa/tender")
+# driver.find_element_by_link_text("Get started free").click()
+driver.close()
+driver.quit()

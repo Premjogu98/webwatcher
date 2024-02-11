@@ -15,7 +15,7 @@ class QueryHandler:
             FROM dms_wpw_tenderlinks links 
             INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
             INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
-            WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'N' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+            WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
             ORDER BY links.id ASC LIMIT {limit} OFFSET {offset};"""
         # query = f"""
         #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link

@@ -54,6 +54,7 @@ class InspectContent extends Component {
             .then((result) => {
                 const element = document.getElementById("contentbox");
                 if (element) {
+                    // this.setState({ html_content: result })
                     element.innerHTML = result;
                     this.setState({loading: false})
                 }
@@ -71,7 +72,7 @@ class InspectContent extends Component {
     };
     updateXpathOnYes = () => {
         const tlid = window.location.pathname.replace("/inspect/", "")
-        const { xpath } = this.state;
+        const xpath = getSessionData("xpath");
         const requestData = {
             xpath,
             tlid,
@@ -111,6 +112,7 @@ class InspectContent extends Component {
                     element.style.backgroundColor = '#95d3ffdb';
                     element.style.transition = 'background-color 0.1s ease';
                 }
+                
                 this.setState({ highlightedElement: element });
             }
         }
@@ -121,7 +123,13 @@ class InspectContent extends Component {
         const elementsFromPoint = document.elementsFromPoint(event.clientX, event.clientY);
         const target = 'target' in event ? event.target : event.srcElement;
         const path = this.getPathTo(target);
-        this.setState({ xpath: path });
+        
+        if (path.includes("body/")){
+            this.setState({ xpath: "html/"+ path.replace("body/div[1]/div[1]", "body") });
+        }else{
+            this.setState({ xpath: path });
+        }
+        
         document.getElementById('copy-input').value = path;
 
         return elementsFromPoint.find(
@@ -129,8 +137,8 @@ class InspectContent extends Component {
         );
     }
     getPathTo(element) {
-        if (element.id !== '') return "//*[@id='" + element.id + "']";
-        // if (element.className !== '') return "//*[@class='" + element.className + "']";
+        if (element.id !== '' && element.id !== "contentbox" ) return "//*[@id='" + element.id + "']";
+        else if (element.className !== '') return "//*[@class='" + element.className + "']";
         if (element === document.body) return element.tagName.toLowerCase();
 
         let ix = 0;
@@ -159,8 +167,8 @@ class InspectContent extends Component {
                 navigator.clipboard.writeText(getSessionData('xpath')).then(
                     () => {
                         Notifications("success", 'Xpath Copied', '', 1000)();
-                        setSessionData("xpath", this.inpuText)
-                        this.setState({ value: this.inpuText })
+                        // setSessionData("xpath", this.inpuText)
+                        // this.setState({ value: this.inpuText })
                     },
                     () => {
                         Notifications("error", 'Copying failed', '', 4000)();
@@ -178,12 +186,12 @@ class InspectContent extends Component {
             specificDivRef.current.contains(event.target) && this.state.isHighlighting === true
         ) {
             setSessionData("xpath", this.state.xpath)
+            this.endListener()
             this.copyToClipboard()
             setTimeout(() => {
                 this.setState({ showDialog: true });
-                this.endListener()
                 this.clearHighlights();
-            }, 2000);
+            }, 1000);
         }
     };
 
@@ -230,8 +238,8 @@ class InspectContent extends Component {
                 {this.state.loading && (
                     <h4>Loading......</h4>
                 )}
-                <div id="contentbox" ref={specificDivRef}>
-                    </div>
+                <div id="contentbox" ref={specificDivRef} dangerouslySetInnerHTML={this.state.html_content}> </div>
+                
                 <NotificationContainer />
             </>
         );
