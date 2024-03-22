@@ -26,14 +26,14 @@
 # def calculate_html_percentage_difference(old_html, new_html):
 #     # Calculate the difference between the two HTML strings
 #     difference = diff(old_html, new_html)
-    
+
 #     # Calculate the length of the changes
 #     total_changes = len(difference)
 #     total_old = len(old_html)
-    
+
 #     # Calculate the percentage change
 #     percentage_change = (total_changes / total_old) * 100
-    
+
 #     return percentage_change
 
 
@@ -75,7 +75,7 @@
 # def extract_html_elements(html_content, xpath_expression):
 #     # Create a Selector object with the HTML content
 #     selector = Selector(text=html_content)
-    
+
 #     # Use the provided XPath expression to select specific HTML elements
 #     selected_elements = selector.xpath(xpath_expression).extract()
 #     joined_html = ' '.join(selected_elements)
@@ -157,7 +157,6 @@
 # from playwright.sync_api import sync_playwright
 
 
-
 # def main():
 #     with sync_playwright() as p:
 #         browser = p.chromium.launch()
@@ -185,19 +184,164 @@
 # if __name__ == "__main__":
 #     main()
 
+# from selenium import webdriver
+# options = webdriver.ChromeOptions()
+# options.add_argument('--ignore-ssl-errors=yes')
+# options.add_argument('--ignore-certificate-errors')
+# # options.add_argument('--disable-gpu')
+# # options.add_argument('--headless')
+# # options.add_argument("--window-size=1920,1080")
+# driver = webdriver.Remote(
+# command_executor='http://localhost:4444/wd/hub',
+# options=options
+# )
+# print(driver)
+# driver.get("https://allduniv.ac.in/about-uoa/tender")
+# # driver.find_element_by_link_text("Get started free").click()
+# driver.close()
+# driver.quit()
+
+# import os
+# from bs4 import BeautifulSoup
+
+
+# # Define a function to process HTML files
+# def process_html_file(
+#     file_path="/home/gts/web-watcher/htmldocs/74223-oldhtmlfile.html",
+# ):
+#     with open(file_path, "r", encoding="utf-8") as file:
+#         html_string = file.read().replace("\n", " ")
+#         print(html_string)
+#     # Parse HTML with BeautifulSoup
+#     soup = BeautifulSoup(html_string, "html.parser")
+
+#     # Find all Blockquote elements
+#     blockquote_elements = soup.find_all("blockquote")
+#     print(blockquote_elements)
+#     # Create a set to keep track of unique text content of Blockquote elements
+#     unique_blockquotes = set()
+
+#     # Iterate through Blockquote elements
+#     for blockquote in blockquote_elements:
+#         # Check if the text content is unique
+#         if blockquote.text not in unique_blockquotes:
+#             unique_blockquotes.add(blockquote.text)
+#         else:
+#             # If it's a duplicate, remove the element from the soup
+#             blockquote.extract()
+
+#     # Write the modified HTML back to the same file
+#     print(soup)
+#     # with open(file_path, "w", encoding="utf-8") as file:
+#     #     file.write(str(soup))
+
+
+# process_html_file()
+# # Iterate through files in the directory tree
+# for root, dirs, files in os.walk("/home/gts/web-watcher", topdown=True):
+#     print(dirs)
+#     for file in files:
+#         file_path = os.path.join(root, file)
+#         # Process HTML file if it has a .html extension
+#         if "Tender Document-new.html" in file_path:
+#             print(file_path)
+#             # process_html_file(file_path)
+#         break
+
+# from playwright.async_api import async_playwright
+# import asyncio
+# import time
+
+
+# async def extract_outer_html(url, xpath_expression):
+#     async with async_playwright() as playwright:
+#         browser = await playwright.firefox.launch(headless=True)
+#         context = await browser.new_context(ignore_https_errors=True)
+#         page = await context.new_page()
+#         await page.goto(url, timeout=15000)
+
+#         order_sent = page.locator(xpath_expression)
+#         print(order_sent)
+#         await order_sent.wait_for()
+#         await page.wait_for_selector(xpath_expression)
+#         # Query for element using XPath
+#         element = await page.query_selector(xpath_expression)
+
+#         if element:
+#             # Extract outer HTML using JavaScript evaluation
+#             outer_html = await page.evaluate("(element) => element.outerHTML", element)
+#             print("Outer HTML:", outer_html)
+#         else:
+#             print("No element found with the given XPath expression.")
+
+#         await browser.close()
+
+
+# # Example usage
+# url = "https://www.dimosbyrona.gr/cat.php?cat=141#"
+# xpath_expression = "//html[1]/body[1]/div[1]/section[1]/div[1]/div[1]/div[1]"
+# asyncio.run(extract_outer_html(url, xpath_expression))
+
+from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
-options = webdriver.ChromeOptions()
-options.add_argument('--ignore-ssl-errors=yes')
-options.add_argument('--ignore-certificate-errors')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--headless')
-# options.add_argument("--window-size=1920,1080")
-driver = webdriver.Remote(
-command_executor='http://localhost:4444/wd/hub',
-options=options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time, re
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.page_load_strategy = (
+    "eager"  # WebDriver waits until DOMContentLoaded event fire is returned.
 )
-print(driver)
-driver.get("https://allduniv.ac.in/about-uoa/tender")
-# driver.find_element_by_link_text("Get started free").click()
-driver.close()
-driver.quit()
+chrome_options.add_argument("--ignore-certificate-errors")
+chrome_options.add_argument("--allow-insecure-localhost")
+
+
+def extract_outer_html(url, xpath_expression):
+    # Start a Selenium WebDriver session
+    chromedriver_path = "/home/gts/web-watcher/chromedriver"
+    driver = webdriver.Chrome(options=chrome_options)
+    try:
+
+        print(url)
+        driver.set_page_load_timeout(15)
+        driver.get(url)
+        # Wait for 5 seconds for the page to load
+        time.sleep(5)
+
+        # Find the element by XPath
+        for element in driver.find_elements(By.XPATH, '//*[@id="skipCont"]'):
+            print(element)
+            print(element.get_attribute("outerHTML"))
+            element = re.sub(
+                "\s\s+",
+                " ",
+                element.get_attribute("outerHTML")
+                .strip()
+                .replace("\n", " ")
+                .replace("\t", " "),
+            )
+            print(element)
+        # element = WebDriverWait(driver, 10).until(
+        #     EC.presence_of_element_located((By.XPATH, xpath_expression))
+        # )
+
+        # Extract outer HTML
+        # outer_html = element.get_attribute("outerHTML")
+        # print("Outer HTML:", outer_html)
+    except TimeoutException:
+        print("TimeoutException")
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+    finally:
+        # Close the WebDriver session
+        driver.quit()
+
+
+# Example usage
+url = "http://14.139.244.219/tenders"
+xpath_expression = "/html/body/blockquote/div/h1"
+extract_outer_html(url, xpath_expression)

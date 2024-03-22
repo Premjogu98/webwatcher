@@ -4,6 +4,8 @@ from datetime import datetime
 import mysql.connector.cursor as MySQL_cursor
 import mysql.connector.connection as MySQL_connection
 from main.env_handler import EnvHandler
+
+
 @dataclass
 class QueryHandler:
     connection: MySQL_connection
@@ -12,17 +14,17 @@ class QueryHandler:
     def requestForData(self, limit: int, offset: int):
         query = f"""
             SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
-            FROM dms_wpw_tenderlinks links 
+            FROM dms_wpw_tenderlinks links
             INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
             INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
             WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
             ORDER BY links.id ASC LIMIT {limit} OFFSET {offset};"""
         # query = f"""
         #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
-        #     FROM dms_wpw_tenderlinks links 
+        #     FROM dms_wpw_tenderlinks links
         #     INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
         #     INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
-        #     WHERE data.id= 37398;"""
+        #     WHERE data.id= 81851;"""
         # query = f"""SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE data.id = 64;"""
         _, data = self.getQueryAndExecute(query=query, fetchall=True)
         if not isinstance(data, list):
@@ -45,7 +47,7 @@ class QueryHandler:
         # console_logger.debug(f"QUERY ==> {query}")
         self.cur.execute(query)
 
-    def insertQuery(self, query:str, value:tuple):
+    def insertQuery(self, query: str, value: tuple):
         # console_logger.debug(f"QUERY ==> {query}")
         # console_logger.debug(f"VALUE ==> {value}")
         self.cur.execute(query, value)

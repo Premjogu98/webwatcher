@@ -1,0 +1,17 @@
+FROM selenium/standalone-chrome:latest
+
+WORKDIR /code
+
+RUN sudo apt-get update
+RUN sudo apt-get install -y python3-pip
+RUN sudo pip3 install --upgrade pip
+
+ENV DISPLAY=:99
+
+COPY requirements.txt .
+COPY main ./main
+COPY .env .
+COPY run.py .
+
+RUN sudo pip3 install --no-cache-dir -r requirements.txt
+
