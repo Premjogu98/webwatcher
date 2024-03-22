@@ -38,6 +38,7 @@ class ContainerManagement:
         # query = """SELECT COUNT(*) AS record_count FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"""
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchone=True)
         console_logger.debug(f"TOTAL RECORDS : {data}")
+        self.dbconnection.connection.close()
         if not status:
             raise Exception
         return data["record_count"]
@@ -63,8 +64,8 @@ class ContainerManagement:
             f"CONTAINER_NAME={container_name}",
         ]
         container_create_data = {
-            "Image": "wpw_selenium:0.0.1",  # Image": "playwight:0.0.1", #web-watcher:0.0.1
-            "Cmd": ["/bin/bash", "-c", "python3 run.py"],
+            "Image": "web-watcher:0.0.1",  # Image": "playwight:0.0.1", #web-watcher:0.0.1 wpw_selenium:0.0.1
+            "Cmd": ["/bin/bash", "-c", "python run.py"],
             "Env": envs,
             "HostConfig": {
                 "Binds": volumes,

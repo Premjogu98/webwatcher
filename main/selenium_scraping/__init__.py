@@ -48,7 +48,7 @@ class SeleniumScraping:
     MAIN_END_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     FILE_PATH = ""
 
-    def ManageVariables(self):
+    def FetchData(self):
         # self.FILE_PATH = os.path.join(
         #     os.getcwd(), "logs", f"{self.OFFSET}-{self.LIMIT}.txt"
         # )
@@ -59,14 +59,16 @@ class SeleniumScraping:
         self.TOTAL_DATA_COUNT = len(self.FETCHED_DATA)
 
     def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
-        self.ManageVariables()
-        loop = asyncio.get_event_loop()
-        # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
-        loop.run_until_complete(
-            self.manageConcurrency(),
-        )
-        loop.close()
-        self.infoLog(processEnd=True)
+        self.FetchData()
+        self.run()
+
+        # loop = asyncio.get_event_loop()
+        # # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
+        # loop.run_until_complete(
+        #     self.manageConcurrency(),
+        # )
+        # loop.close()
+        # self.infoLog(processEnd=True)
 
     def infoLog(
         self,
@@ -197,7 +199,64 @@ class SeleniumScraping:
         #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
         # )
 
-    async def process_element(self, browser, **details):
+    def run(self):
+
+        # console_logger.debug(
+        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
+        # )
+        self.COUNT += 1
+        try:
+            browser = webdriver.Chrome(options=chrome_options)
+            # browser.set_page_load_timeout(15)
+            for details in self.FETCHED_DATA:
+                try:
+
+                    start_time = self.getCurrentTime()
+                    COUNT = self.COUNT
+                    try:
+                        browser.get(details["tender_link"])
+                    except Exception as e:
+                        console_logger.error(e)
+                        self.GLOBAL_VARIABLE.url_error += 1
+                        raise Exception(f"Unable to load url {details['tender_link']}")
+
+                    self.process_element(browser, **details)
+                    self.COUNT += 1
+                    self.infoLog(
+                        method_start_time=start_time,
+                        method_end_time=self.getCurrentTime(),
+                        count=COUNT,
+                    )
+                except asyncio.TimeoutError as error:
+                    self.GLOBAL_VARIABLE.timeout_error += 1
+                    raise Exception(error)
+                except TimeoutException as error:
+                    self.GLOBAL_VARIABLE.timeout_error += 1
+                    raise Exception(error)
+                except Exception as error:
+                    error = str(error).lower()
+                    # console_logger.error(f"\033[91m {COUNT} Error \033[00m: {error}")
+                    self.QUERY_HANDLER.error_log(error=error, id=details["id"])
+        except Exception as error:
+            console_logger.error(f"Exception: {error}")
+            self.GLOBAL_VARIABLE.exceptions += 1
+
+        # finally:
+        # try:
+        #     browser.quit()
+        # except Exception as e:
+        #     console_logger.error(f"\033[91m Error \033[00m: {e}")
+        # self.infoLog(
+        #     method_start_time=start_time,
+        #     method_end_time=self.getCurrentTime(),
+        #     count=COUNT,
+        # )
+
+        # console_logger.debug(
+        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
+        # )
+
+    def process_element(self, browser, **details):
         element_found = False
         for element in browser.find_elements(By.XPATH, details["XPath"]):
             element_found = True

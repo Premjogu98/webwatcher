@@ -248,100 +248,107 @@
 #             # process_html_file(file_path)
 #         break
 
-# from playwright.async_api import async_playwright
-# import asyncio
-# import time
+from playwright.async_api import async_playwright
+import asyncio
+import time
 
 
-# async def extract_outer_html(url, xpath_expression):
-#     async with async_playwright() as playwright:
-#         browser = await playwright.firefox.launch(headless=True)
-#         context = await browser.new_context(ignore_https_errors=True)
-#         page = await context.new_page()
-#         await page.goto(url, timeout=15000)
-
-#         order_sent = page.locator(xpath_expression)
-#         print(order_sent)
-#         await order_sent.wait_for()
-#         await page.wait_for_selector(xpath_expression)
-#         # Query for element using XPath
-#         element = await page.query_selector(xpath_expression)
-
-#         if element:
-#             # Extract outer HTML using JavaScript evaluation
-#             outer_html = await page.evaluate("(element) => element.outerHTML", element)
-#             print("Outer HTML:", outer_html)
-#         else:
-#             print("No element found with the given XPath expression.")
-
-#         await browser.close()
-
-
-# # Example usage
-# url = "https://www.dimosbyrona.gr/cat.php?cat=141#"
-# xpath_expression = "//html[1]/body[1]/div[1]/section[1]/div[1]/div[1]/div[1]"
-# asyncio.run(extract_outer_html(url, xpath_expression))
-
-from selenium.common.exceptions import TimeoutException
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time, re
-from selenium.webdriver.chrome.options import Options
-
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.page_load_strategy = (
-    "eager"  # WebDriver waits until DOMContentLoaded event fire is returned.
-)
-chrome_options.add_argument("--ignore-certificate-errors")
-chrome_options.add_argument("--allow-insecure-localhost")
-
-
-def extract_outer_html(url, xpath_expression):
-    # Start a Selenium WebDriver session
-    chromedriver_path = "/home/gts/web-watcher/chromedriver"
-    driver = webdriver.Chrome(options=chrome_options)
+async def extract_outer_html(url, xpath_expression):
     try:
+        async with async_playwright() as playwright:
+            browser = await playwright.firefox.launch(headless=True)
+            context = await browser.new_context(ignore_https_errors=True)
+            page = await context.new_page()
+            await page.goto(url, timeout=15000)
 
-        print(url)
-        driver.set_page_load_timeout(15)
-        driver.get(url)
-        # Wait for 5 seconds for the page to load
-        time.sleep(5)
+            order_sent = page.locator(xpath_expression)
+            await order_sent.wait_for(timeout=5)
+            # await page.wait_for_selector(xpath_expression)
+            # Query for element using XPath
+            element = await page.query_selector(xpath_expression)
 
-        # Find the element by XPath
-        for element in driver.find_elements(By.XPATH, '//*[@id="skipCont"]'):
-            print(element)
-            print(element.get_attribute("outerHTML"))
-            element = re.sub(
-                "\s\s+",
-                " ",
-                element.get_attribute("outerHTML")
-                .strip()
-                .replace("\n", " ")
-                .replace("\t", " "),
-            )
-            print(element)
-        # element = WebDriverWait(driver, 10).until(
-        #     EC.presence_of_element_located((By.XPATH, xpath_expression))
-        # )
+            if element:
 
-        # Extract outer HTML
-        # outer_html = element.get_attribute("outerHTML")
-        # print("Outer HTML:", outer_html)
-    except TimeoutException:
-        print("TimeoutException")
+                # Extract outer HTML using JavaScript evaluation
+                outer_html = await page.evaluate(
+                    "(element) => element.outerHTML", element
+                )
+                print("Outer HTML:", outer_html)
+            else:
+                print("No element found with the given XPath expression.")
+
+            await browser.close()
+    except TimeoutError:
+        await browser.close()
     except Exception as e:
-        print("An error occurred:", str(e))
-
-    finally:
-        # Close the WebDriver session
-        driver.quit()
+        print(e)
 
 
 # Example usage
-url = "http://14.139.244.219/tenders"
-xpath_expression = "/html/body/blockquote/div/h1"
-extract_outer_html(url, xpath_expression)
+url = "https://www.heidelberg.de/hd/HD/Rathaus/Ausschreibungen.html"
+xpath_expression = "//html[1]/body[1]/div[1]/div[2]/div[2]"
+asyncio.run(extract_outer_html(url, xpath_expression))
+
+# from selenium.common.exceptions import TimeoutException
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# import time, re
+# from selenium.webdriver.chrome.options import Options
+
+# chrome_options = Options()
+# chrome_options.add_argument("--headless")
+# chrome_options.page_load_strategy = (
+#     "eager"  # WebDriver waits until DOMContentLoaded event fire is returned.
+# )
+# chrome_options.add_argument("--ignore-certificate-errors")
+# chrome_options.add_argument("--allow-insecure-localhost")
+
+
+# def extract_outer_html(url, xpath_expression):
+#     # Start a Selenium WebDriver session
+#     chromedriver_path = "/home/gts/web-watcher/chromedriver"
+#     driver = webdriver.Chrome(options=chrome_options)
+#     try:
+
+#         print(url)
+#         driver.set_page_load_timeout(15)
+#         driver.get(url)
+#         # Wait for 5 seconds for the page to load
+#         time.sleep(5)
+
+#         # Find the element by XPath
+#         for element in driver.find_elements(By.XPATH, '//*[@id="skipCont"]'):
+#             print(element)
+#             print(element.get_attribute("outerHTML"))
+#             element = re.sub(
+#                 "\s\s+",
+#                 " ",
+#                 element.get_attribute("outerHTML")
+#                 .strip()
+#                 .replace("\n", " ")
+#                 .replace("\t", " "),
+#             )
+#             print(element)
+#         # element = WebDriverWait(driver, 10).until(
+#         #     EC.presence_of_element_located((By.XPATH, xpath_expression))
+#         # )
+
+#         # Extract outer HTML
+#         # outer_html = element.get_attribute("outerHTML")
+#         # print("Outer HTML:", outer_html)
+#     except TimeoutException:
+#         print("TimeoutException")
+#     except Exception as e:
+#         print("An error occurred:", str(e))
+
+#     finally:
+#         # Close the WebDriver session
+#         driver.quit()
+
+
+# # Example usage
+# url = "http://14.139.244.219/tenders"
+# xpath_expression = "/html/body/blockquote/div/h1"
+# extract_outer_html(url, xpath_expression)

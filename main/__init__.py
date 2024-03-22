@@ -4,7 +4,8 @@ from main.db_connection.query_handler import QueryHandler
 from main.env_handler import EnvHandler
 from main.sync_scraping import SyncScraping
 from main.async_scraping import AsyncScraping
-from main.selenium_scraping import SeleniumScraping
+
+# from main.selenium_scraping import SeleniumScraping
 from main.global_variables import GlobalVariable
 
 import os, random
@@ -36,17 +37,7 @@ class Main:
         #     QUERY_HANDLER=self.QUERY_HANDLER,
         #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
         # )
-        # AsyncScraping(
-        #     BATCH_SIZE=self.BATCH_SIZE,
-        #     LIMIT=self.LIMIT,
-        #     OFFSET=self.OFFSET,
-        #     CONDITION_HANDLER=CONDITION_HANDLER,
-        #     QUERY_HANDLER=self.QUERY_HANDLER,
-        #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
-        #     GROUP_ID=self.GROUP_ID
-        # )
-
-        SeleniumScraping(
+        AsyncScraping(
             BATCH_SIZE=self.BATCH_SIZE,
             LIMIT=self.LIMIT,
             OFFSET=self.OFFSET,
@@ -55,3 +46,13 @@ class Main:
             GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
             GROUP_ID=self.GROUP_ID,
         )
+
+        # SeleniumScraping(
+        #     BATCH_SIZE=self.BATCH_SIZE,
+        #     LIMIT=self.LIMIT,
+        #     OFFSET=self.OFFSET,
+        #     CONDITION_HANDLER=CONDITION_HANDLER,
+        #     QUERY_HANDLER=self.QUERY_HANDLER,
+        #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+        #     GROUP_ID=self.GROUP_ID,
+        # )

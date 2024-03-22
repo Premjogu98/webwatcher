@@ -13,6 +13,7 @@ from main.global_variables import GlobalVariable
 from main.db_connection.logs_handler import LogHandler
 from main.global_variables import extractStringFromHTML
 
+
 @dataclass
 class AsyncScraping:
     BATCH_SIZE: int
@@ -39,37 +40,45 @@ class AsyncScraping:
         )
         self.TOTAL_DATA_COUNT = len(self.FETCHED_DATA)
 
-    def __𝐩𝐨𝐬𝐭_ini𝐭__ (self):
+    def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
         self.ManageVariables()
         loop = asyncio.get_event_loop()
         # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
-        loop.run_until_complete(self.manageConcurrency(),)
+        loop.run_until_complete(
+            self.manageConcurrency(),
+        )
         loop.close()
         self.infoLog(processEnd=True)
-        
 
     def infoLog(
         self,
         processEnd: bool = False,
         method_start_time: str = "",
         method_end_time: str = "",
-        count:int = 0
+        count: int = 0,
     ):
         text = ""
         if processEnd:
             self.MAIN_END_TIME = self.getCurrentTime()
             text = f"\033[92m TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\033[00m"
             console_logger.debug(text)
-            LogHandler(
-                QUERY_HANDLER=self.QUERY_HANDLER,
-                GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
-                START_TIME=self.MAIN_START_TIME,
-                END_TIME=self.MAIN_END_TIME,
-                GROUP_ID=self.GROUP_ID,
-                TOTAL_DATA=self.TOTAL_DATA_COUNT,
-                BATCH_SIZE=self.BATCH_SIZE,
-                DIFF_TIME=round(float(self.getDatetimeDifference(first=self.MAIN_START_TIME,second=self.MAIN_END_TIME)),2)
-            )
+            # LogHandler(
+            #     QUERY_HANDLER=self.QUERY_HANDLER,
+            #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+            #     START_TIME=self.MAIN_START_TIME,
+            #     END_TIME=self.MAIN_END_TIME,
+            #     GROUP_ID=self.GROUP_ID,
+            #     TOTAL_DATA=self.TOTAL_DATA_COUNT,
+            #     BATCH_SIZE=self.BATCH_SIZE,
+            #     DIFF_TIME=round(
+            #         float(
+            #             self.getDatetimeDifference(
+            #                 first=self.MAIN_START_TIME, second=self.MAIN_END_TIME
+            #             )
+            #         ),
+            #         2,
+            #     ),
+            # )
         else:
             # console_logger.debug(
             #     f"Execution START/END => {method_start_time} / {method_end_time}"
@@ -84,23 +93,32 @@ class AsyncScraping:
         detail_index = 0
 
         while total_completed_loop < self.TOTAL_DATA_COUNT or in_progress_tasks:
-            while (len(in_progress_tasks) < self.BATCH_SIZE and detail_index < self.TOTAL_DATA_COUNT):
+            while (
+                len(in_progress_tasks) < self.BATCH_SIZE
+                and detail_index < self.TOTAL_DATA_COUNT
+            ):
                 task = asyncio.create_task(
-                    self.browseManagement(**self.FETCHED_DATA[detail_index]),name=f"{self.FETCHED_DATA[detail_index]['id']}-{self.LIMIT}-{self.OFFSET}"
+                    self.browseManagement(**self.FETCHED_DATA[detail_index]),
+                    name=f"{self.FETCHED_DATA[detail_index]['id']}-{self.LIMIT}-{self.OFFSET}",
                 )
                 running_tasks.add(task)
                 in_progress_tasks.add(task)
                 detail_index += 1
             done, _ = await asyncio.wait(
-                in_progress_tasks, return_when=asyncio.FIRST_COMPLETED,timeout=25
+                in_progress_tasks, return_when=asyncio.FIRST_COMPLETED, timeout=25
             )
             for task in done:
                 in_progress_tasks.remove(task)
                 total_completed_loop += 1
             # console_logger.debug(f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}")
-            
-            if detail_index == self.TOTAL_DATA_COUNT or total_completed_loop == self.TOTAL_DATA_COUNT-1:
-                console_logger.debug(f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}")
+
+            if (
+                detail_index == self.TOTAL_DATA_COUNT
+                or total_completed_loop == self.TOTAL_DATA_COUNT - 1
+            ):
+                console_logger.debug(
+                    f"total_completed_loop: {total_completed_loop} | running_tasks: {len(running_tasks)} | in_progress_tasks: {len(in_progress_tasks)} | detail_index: {detail_index}"
+                )
                 if len(in_progress_tasks) == 1:
                     self.GLOBAL_VARIABLE.url_error += 1
                     break
@@ -130,7 +148,8 @@ class AsyncScraping:
                 try:
                     try:
                         await page.goto(details["tender_link"], timeout=15000)
-                    except:
+                    except Exception as e:
+                        console_logger.error(e)
                         self.GLOBAL_VARIABLE.url_error += 1
                         raise Exception(f"Unable to load url {details['tender_link']}")
                 except asyncio.TimeoutError as error:
@@ -141,8 +160,8 @@ class AsyncScraping:
                     raise Exception(error)
                 except Exception as error:
                     error = str(error).lower()
-                    # console_logger.error(f"\033[91m {COUNT} Error \033[00m: {error}")
-                    self.QUERY_HANDLER.error_log(error=error, id=details["id"])
+                    console_logger.error(f"\033[91m {COUNT} Error \033[00m: {error}")
+                    # self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
                     await self.process_element(page, **details)
         except Exception as error:
@@ -152,32 +171,36 @@ class AsyncScraping:
             try:
                 await browser.close()
             except Exception as e:
-                console_logger.error("\033[91m Error \033[00m: ",e)
+                console_logger.error("\033[91m Error \033[00m: ", e)
             self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),
-                count=COUNT
+                count=COUNT,
             )
         # console_logger.debug(
         #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
         # )
 
     async def process_element(self, page, **details):
-        element = await page.query_selector(details["XPath"].replace("/", "//", 1))
-
-        if element:
-            element_html = await page.evaluate(
-                "(element) => element.outerHTML", element
-            )
-            details["onlyhtml"] = re.sub(
-                "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
-            )
-            details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
-            # console_logger.debug(details["onlytext"])
-            self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
-        else:
+        xpath = details["XPath"].replace("/", "//", 1)
+        try:
+            order_sent = page.locator(xpath)
+            await order_sent.wait_for(timeout=5000)
+            await page.wait_for_selector(xpath)
+            element = await page.query_selector(xpath)
+        except Exception as e:
+            console_logger.error(e)
             self.GLOBAL_VARIABLE.path_error += 1
-            self.QUERY_HANDLER.error_log(
-                error=f'XPath error {details["XPath"].replace("/", "//", 1)}',
-                id=details["id"],
-            )
+            # self.QUERY_HANDLER.error_log(
+            #     error=f'XPath error {details["XPath"]}',
+            #     id=details["id"],
+            # )
+            return
+
+        element_html = await page.evaluate("(element) => element.outerHTML", element)
+        details["onlyhtml"] = re.sub(
+            "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
+        )
+        details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
+        # console_logger.debug(details["onlytext"])
+        # self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
