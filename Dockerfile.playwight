@@ -8,15 +8,34 @@ RUN echo 'gts ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 WORKDIR /home/gts/code
 
 # RUN apt update && pip3 install --upgrade pip && apt-get install -y libgl1-mesa-glx libglib2.0-0 libsm6 libxrender1 libxext6 libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2
-RUN apt update && pip3 install --upgrade pip && apt install -y build-essential python3-dev
-ENV DISPLAY=:99
+
+RUN apt update && pip3 install --upgrade pip && apt install -y build-essential python3-dev \
+    # xvfb \
+    x11-apps \
+    xterm \
+    # x11vnc \
+    # fluxbox \
+    wget \
+    vim
+
+RUN apt update
+# COPY --chown=gts:gts xvfb_init.sh /etc/init.d/xvfb
+# RUN chmod +x /etc/init.d/xvfb
+# RUN chmod 1777 /tmp/.X11-unix
 
 COPY requirements.txt .
 COPY --chown=gts:gts main ./main
 COPY --chown=gts:gts .env .
 COPY --chown=gts:gts run.py .
+# COPY --chown=gts:gts entry_script.sh .
+# RUN chmod +x run.py
+# RUN chmod +x entry_script.sh
 
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+ENV DISPLAY=:1
+RUN playwright install chrome
+
 # RUN echo "deb http://ftp.us.debian.org/debian buster main non-free" >> /etc/apt/sources.list.d/fonts.list
 # RUN playwright install --with-deps chromium
-
+# ENTRYPOINT ["./entry_script.sh"]

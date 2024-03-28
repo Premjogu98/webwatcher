@@ -4,21 +4,40 @@ from datetime import datetime
 import mysql.connector.cursor as MySQL_cursor
 import mysql.connector.connection as MySQL_connection
 from main.env_handler import EnvHandler
+from main.db_connection import DbConnection
+from mysql.connector import Error
+import time
 
 
 @dataclass
 class QueryHandler:
-    connection: MySQL_connection
-    cur: MySQL_cursor
+    connection: MySQL_connection = None
+    cur: MySQL_cursor = None
+    DATABASE_DETAILS = EnvHandler.DB_CONNECTION
+
+    def connectAgain(self):
+        db_connection = DbConnection(CONNECTION_DETAILS=self.DATABASE_DETAILS)
+        connection = db_connection.connection
+        cur = db_connection.cur
+        return connection, cur
 
     def requestForData(self, limit: int, offset: int):
+        # query = f"""
+        #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
+        #     FROM dms_wpw_tenderlinks links
+        #     INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
+        #     INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
+        #     WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+        #     ORDER BY links.id ASC LIMIT {limit} OFFSET {offset};"""
+
         query = f"""
             SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
             FROM dms_wpw_tenderlinks links
             INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
             INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
-            WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+            WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y' AND data.entrydone = 'Y' AND (re.Region_Code LIKE '101%' OR re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
             ORDER BY links.id ASC LIMIT {limit} OFFSET {offset};"""
+
         # query = f"""
         #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
         #     FROM dms_wpw_tenderlinks links
@@ -33,24 +52,78 @@ class QueryHandler:
 
     def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
         # console_logger.info(f"QUERY ==> {query}")
-        if fetchone or fetchall:
-            self.cur.execute(query)
-            if fetchone:
-                return True, self.cur.fetchone()
-            elif fetchall:
-                return True, self.cur.fetchall()
-        else:
-            console_logger.warning("Please select fetchone OR fetchall")
-            return False, {}
+        connection, cursor = None, None
+        for _ in range(3):
+            try:
+                if fetchone or fetchall:
+                    connection, cursor = self.connectAgain()
+                    cursor.execute(query)
+                    if fetchone:
+                        data = cursor.fetchone()
+                    elif fetchall:
+                        data = cursor.fetchall()
+                    cursor.close()
+                    connection.close()
+                    return True, data
+                else:
+                    console_logger.warning("Please select fetchone OR fetchall")
+                    return False, {}
+            except Error as e:
+                if connection and cursor:
+                    cursor.close()
+                    connection.close()
+                if e.errno == 2013:  # Lost connection error
+                    console_logger.error(
+                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
+                    )
+                    time.sleep(5)
+                else:
+                    raise Exception(e)
 
     def executeQuery(self, query):
         # console_logger.debug(f"QUERY ==> {query}")
-        self.cur.execute(query)
+        connection, cursor = None, None
+        for _ in range(3):
+            try:
+                connection, cursor = self.connectAgain()
+                cursor.execute(query)
+                cursor.close()
+                connection.close()
+            except Error as e:
+                if connection and cursor:
+                    cursor.close()
+                    connection.close()
+                if e.errno == 2013:  # Lost connection error
+                    console_logger.error(
+                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
+                    )
+                    retries += 1
+                    time.sleep(5)
+                else:
+                    raise Exception(e)
 
     def insertQuery(self, query: str, value: tuple):
         # console_logger.debug(f"QUERY ==> {query}")
         # console_logger.debug(f"VALUE ==> {value}")
-        self.cur.execute(query, value)
+        connection, cursor = None, None
+        for _ in range(3):
+            try:
+                connection, cursor = self.connectAgain()
+                cursor.execute(query, value)
+                cursor.close()
+                connection.close()
+            except Error as e:
+                if connection and cursor:
+                    cursor.close()
+                    connection.close()
+                if e.errno == 2013:  # Lost connection error
+                    console_logger.error(
+                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
+                    )
+                    retries += 1
+                    time.sleep(5)
+                else:
+                    raise Exception(e)
 
     def error_log(self, error, id):
         self.executeQuery(

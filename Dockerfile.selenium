@@ -1,17 +1,28 @@
 FROM selenium/standalone-chrome:latest
 
-WORKDIR /code
+WORKDIR /home/gts/code
 
 RUN sudo apt-get update
 RUN sudo apt-get install -y python3-pip
 RUN sudo pip3 install --upgrade pip
 
-ENV DISPLAY=:99
+RUN sudo apt-get update && sudo apt-get install -y \
+    xvfb \
+    x11vnc \
+    fluxbox \
+    wget \
+    vim
+
+
+COPY xvfb_init.sh /etc/init.d/xvfb
+RUN sudo chmod +x /etc/init.d/xvfb
 
 COPY requirements.txt .
 COPY main ./main
 COPY .env .
 COPY run.py .
+
+ENV DISPLAY=:99
 
 RUN sudo pip3 install --no-cache-dir -r requirements.txt
 

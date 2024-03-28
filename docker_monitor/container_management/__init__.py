@@ -27,12 +27,20 @@ class ContainerManagement:
         QUERY_HANDLER = QueryHandler(
             connection=self.dbconnection.connection, cur=self.dbconnection.cur
         )
+        # query = """
+        #         SELECT COUNT(*) AS record_count
+        #         FROM dms_wpw_tenderlinks tl
+        #         INNER JOIN dms_wpw_tenderlinksdata td ON tl.id = td.tlid
+        #         INNER JOIN tbl_region re ON tl.country = re.Country_Short_Code
+        #         WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y' AND td.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+        #         ORDER BY tl.id ASC
+        #     """
         query = """
                 SELECT COUNT(*) AS record_count
                 FROM dms_wpw_tenderlinks tl 
                 INNER JOIN dms_wpw_tenderlinksdata td ON tl.id = td.tlid
                 INNER JOIN tbl_region re ON tl.country = re.Country_Short_Code
-                WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y' AND td.entrydone = 'Y' AND (re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
+                WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y' AND td.entrydone = 'Y' AND (re.Region_Code LIKE '101%' OR re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
                 ORDER BY tl.id ASC
             """
         # query = """SELECT COUNT(*) AS record_count FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"""
@@ -55,6 +63,7 @@ class ContainerManagement:
             "/etc/localtime:/etc/localtime:ro",
             "/etc/timezone:/etc/timezone:ro",
             "/dev/shm:/dev/shm",
+            "/tmp/.X11-unix:/tmp/.X11-unix",
         ]
         envs = [
             f"DB_DATA_LIMIT={limit}",
@@ -62,10 +71,15 @@ class ContainerManagement:
             f"THREAD={threads}",
             f"GROUP_ID={self.GROUP_ID}",
             f"CONTAINER_NAME={container_name}",
+            # f"DISPLAY=localhost:10.0",
         ]
         container_create_data = {
-            "Image": "web-watcher:0.0.1",  # Image": "playwight:0.0.1", #web-watcher:0.0.1 wpw_selenium:0.0.1
-            "Cmd": ["/bin/bash", "-c", "python run.py"],
+            "Image": "web-watcher:0.0.3",  # Image": "playwight:0.0.1", #web-watcher:0.0.1 wpw_selenium:0.0.1
+            "Cmd": [
+                "/bin/bash",
+                "-c",
+                "python3 run.py",
+            ],
             "Env": envs,
             "HostConfig": {
                 "Binds": volumes,
@@ -73,6 +87,7 @@ class ContainerManagement:
                 # "MemorySwap": 0,
                 # "NanoCpus": 900000000, # 90%
                 "NetworkMode": "host",
+                "Privileged": True,
             },
         }
         return container_create_data
@@ -207,7 +222,7 @@ class ContainerManagement:
                     offset=offset,
                     container_limit=1,
                     batch_size=batch_size,
-                    total_thread=1,
+                    total_thread=2,
                 )
                 break
 

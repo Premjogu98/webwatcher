@@ -250,19 +250,39 @@
 
 from playwright.async_api import async_playwright
 import asyncio
-import time
+
+from selenium.common.exceptions import TimeoutException
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time, re
+from selenium.webdriver.chrome.options import Options
+import os
 
 
-async def extract_outer_html(url, xpath_expression):
+async def playwright_extract_outer_html(url, xpath_expression):
     try:
-        async with async_playwright() as playwright:
-            browser = await playwright.firefox.launch(headless=True)
-            context = await browser.new_context(ignore_https_errors=True)
+        async with async_playwright() as playwrigh:
+            browser = await playwrigh.chromium.launch(
+                channel="chrome",
+                handle_sighup=False,
+                headless=True,
+                chromium_sandbox=False,
+            )
+            context = await browser.new_context(
+                ignore_https_errors=True, bypass_csp=True
+            )
             page = await context.new_page()
-            await page.goto(url, timeout=15000)
+            # page.set_default_timeout(40000)
+            print(url)
+            await page.goto(url, timeout=30000)
 
-            order_sent = page.locator(xpath_expression)
-            await order_sent.wait_for(timeout=5)
+            # proceed_selector = 'button[onclick*="proceed"]'  # Example selector, adjust based on actual page
+            # if await page.is_visible(proceed_selector):
+            #     await page.click(proceed_selector)
+            # order_sent = page.locator(xpath_expression)
+            # await order_sent.wait_for(timeout=5)
             # await page.wait_for_selector(xpath_expression)
             # Query for element using XPath
             element = await page.query_selector(xpath_expression)
@@ -277,78 +297,119 @@ async def extract_outer_html(url, xpath_expression):
             else:
                 print("No element found with the given XPath expression.")
 
-            await browser.close()
+            # await browser.close()
     except TimeoutError:
         await browser.close()
     except Exception as e:
         print(e)
 
 
+def selenium_extract_outer_html(url, xpath_expression):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.page_load_strategy = (
+        "eager"  # WebDriver waits until DOMContentLoaded event fire is returned.
+    )
+    chrome_options.add_argument("--ignore-certificate-errors")
+    chrome_options.add_argument("--allow-insecure-localhost")
+    # Start a Selenium WebDriver session
+    chromedriver_path = "/home/gts/web-watcher/chromedriver"
+    driver = webdriver.Chrome(chromedriver_path, options=chrome_options)
+    try:
+
+        driver.set_page_load_timeout(15)
+        driver.get(url)
+        # Wait for 5 seconds for the page to load
+        time.sleep(5)
+
+        # Find the element by XPath
+        for element in driver.find_elements(By.XPATH, '//*[@id="skipCont"]'):
+            print(element)
+            print(element.get_attribute("outerHTML"))
+            element = re.sub(
+                "\s\s+",
+                " ",
+                element.get_attribute("outerHTML")
+                .strip()
+                .replace("\n", " ")
+                .replace("\t", " "),
+            )
+            print(element)
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath_expression))
+        )
+
+        # Extract outer HTML
+        outer_html = element.get_attribute("outerHTML")
+        print("Outer HTML:", outer_html)
+    except TimeoutException:
+        print("TimeoutException")
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+    finally:
+        # Close the WebDriver session
+        driver.quit()
+
+
 # Example usage
-url = "https://www.heidelberg.de/hd/HD/Rathaus/Ausschreibungen.html"
-xpath_expression = "//html[1]/body[1]/div[1]/div[2]/div[2]"
-asyncio.run(extract_outer_html(url, xpath_expression))
+url = "http://asdma.gov.in/notice_detail.html"
+xpath_expression = "//html[1]/body[1]"
 
-# from selenium.common.exceptions import TimeoutException
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# import time, re
-# from selenium.webdriver.chrome.options import Options
-
-# chrome_options = Options()
-# chrome_options.add_argument("--headless")
-# chrome_options.page_load_strategy = (
-#     "eager"  # WebDriver waits until DOMContentLoaded event fire is returned.
-# )
-# chrome_options.add_argument("--ignore-certificate-errors")
-# chrome_options.add_argument("--allow-insecure-localhost")
+asyncio.run(playwright_extract_outer_html(url, xpath_expression))
+# selenium_extract_outer_html(url, xpath_expression)
 
 
-# def extract_outer_html(url, xpath_expression):
-#     # Start a Selenium WebDriver session
-#     chromedriver_path = "/home/gts/web-watcher/chromedriver"
-#     driver = webdriver.Chrome(options=chrome_options)
-#     try:
-
-#         print(url)
-#         driver.set_page_load_timeout(15)
-#         driver.get(url)
-#         # Wait for 5 seconds for the page to load
-#         time.sleep(5)
-
-#         # Find the element by XPath
-#         for element in driver.find_elements(By.XPATH, '//*[@id="skipCont"]'):
-#             print(element)
-#             print(element.get_attribute("outerHTML"))
-#             element = re.sub(
-#                 "\s\s+",
-#                 " ",
-#                 element.get_attribute("outerHTML")
-#                 .strip()
-#                 .replace("\n", " ")
-#                 .replace("\t", " "),
-#             )
-#             print(element)
-#         # element = WebDriverWait(driver, 10).until(
-#         #     EC.presence_of_element_located((By.XPATH, xpath_expression))
-#         # )
-
-#         # Extract outer HTML
-#         # outer_html = element.get_attribute("outerHTML")
-#         # print("Outer HTML:", outer_html)
-#     except TimeoutException:
-#         print("TimeoutException")
-#     except Exception as e:
-#         print("An error occurred:", str(e))
-
-#     finally:
-#         # Close the WebDriver session
-#         driver.quit()
+# import os, re
+# from lxml import html
+# from bs4 import BeautifulSoup
+# import html as _html
 
 
-# # Example usage
-# url = "http://14.139.244.219/tenders"
-# xpath_expression = "/html/body/blockquote/div/h1"
-# extract_outer_html(url, xpath_expression)
+## Define a function to process HTML files
+# def process_html_file(
+#     file_path="/home/gts/web-watcher/Tender Document-new.html",
+# ):
+#     with open(file_path, "r", encoding="utf-8") as file:
+#         html_content = file.read()
+#     tree = html.fromstring(html_content)
+#     elements = tree.xpath("/html/body/blockquote")[0]
+#     element_html = html.tostring(elements, encoding="unicode")
+#     soup = BeautifulSoup(element_html, "html.parser")
+#     for tag in soup.find_all("blockquote"):
+#         tag.unwrap()
+#     modified_html = str(soup)
+#     inner_text_cleaned = re.sub(r"[\n\t]+", " ", modified_html)
+#     inner_text_cleaned = re.sub(r"\s+", " ", modified_html)
+#     modified_html = _html.unescape(inner_text_cleaned).strip()
+# if (
+#     (
+#         "</blockquote>" not in modified_html
+#         and modified_html.find("</blockquote>") == -1
+#     )
+#     and (
+#         "<blockquote" not in modified_html
+#         and modified_html.find("<blockquote") == -1
+#     )
+# ):
+# if not modified_html.endswith("</blockquote>") and not modified_html.startswith(
+#     "<blockquote"
+# ):
+#     print(f" {file_path} => Not found")
+# else:
+#     print(f" {file_path} => Found")
+#     exit()
+# print(inner_text_cleaned)
+# with open(file_path, "w", encoding="utf-8") as file:
+#     file.write(modified_html)
+# print(file_path, "=> DONE")
+
+
+# process_html_file()
+
+# for root, dirs, files in os.walk("/home/gts/web-watcher/htmldocs", topdown=True):
+#     # print(len(files))
+#     for file in files:
+#         file_path = os.path.join(root, file)
+#         # Process HTML file if it has a .html extension
+#         process_html_file(file_path)

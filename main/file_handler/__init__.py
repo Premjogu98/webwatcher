@@ -9,25 +9,25 @@ from main.global_variables import extractStringFromHTML
 @dataclass
 class FileHandler:
     htmldocs_path = os.path.join(os.getcwd(), "htmldocs")
-    blockquotestart = "<Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>"
-    blockquotend = "</Blockquote>"
+    # blockquotestart = "<Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>"
+    # blockquotend = "</Blockquote>"
 
     def generateHtmlFile(self, htmlstring, filename):
         try:
             Path(self.htmldocs_path).mkdir(parents=True, exist_ok=True)
             File_path = os.path.join(self.htmldocs_path, filename)
             file1 = open(File_path, "w", encoding="utf-8")
-            Final_Doc = f""" <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-                            <html xmlns=\"http://www.w3.org/1999/xhtml\">
-                                <head>
-                                    <meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" />
-                                    <title>Tender Document</title>
-                                </head>
-                                <body>
-                                { htmlstring if self.blockquotend in htmlstring else f"{self.blockquotestart}{str(htmlstring)}{self.blockquotend}" }
-                                </body>
-                            </html>"""
-            file1.write(Final_Doc)
+            # Final_Doc = f""" <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+            #                 <html xmlns=\"http://www.w3.org/1999/xhtml\">
+            #                     <head>
+            #                         <meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" />
+            #                         <title>Tender Document</title>
+            #                     </head>
+            #                     <body>
+            #                     { htmlstring if self.blockquotend in htmlstring else f"{self.blockquotestart}{str(htmlstring)}{self.blockquotend}" }
+            #                     </body>
+            #                 </html>"""
+            file1.write(htmlstring)
             file1.close()
             return True
         except Exception as e:
@@ -48,10 +48,10 @@ class FileHandler:
             with open(
                 os.path.join(self.htmldocs_path, filename), "r", encoding="utf-8"
             ) as f:
-                text = f.read()
-                Extracted_html = self.extractHtmlElements(
-                    html_content=text, xpath_expression="///html/body[1]/blockquote"
-                )
+                Extracted_html = f.read()
+                # Extracted_html = self.extractHtmlElements(
+                #     html_content=text, xpath_expression="///html/body[1]/blockquote"
+                # )
                 return Extracted_html, extractStringFromHTML(Extracted_html)
         except Exception as e:
             raise Exception(e)

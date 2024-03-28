@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 import asyncio
 import re
-import os
+import os, sys
 import time
 import random
 import datetime
@@ -135,19 +135,26 @@ class AsyncScraping:
     async def browseManagement(self, **details):
         start_time = self.getCurrentTime()
         COUNT = self.COUNT
-        # console_logger.debug(
-        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
-        # )
+        console_logger.debug(
+            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
+        )
         self.COUNT += 1
         try:
             async with async_playwright() as playwrigh:
-                browser = await playwrigh.chromium.launch(headless=True)
-                context = await browser.new_context()
+                browser = await playwrigh.chromium.launch(
+                    channel="chrome",
+                    handle_sighup=False,
+                    headless=False,
+                    chromium_sandbox=False,
+                )
+                context = await browser.new_context(
+                    ignore_https_errors=True, bypass_csp=True
+                )
                 page = await context.new_page()
-                page.set_default_timeout(15000)
+                # page.set_default_timeout(30000)
                 try:
                     try:
-                        await page.goto(details["tender_link"], timeout=15000)
+                        await page.goto(details["tender_link"], timeout=30000)
                     except Exception as e:
                         console_logger.error(e)
                         self.GLOBAL_VARIABLE.url_error += 1
@@ -160,7 +167,7 @@ class AsyncScraping:
                     raise Exception(error)
                 except Exception as error:
                     error = str(error).lower()
-                    console_logger.error(f"\033[91m {COUNT} Error \033[00m: {error}")
+                    console_logger.error(f"\033[91m Error \033[00m: {error}")
                     # self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
                     await self.process_element(page, **details)
@@ -182,25 +189,37 @@ class AsyncScraping:
         # )
 
     async def process_element(self, page, **details):
-        xpath = details["XPath"].replace("/", "//", 1)
         try:
+            xpath = details["XPath"].replace("/", "//", 1).replace("///", "//")
             order_sent = page.locator(xpath)
-            await order_sent.wait_for(timeout=5000)
-            await page.wait_for_selector(xpath)
-            element = await page.query_selector(xpath)
+            if await order_sent.count() == 0:
+                console_logger.error(f'XPath error {details["XPath"]}')
+                # self.QUERY_HANDLER.error_log(
+                #     error=f'XPath error {details["XPath"]}',
+                #     id=details["id"],
+                # )
+                self.GLOBAL_VARIABLE.path_error += 1
+                return
+            else:
+                element_html = await page.evaluate(
+                    f"""() => {{
+            const element = document.evaluate(`{xpath}`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            return element ? element.outerHTML : false;
+        }}"""
+                )
+                if element_html:
+                    details["onlyhtml"] = re.sub(
+                        "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
+                    )
+                    details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
+                    # console_logger.debug(details["onlytext"])
+                    self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
+                else:
+                    raise Exception("Unable to fetch OUTER HTML")
         except Exception as e:
-            console_logger.error(e)
-            self.GLOBAL_VARIABLE.path_error += 1
-            # self.QUERY_HANDLER.error_log(
-            #     error=f'XPath error {details["XPath"]}',
-            #     id=details["id"],
-            # )
-            return
-
-        element_html = await page.evaluate("(element) => element.outerHTML", element)
-        details["onlyhtml"] = re.sub(
-            "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
-        )
-        details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
-        # console_logger.debug(details["onlytext"])
-        # self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
+            console_logger.error(
+                "Error on line {}  EXCEPTION: {}".format(
+                    sys.exc_info()[-1].tb_lineno, e
+                )
+            )
+            raise Exception(e)
