@@ -102,3 +102,23 @@ frontend build
 - npm run build
 
 docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --network host --name selenium-chrome selenium/standalone-chrome
+
+
+HostName 185.15.209.234
+User gts
+NumberOfPasswordPrompts 2
+ForwardX11 yes
+ForwardAgent yes
+ForwardX11Trusted yes
+# pass :- Gts@18515209234
+
+curl -m 30 http://bagalkotecity.mrc.gov.in/en/tenders
+curl -m 30 https://bcwelfare.mp.nic.in/knowledgesharing/public/alltenders.aspx
+curl -m 30 http://arunfcs.gov.in/tenders.html
+curl -m 30 http://andssw1.and.nic.in/alhw/alhw-tender.php
+curl -m 30 http://apgdc.in/tenders.html 
+curl -m 30 http://asdma.gov.in/notice_detail.html
+
+
+
+http://118.139.176.189/hmti/Tenders.html 

@@ -317,7 +317,7 @@ def selenium_extract_outer_html(url, xpath_expression):
     driver = webdriver.Chrome(chromedriver_path, options=chrome_options)
     try:
 
-        driver.set_page_load_timeout(15)
+        driver.set_page_load_timeout(30)
         driver.get(url)
         # Wait for 5 seconds for the page to load
         time.sleep(5)
@@ -353,11 +353,11 @@ def selenium_extract_outer_html(url, xpath_expression):
 
 
 # Example usage
-url = "http://asdma.gov.in/notice_detail.html"
+url = "http://bmhrc.ac.in/content/viewalltenderjobs.aspx"
 xpath_expression = "//html[1]/body[1]"
 
-asyncio.run(playwright_extract_outer_html(url, xpath_expression))
-# selenium_extract_outer_html(url, xpath_expression)
+# asyncio.run(playwright_extract_outer_html(url, xpath_expression))
+selenium_extract_outer_html(url, xpath_expression)
 
 
 # import os, re
@@ -413,3 +413,123 @@ asyncio.run(playwright_extract_outer_html(url, xpath_expression))
 #         file_path = os.path.join(root, file)
 #         # Process HTML file if it has a .html extension
 #         process_html_file(file_path)
+
+
+# import os
+# import sys
+# import time
+# import os
+# import mimetypes
+# import boto3
+# from botocore.exceptions import NoCredentialsError
+
+# aws_access_key_id = "LK3QAU3KC2GSIXFGOJE8"
+# aws_secret_access_key = "XLIibR9OvBKIkUYipRMBl0q4GF59vavzVYKCpKCk"
+# aws_bucket = "tottestupload3"
+# aws_endpoint_url = "https://s3.nl.geostorage.net/"
+
+
+# def UploadFile(filepath, s3dirct=""):
+#     try:
+
+#         content_type = mimetypes.MimeTypes().guess_type(filepath)[0]
+#         print(content_type)
+#         # raise Exception
+#         key_names = filepath
+#         if "/" in filepath:
+#             key_nameArr = filepath.split("/")
+#             key_names = key_nameArr.pop()  # get last element
+
+#         s3 = boto3.resource(
+#             "s3",
+#             aws_access_key_id=aws_access_key_id,
+#             aws_secret_access_key=aws_secret_access_key,
+#             endpoint_url=aws_endpoint_url,
+#         )
+
+#         key_name = key_names
+#         if s3dirct != "":
+#             key_name = s3dirct + "/" + key_names
+#         object = s3.Object(aws_bucket, key_name)
+
+#         acl = "public-read"  # Set ACL to public-read
+
+#         if content_type != None and content_type != "":
+#             result = object.put(
+#                 Body=open(filepath, "rb"), ContentType="text/html", ACL=acl
+#             )
+#         else:
+#             result = object.put(Body=open(filepath, "rb"), ACL=acl)
+
+#         res = result.get("ResponseMetadata")
+#         if res.get("HTTPStatusCode") == 200:
+#             return True
+#         else:
+#             return False
+
+#     except NoCredentialsError:
+#         print("Credentials not available")
+#         return False
+
+
+# def upload_to_s3(filepath, directory):
+#     loop = 0
+#     while loop == 0:
+#         try:
+#             result = UploadFile(filepath, directory)
+#             if result == True:
+#                 loop = 1  # success
+#             else:
+#                 print("Error while uploading file on S3 Bucket..!")
+#                 time.sleep(10)
+#         except Exception as e:
+#             exc_type, exc_obj, exc_tb = sys.exc_info()
+#             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+#             print(
+#                 "Error ON : ",
+#                 sys._getframe().f_code.co_name + "--> " + str(e),
+#                 "\n",
+#                 exc_type,
+#                 "\n",
+#                 fname,
+#                 "\n",
+#                 exc_tb.tb_lineno,
+#             )
+#             time.sleep(10)
+
+
+# if __name__ == "__main__":
+#     for root, dirs, files in os.walk("/home/gts/web-watcher/htmldocs", topdown=True):
+#         total_files = len(files)
+#         files.sort()
+#         for idx, file in enumerate(files, start=1):
+#             file_path = os.path.join(root, file)
+#             if "34814-oldhtmlfile.html" not in file:
+#                 # Process HTML file if it has a .html extension
+#                 # process_html_file(file_path)
+#                 upload_to_s3(file_path, "webpagewatcher")
+#                 print(f"file Uploaded => {idx}/{total_files}", file_path)
+#                 break
+
+
+# import requests
+
+# # Specify the URL of the website you want to extract HTML from
+# url = "https://example.com"
+
+# try:
+#     # Send a GET request to the URL
+#     response = requests.get(url)
+#     response.raise_for_status()  # Raise an exception for HTTP errors (status codes other than 2xx)
+
+#     # Extract the HTML content from the response
+#     html_content = response.text
+#     print(html_content)  # Print the HTML content
+
+# except requests.RequestException as e:
+#     # Handle request exceptions (e.g., connection errors, timeouts)
+#     print(f"Request failed: {e}")
+
+# except Exception as e:
+#     # Handle other exceptions
+#     print(f"An error occurred: {e}")

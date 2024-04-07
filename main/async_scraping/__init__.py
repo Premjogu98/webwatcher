@@ -62,23 +62,23 @@ class AsyncScraping:
             self.MAIN_END_TIME = self.getCurrentTime()
             text = f"\033[92m TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\033[00m"
             console_logger.debug(text)
-            # LogHandler(
-            #     QUERY_HANDLER=self.QUERY_HANDLER,
-            #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
-            #     START_TIME=self.MAIN_START_TIME,
-            #     END_TIME=self.MAIN_END_TIME,
-            #     GROUP_ID=self.GROUP_ID,
-            #     TOTAL_DATA=self.TOTAL_DATA_COUNT,
-            #     BATCH_SIZE=self.BATCH_SIZE,
-            #     DIFF_TIME=round(
-            #         float(
-            #             self.getDatetimeDifference(
-            #                 first=self.MAIN_START_TIME, second=self.MAIN_END_TIME
-            #             )
-            #         ),
-            #         2,
-            #     ),
-            # )
+            LogHandler(
+                QUERY_HANDLER=self.QUERY_HANDLER,
+                GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+                START_TIME=self.MAIN_START_TIME,
+                END_TIME=self.MAIN_END_TIME,
+                GROUP_ID=self.GROUP_ID,
+                TOTAL_DATA=self.TOTAL_DATA_COUNT,
+                BATCH_SIZE=self.BATCH_SIZE,
+                DIFF_TIME=round(
+                    float(
+                        self.getDatetimeDifference(
+                            first=self.MAIN_START_TIME, second=self.MAIN_END_TIME
+                        )
+                    ),
+                    2,
+                ),
+            )
         else:
             # console_logger.debug(
             #     f"Execution START/END => {method_start_time} / {method_end_time}"
@@ -144,7 +144,7 @@ class AsyncScraping:
                 browser = await playwrigh.chromium.launch(
                     channel="chrome",
                     handle_sighup=False,
-                    headless=False,
+                    headless=True,
                     chromium_sandbox=False,
                 )
                 context = await browser.new_context(
@@ -154,7 +154,7 @@ class AsyncScraping:
                 # page.set_default_timeout(30000)
                 try:
                     try:
-                        await page.goto(details["tender_link"], timeout=30000)
+                        await page.goto(details["tender_link"], timeout=25000)
                     except Exception as e:
                         console_logger.error(e)
                         self.GLOBAL_VARIABLE.url_error += 1
@@ -168,11 +168,15 @@ class AsyncScraping:
                 except Exception as error:
                     error = str(error).lower()
                     console_logger.error(f"\033[91m Error \033[00m: {error}")
-                    # self.QUERY_HANDLER.error_log(error=error, id=details["id"])
+                    self.QUERY_HANDLER.error_log(error=error, id=details["id"])
                 else:
                     await self.process_element(page, **details)
         except Exception as error:
-            console_logger.error(f"Exception: {error}")
+            console_logger.error(
+                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
+                    sys.exc_info()[-1].tb_lineno, e
+                )
+            )
             self.GLOBAL_VARIABLE.exceptions += 1
         finally:
             try:
@@ -218,7 +222,7 @@ class AsyncScraping:
                     raise Exception("Unable to fetch OUTER HTML")
         except Exception as e:
             console_logger.error(
-                "Error on line {}  EXCEPTION: {}".format(
+                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
                     sys.exc_info()[-1].tb_lineno, e
                 )
             )

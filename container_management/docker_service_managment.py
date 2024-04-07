@@ -1,5 +1,5 @@
-from main.db_connection import DbConnection
-from main.env_handler import EnvHandler
+# from main.db_connection import DbConnection
+# from main.env_handler import EnvHandler
 from main.db_connection.query_handler import QueryHandler
 from main.logger import console_logger
 import re
@@ -8,11 +8,12 @@ import requests_unixsocket, datetime, logging, time, json
 
 class DockerServiceManagement:
     def __init__(self):
-        DATABASE_DETAILS = EnvHandler.DB_CONNECTION
-        self.dbconnection = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
-        QUERY_HANDLER = QueryHandler(
-            connection=self.dbconnection.connection, cur=self.dbconnection.cur
-        )
+        # DATABASE_DETAILS = EnvHandler.DB_CONNECTION
+        # self.dbconnection = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
+        # QUERY_HANDLER = QueryHandler(
+        #     connection=self.dbconnection.connection, cur=self.dbconnection.cur
+        # )
+        QUERY_HANDLER = QueryHandler()
         query = f"SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy,data.CompareChangedOn, data.LastCompareChangedOn,links.tender_link FROM dms_wpw_tenderlinksdata AS data JOIN dms_wpw_tenderlinks AS links ON data.tlid = links.id WHERE links.process_type = 'Web Watcher' AND links.added_WPW = 'Y';"
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchall=True)
         if not status:
