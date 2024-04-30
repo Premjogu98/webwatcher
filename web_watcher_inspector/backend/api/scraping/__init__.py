@@ -97,11 +97,14 @@ class Scraping:
     def get_compared_html(self, id, old):
         try:
             headers = {"Content-Type": "text/html; charset=utf-8"}
-            print(
-                f"http://185.15.209.234/compared/files/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html"
+            # https://s3.nl.geostorage.net/tottestupload3/webpagewatcher/70588-newhtmlfile.html
+            # https://s3.nl.geostorage.net/tottestupload3/webpagewatcher/70588-oldhtmlfile.html
+            # f"http://185.15.209.234/compared/files/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html"
+            console_logger.info(
+                f"https://s3.nl.geostorage.net/tottestupload3/webpagewatcher/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html"
             )
             response = requests.get(
-                f"http://185.15.209.234/compared/files/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html"
+                f"https://s3.nl.geostorage.net/tottestupload3/webpagewatcher/{id}-{'oldhtmlfile' if old else 'newhtmlfile'}.html"
             )
             if response.status_code == 200:
                 response.encoding = "utf-8"

@@ -1,9 +1,13 @@
 from dataclasses import dataclass, field
 import asyncio
+from async_timeout import timeout
 import re
 import sys
 import datetime
-from playwright.async_api import async_playwright, TimeoutError
+import pyppeteer
+from pyppeteer import launch, errors
+import html
+
 from main.logger import console_logger
 from main.db_connection.query_handler import QueryHandler
 from main.db_connection.condition_handler import ConditionHandler
@@ -13,7 +17,7 @@ from main.global_variables import extractStringFromHTML
 
 
 @dataclass
-class AsyncScraping:
+class Ppeteer:
     BATCH_SIZE: int
     LIMIT: int
     OFFSET: int
@@ -28,21 +32,32 @@ class AsyncScraping:
     MAIN_END_TIME: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     FILE_PATH = ""
 
+    def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
+        try:
+            self.ManageVariables()
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(
+                self.manageConcurrency(),
+            )
+            loop.close()
+            self.infoLog(processEnd=True)
+        except Exception as e:
+            console_logger.warning(e)
+
     def ManageVariables(self):
         self.FETCHED_DATA = self.QUERY_HANDLER.requestForData(
             limit=self.LIMIT, offset=self.OFFSET
         )
         self.TOTAL_DATA_COUNT = len(self.FETCHED_DATA)
 
-    def __𝐩𝐨𝐬𝐭_ini𝐭__(self):
-        self.ManageVariables()
-        loop = asyncio.get_event_loop()
-        # loop.run_until_complete(asyncio.wait_for(self.manageConcurrency(),timeout=5400)) # 1.5 hrs
-        loop.run_until_complete(
-            self.manageConcurrency(),
-        )
-        loop.close()
-        self.infoLog(processEnd=True)
+    def getCurrentTime(self):
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def getDatetimeDifference(self, first, second):
+        start_time = datetime.datetime.strptime(first, "%Y-%m-%d %H:%M:%S")
+        end_time = datetime.datetime.strptime(second, "%Y-%m-%d %H:%M:%S")
+        time_difference = end_time - start_time
+        return time_difference.total_seconds() / 60
 
     def infoLog(
         self,
@@ -54,8 +69,8 @@ class AsyncScraping:
         text = ""
         if processEnd:
             self.MAIN_END_TIME = self.getCurrentTime()
-            text = f"\033[92m TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}\033[00m"
-            console_logger.debug(text)
+            text = f"TOTAL Execution START|END|DIFF(MIN) =>{self.MAIN_START_TIME} | {self.MAIN_END_TIME} | {self.getDatetimeDifference(self.MAIN_START_TIME, self.MAIN_END_TIME)}"
+            console_logger.info(text)
             LogHandler(
                 QUERY_HANDLER=self.QUERY_HANDLER,
                 GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
@@ -81,6 +96,8 @@ class AsyncScraping:
             console_logger.debug(text)
 
     async def manageConcurrency(self):
+        # # Add this line in your script to ensure Chromium is updated
+        # pyppeteer.chromium_downloader.download_chromium()
         total_completed_loop = 0
         running_tasks = set()
         in_progress_tasks = set()
@@ -116,80 +133,81 @@ class AsyncScraping:
                     self.GLOBAL_VARIABLE.url_error += 1
                     break
 
-    def getCurrentTime(self):
-        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    def getDatetimeDifference(self, first, second):
-        start_time = datetime.datetime.strptime(first, "%Y-%m-%d %H:%M:%S")
-        end_time = datetime.datetime.strptime(second, "%Y-%m-%d %H:%M:%S")
-        time_difference = end_time - start_time
-        return time_difference.total_seconds() / 60
-
     async def browseManagement(self, **details):
         start_time = self.getCurrentTime()
         COUNT = self.COUNT
-        console_logger.debug(
-            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mWORKING ON IT ......\033[00m"
+        console_logger.warning(
+            f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']} WORKING ON IT ......"
         )
         self.COUNT += 1
         try:
-            async with async_playwright() as playwrigh:
-                browser = await playwrigh.chromium.launch(
-                    channel="chrome",
-                    handle_sighup=False,
-                    headless=True,
-                    chromium_sandbox=False,
-                )
-                context = await browser.new_context(
-                    ignore_https_errors=True, bypass_csp=True
-                )
-                page = await context.new_page()
-                # page.set_default_timeout(30000)
+
+            browser = await launch(
+                headless=True,
+                autoClose=False,
+                args=[
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-notifications",
+                ],
+            )
+            try:
+                context = await browser.createIncognitoBrowserContext()
+                page = await context.newPage()
                 try:
-                    try:
-                        await page.goto(details["tender_link"], timeout=25000)
-                    except Exception as e:
-                        console_logger.error(e)
-                        self.GLOBAL_VARIABLE.url_error += 1
-                        raise Exception(f"Unable to load url {details['tender_link']}")
+                    async with timeout(15):
+                        await page.goto(details["tender_link"])
+                        await asyncio.sleep(2)
                 except asyncio.TimeoutError as error:
-                    self.GLOBAL_VARIABLE.timeout_error += 1
-                    raise Exception(error)
-                except TimeoutError as error:
-                    self.GLOBAL_VARIABLE.timeout_error += 1
-                    raise Exception(error)
+                    error_text = f"Unable to load url {details['tender_link']}"
+                    console_logger.error(error_text)
+                    self.GLOBAL_VARIABLE.url_error += 1
+                    self.QUERY_HANDLER.error_log(
+                        error=error_text.lower(), id=details["id"]
+                    )
                 except Exception as error:
-                    error = str(error).lower()
-                    console_logger.error(f"\033[91m Error \033[00m: {error}")
-                    self.QUERY_HANDLER.error_log(error=error, id=details["id"])
+                    console_logger.error(error)
+                    self.GLOBAL_VARIABLE.url_error += 1
+                    self.QUERY_HANDLER.error_log(
+                        error=str(error).lower(), id=details["id"]
+                    )
                 else:
+                    page.on(
+                        "dialog", lambda dialog: asyncio.ensure_future(dialog.dismiss())
+                    )
+                    await page.setBypassCSP(True)  # Content Security Policy
                     await self.process_element(page, **details)
+
+            except Exception as error:
+                console_logger.error(
+                    "EXCEPTION: Error on line {}  EXCEPTION: {}".format(
+                        sys.exc_info()[-1].tb_lineno, error
+                    )
+                )
+                self.GLOBAL_VARIABLE.exceptions += 1
+            finally:
+                await page.close()
+                await context.close()
+                await browser.close()
         except Exception as error:
             console_logger.error(
-                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
-                    sys.exc_info()[-1].tb_lineno, e
+                "EXCEPTION: Error on line {}  EXCEPTION: {}".format(
+                    sys.exc_info()[-1].tb_lineno, error
                 )
             )
             self.GLOBAL_VARIABLE.exceptions += 1
         finally:
-            try:
-                await browser.close()
-            except Exception as e:
-                console_logger.error(f"Error: {e}")
             self.infoLog(
                 method_start_time=start_time,
                 method_end_time=self.getCurrentTime(),
                 count=COUNT,
             )
-        # console_logger.debug(
-        #     f"{COUNT}/{self.TOTAL_DATA_COUNT} == {details['tender_link']}  \033[93mCOMPLETED\033[00m"
-        # )
 
     async def process_element(self, page, **details):
         try:
             xpath = details["XPath"].replace("/", "//", 1).replace("///", "//")
-            order_sent = page.locator(xpath)
-            if await order_sent.count() == 0:
+            elements = await page.xpath(xpath)
+            if not elements:
                 console_logger.error(f'XPath error {details["XPath"]}')
                 self.QUERY_HANDLER.error_log(
                     error=f'XPath error {details["XPath"]}',
@@ -200,22 +218,25 @@ class AsyncScraping:
             else:
                 element_html = await page.evaluate(
                     f"""() => {{
-            const element = document.evaluate(`{xpath}`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-            return element ? element.outerHTML : false;
-        }}"""
+                        const element = document.evaluate(`{xpath}`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                        return element ? element.outerHTML : false;
+                    }}"""
                 )
                 if element_html:
-                    details["onlyhtml"] = re.sub(
-                        "\s\s+", " ", element_html.replace("\n", " ").replace("\t", " ")
+                    details["onlyhtml"] = html.unescape(
+                        re.sub(
+                            "\s\s+",
+                            " ",
+                            element_html.replace("\n", " ").replace("\t", " "),
+                        )
                     )
                     details["onlytext"] = extractStringFromHTML(details["onlyhtml"])
-                    # console_logger.debug(details["onlytext"])
                     self.CONDITION_HANDLER.checkConditionBeforeTextComparison(**details)
                 else:
                     raise Exception("Unable to fetch OUTER HTML")
         except Exception as e:
             console_logger.error(
-                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
+                "EXCEPTION: Error on line {}  EXCEPTION: {}".format(
                     sys.exc_info()[-1].tb_lineno, e
                 )
             )

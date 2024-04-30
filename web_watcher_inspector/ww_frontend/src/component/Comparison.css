@@ -1,14 +1,97 @@
 .new_text {
-    background-color: aqua;
-  }
-.comparison-content{
-  overflow-y: auto;
-    overflow-x: auto;
-    height: 110vh;
+  background-color: aqua;
 }
-.comparison-content div:first-child{
+
+.comparison-content {
+  overflow-y: auto;
+  overflow-x: auto;
+  height: 100vh;
+
+}
+
+.comparison-content div:first-child {
+  z-index: 999;
+  background-color: white;
+}
+
+.comparison-content div:first-child {
   position: fixed;
 }
-.comparison-content div:first-child div:first-child{
+
+.comparison-content div:first-child div:first-child {
   margin-top: 10px;
+}
+
+/* Highlighting Changes */
+tr[class*="diff-removed"] {
+  background-color: #f8d7da;
+  /* Light red for removed lines */
+}
+
+tr[class*="diff-added"] {
+  background-color: #d4edda;
+  /* Light green for added lines */
+}
+
+tr[class*="diff-modified"] {
+  background-color: #fff3cd;
+  /* Light yellow for modified lines */
+}
+
+/* Hover Effects */
+tr[class*="diff-"]:hover {
+  background-color: #f0f0f0;
+  /* Light gray background on hover */
+}
+
+/* Transitions */
+tr[class*="diff-"] {
+  transition: background-color 0.3s ease;
+  /* Smooth transition on background color change */
+}
+
+/* Line Numbers */
+td[class*="line-number"] {
+  color: #6c757d;
+  /* Gray color for line numbers */
+  font-weight: bold;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Code Block Styling */
+pre[class*="content-text"] {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+table[class*="split-view"] tbody tr:first-child {
+  position: fixed;
+  width: 100vw;
+}
+
+table[class*="split-view"] tbody tr:first-child td {
+  width: 100vw;
+}
+
+table[class*="split-view"] tbody tr:first-child td pre {
+  font-size: 0.8vw;
+  font-weight: 600;
 }

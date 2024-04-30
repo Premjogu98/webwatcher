@@ -29,8 +29,8 @@ class ConditionHandler:
         return time_difference.total_seconds() / 60
 
     def checkConditionBeforeTextComparison(self, **details):
-        oldhtmlfile = f"{details['id']}-oldhtmlfile.html"
-        newhtmlfile = f"{details['id']}-newhtmlfile.html"
+        oldhtmlfile = f"{details['tlid']}-oldhtmlfile.html"
+        newhtmlfile = f"{details['tlid']}-newhtmlfile.html"
 
         if not details["newHtmlPath"]:
             console_logger.debug("DB Condition 1.....")

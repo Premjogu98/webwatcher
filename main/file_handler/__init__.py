@@ -1,6 +1,6 @@
 import mimetypes
 import boto3
-from botocore.exceptions import NoCredentialsError
+from botocore.exceptions import NoCredentialsError, ClientError
 from dataclasses import dataclass
 from datetime import datetime
 import os, parsel, re, sys, time
@@ -19,9 +19,9 @@ class FileHandler:
     SECRET_KEY = EnvHandler.AWS_CRED["SECRET_KEY"]
     ENDPOINT_URL = EnvHandler.AWS_CRED["ENDPOINT_URL"]
     ACL = EnvHandler.AWS_CRED["ACL"]
-    BUCKET = EnvHandler.AWS_CRED["BUCKET"]
+    BUCKET = "tottestupload3"
     DIRECTORY = "webpagewatcher"
-    HTML_DOCS_PATH = os.path.join(os.getcwd(), "htmldocs")
+    HTML_DOCS_PATH = os.path.join(os.getcwd())
     # blockquotestart = "<Blockquote style='border:1px solid; padding:10px; font-family: 'fontRegular'!important; direction: rtl; text-align: right;'>"
     # blockquotend = "</Blockquote>"
 
@@ -30,38 +30,70 @@ class FileHandler:
             # Path(self.HTML_DOCS_PATH).mkdir(parents=True, exist_ok=True)
             # File_path = os.path.join(self.HTML_DOCS_PATH, filename)
             # file1 = open(File_path, "w", encoding="utf-8")
-            # Final_Doc = f""" <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-            #                 <html xmlns=\"http://www.w3.org/1999/xhtml\">
-            #                     <head>
-            #                         <meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" />
-            #                         <title>Tender Document</title>
-            #                     </head>
-            #                     <body>
-            #                     { htmlstring if self.blockquotend in htmlstring else f"{self.blockquotestart}{str(htmlstring)}{self.blockquotend}" }
-            #                     </body>
-            #                 </html>"""
-            # file1.write(htmlstring)
+            # # Final_Doc = f""" <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+            # #                 <html xmlns=\"http://www.w3.org/1999/xhtml\">
+            # #                     <head>
+            # #                         <meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" />
+            # #                         <title>Tender Document</title>
+            # #                     </head>
+            # #                     <body>
+            # #                     htmlstring if self.blockquotend in htmlstring else f"{self.blockquotestart}{str(htmlstring)}{self.blockquotend}" }
+            # #                     </body>
+            # #                 </html>"""
+            # file1.write(htmlstring + "<h1>test</h1>")
             # file1.close()
 
+            key_name = filename
+            key_name = self.DIRECTORY + "/" + filename
             s3 = boto3.resource(
                 "s3",
                 aws_access_key_id=self.ACCESS_KEY,
                 aws_secret_access_key=self.SECRET_KEY,
                 endpoint_url=self.ENDPOINT_URL,
             )
-            key_name = filename
-            key_name = self.DIRECTORY + "/" + filename
             object = s3.Object(self.BUCKET, key_name)
             result = object.put(
-                Body=htmlstring.encode("utf-8"), ContentType="text/html", ACL=self.ACL
+                Body=str(htmlstring),
+                ContentType="text/html; charset=utf-8",  # Corrected ContentType
+                ACL=self.ACL,
             )
             res = result.get("ResponseMetadata")
+            console_logger.info(f"{filename} File created")
             if res.get("HTTPStatusCode") == 200:
                 return True
             else:
                 raise Exception("Error while uploading files")
+
         except Exception as e:
+            console_logger.error(
+                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
+                    sys.exc_info()[-1].tb_lineno, e
+                )
+            )
             raise Exception(e)
+
+    def deleteFileFromS3(self, fileDirectory, data=None):
+        try:
+            s3 = boto3.client(
+                "s3",
+                aws_access_key_id=self.ACCESS_KEY,
+                aws_secret_access_key=self.SECRET_KEY,
+                endpoint_url=self.ENDPOINT_URL,
+            )
+            s3.put_object(
+                Bucket=self.BUCKET,
+                Key=fileDirectory,
+                Body=data,
+                ContentType="text/html; charset=utf-8",  # Change accordingly if your content type is different
+            )
+            response = s3.get_object(Bucket=self.BUCKET, Key=fileDirectory)
+            # console_logger.debug(response["Body"].read().decode("utf-8"))
+            # s3.head_object(Bucket=self.BUCKET, Key=fileDirectory)
+            # s3.delete_object(Bucket=self.BUCKET, Key=fileDirectory)
+            # time.sleep(2)
+            # console_logger.info(f"{fileDirectory} existed and was deleted.")
+        except ClientError as e:
+            console_logger.error(e)
 
     def getFileName(self, tild):
         Current_dateTime = datetime.now().strftime("%Y%m%d%H%M%S%f")
@@ -95,18 +127,23 @@ class FileHandler:
             raise Exception(e)
 
         except Exception as e:
+            console_logger.error(
+                "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(
+                    sys.exc_info()[-1].tb_lineno, e
+                )
+            )
             raise Exception(e)
 
     def deleteHtmlFiles(self, filename: str):
         os.remove(os.path.join(self.HTML_DOCS_PATH, filename))
         return True
 
-    def UploadFile(self, filepath, s3dirct=""):
+    def UploadFile(self, filepath):
         try:
             content_type = mimetypes.MimeTypes().guess_type(filepath)[0]
             key_names = filepath
-            if "\\" in filepath:
-                key_nameArr = filepath.split("\\")
+            if "/" in filepath:
+                key_nameArr = filepath.split("/")
                 key_names = key_nameArr.pop()  # get last element
 
             s3 = boto3.resource(
@@ -117,13 +154,14 @@ class FileHandler:
             )
 
             key_name = key_names
-            if s3dirct != "":
-                key_name = s3dirct + "/" + key_names
+            key_name = self.DIRECTORY + "/" + key_names
             object = s3.Object(self.BUCKET, key_name)
 
             if content_type != None and content_type != "":
                 result = object.put(
-                    Body=open(filepath, "rb"), ContentType=content_type, ACL=self.ACL
+                    Body=open(filepath, "rb"),
+                    ContentType="text/html; charset=utf-8",
+                    ACL=self.ACL,
                 )
             else:
                 result = object.put(Body=open(filepath, "rb"), ACL=self.ACL)
@@ -134,9 +172,6 @@ class FileHandler:
             else:
                 return False
 
-        except NoCredentialsError:
-            console_logger.error("\033[91m Credentials not available")
-            return False
         except Exception as e:
             console_logger.error(
                 "\033[91m EXCEPTION: Error on line {}  EXCEPTION: {} \033[00m".format(

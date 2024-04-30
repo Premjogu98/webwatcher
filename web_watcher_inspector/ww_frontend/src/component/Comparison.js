@@ -34,12 +34,12 @@ class Comparison extends Component {
     }
 
     componentDidMount() {
-        this.checkAuth();
+        // this.checkAuth();
         this.renderHtmlData();
 
     }
-    renderHtmlData(){
-        const id = window.location.pathname.replace("/comparison/", "")
+    renderHtmlData() {
+        const id = window.location.pathname.replace("/comparison/", "").replace("/compare/", "")
         axios.get(`${globalVariables.apiUrl}/compared/html?id=${id}`)
             .then((response) => {
                 this.setState({ fromHTML: response.data });
@@ -58,11 +58,12 @@ class Comparison extends Component {
 
         // window.addEventListener("click", (e) => console.log(e.target));
     }
-    checkAuth () {
+    checkAuth() {
+        console.error("Error fetching toHTML:");
         const AUTH = localStorage.getItem(globalVariables.authKey);
-        if (AUTH === globalVariables.authStatus){
+        if (AUTH === globalVariables.authStatus) {
             console.log("succsess")
-        }else{
+        } else {
             window.location.href = '/login'
         }
     }
@@ -101,6 +102,7 @@ class Comparison extends Component {
                     renderContent={(source) => {
                         return source;
                     }}
+                // useDarkTheme={true}
                 />
             </div>
         );

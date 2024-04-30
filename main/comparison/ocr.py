@@ -38,10 +38,12 @@ class OpticalCharacterRecognition:
         similarity_ratio = csequencematcher.quick_ratio()
 
         percentage_change = int(round((1 - similarity_ratio) * 100, 2))
-        console_logger.info(f"Calculated Similarity: {percentage_change} %")
+        console_logger.info(
+            f"Calculated Similarity: {percentage_change} % per should be greater than 3"
+        )
         # console_logger.debug("="*40)
 
-        if percentage_change == 0:
+        if 3 > percentage_change:
             return False, percentage_change
         # self.highlightDifference()
         return True, percentage_change

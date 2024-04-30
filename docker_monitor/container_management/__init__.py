@@ -41,6 +41,14 @@ class ContainerManagement:
         #         FROM dms_wpw_tenderlinks tl
         #         INNER JOIN dms_wpw_tenderlinksdata td ON tl.id = td.tlid
         #         INNER JOIN tbl_region re ON tl.country = re.Country_Short_Code
+        #         WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y'
+        #         ORDER BY tl.id ASC"""
+
+        # query = """
+        #         SELECT COUNT(*) AS record_count
+        #         FROM dms_wpw_tenderlinks tl
+        #         INNER JOIN dms_wpw_tenderlinksdata td ON tl.id = td.tlid
+        #         INNER JOIN tbl_region re ON tl.country = re.Country_Short_Code
         #         WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y' AND td.entrydone = 'Y' AND (re.Region_Code LIKE '101%' OR re.Region_Code LIKE '102%' OR re.Region_Code LIKE '104%' OR re.Region_Code LIKE '105%' OR re.Region_Code LIKE '103304%')
         #         ORDER BY tl.id ASC
         #     """
@@ -56,7 +64,6 @@ class ContainerManagement:
         status, data = QUERY_HANDLER.getQueryAndExecute(query=query, fetchone=True)
         console_logger.debug(f"TOTAL RECORDS : {data}")
         self.dbconnection.connection.close()
-        raise Exception
         if not status:
             raise Exception
         return data["record_count"]
@@ -70,6 +77,7 @@ class ContainerManagement:
             "/home/gts/web-watcher/main:/home/gts/code/main",
             "/home/gts/web-watcher/logs:/home/gts/code/logs",
             "/home/gts/web-watcher/run.py:/home/gts/code/run.py",
+            "/home/gts/web-watcher/.env:/home/gts/code/.env",
             "/etc/localtime:/etc/localtime:ro",
             "/etc/timezone:/etc/timezone:ro",
             "/dev/shm:/dev/shm",
@@ -88,18 +96,26 @@ class ContainerManagement:
             "Cmd": [
                 "/bin/bash",
                 "-c",
-                "python3 run.py",
+                # "apt-get update && apt-get install -y iputils-ping && pip3 install boto3 pyppeteer async_timeout && python run.py",
+                "pip3 install boto3 pyppeteer async_timeout && python run.py",
             ],
             "Env": envs,
             "HostConfig": {
                 "Binds": volumes,
-                "Memory": 1073741824,  # 1GB
+                # "Memory": 1073741824,  # 1GB
                 # "MemorySwap": 0,
                 # "NanoCpus": 900000000, # 90%
                 "NetworkMode": "host",
                 "Privileged": True,
             },
         }
+        # container_create_data["Healthcheck"] = {
+        #     "Test": ["CMD-SHELL", "ping -c 3 8.8.8.8 || exit 1"],
+        #     "Interval": 300000000,  # 5 minutes in nanoseconds
+        #     "Timeout": 30000000,  # 30 seconds in nanoseconds
+        #     "Retries": 3,
+        #     "StartPeriod": 60000000000,  # 1 minute in nanoseconds
+        # }
         return container_create_data
 
     def __startDockerContainer(self, container_name, metadata: dict):
@@ -256,12 +272,12 @@ class ContainerManagement:
                                 f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining "
                             )
                     console_logger.info(
-                        f"continue sleep for 30 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}"
+                        f"continue sleep for 60 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}"
                     )
-                    time.sleep(30)
+                    time.sleep(60)
 
-            self.DATA_COUNT = self.__getDataCount()
-            console_logger.info(f"LATEST TOTAL RECORDS : {self.DATA_COUNT} ")
+            # self.DATA_COUNT = self.__getDataCount()
+            # console_logger.info(f"LATEST TOTAL RECORDS : {self.DATA_COUNT} ")
             # return
 
 

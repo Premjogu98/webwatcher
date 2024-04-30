@@ -4,11 +4,11 @@ from main.db_connection.query_handler import QueryHandler
 from main.env_handler import EnvHandler
 from main.sync_scraping import SyncScraping
 from main.async_scraping import AsyncScraping
-
+from main.async_scraping.ppeteer import Ppeteer
 from main.selenium_scraping import SeleniumScraping
 from main.global_variables import GlobalVariable
 
-import os, random
+import os
 from dataclasses import dataclass
 
 
@@ -16,7 +16,7 @@ from dataclasses import dataclass
 class Main:
     # DATABASE_DETAILS = EnvHandler.DB_CONNECTION
     # DB_CONNECTION = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
-    BATCH_SIZE = int(os.getenv("THREAD", 1))
+    BATCH_SIZE = int(os.getenv("THREAD", 2))
     LIMIT = os.getenv("DB_DATA_LIMIT", 500)
     OFFSET = os.getenv("DB_DATA_OFFSET", 0)
     GROUP_ID = os.getenv("GROUP_ID")
@@ -39,7 +39,16 @@ class Main:
         #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
         # )
 
-        AsyncScraping(
+        # AsyncScraping(
+        #     BATCH_SIZE=self.BATCH_SIZE,
+        #     LIMIT=self.LIMIT,
+        #     OFFSET=self.OFFSET,
+        #     CONDITION_HANDLER=CONDITION_HANDLER,
+        #     QUERY_HANDLER=self.QUERY_HANDLER,
+        #     GLOBAL_VARIABLE=self.GLOBAL_VARIABLE,
+        #     GROUP_ID=self.GROUP_ID,
+        # )
+        Ppeteer(
             BATCH_SIZE=self.BATCH_SIZE,
             LIMIT=self.LIMIT,
             OFFSET=self.OFFSET,
