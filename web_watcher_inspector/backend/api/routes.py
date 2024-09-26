@@ -2,6 +2,7 @@ from fastapi import APIRouter
 import asyncio
 from fastapi.responses import HTMLResponse
 from api.scraping import Scraping
+from api.container_handler import containerHandler
 from api.logger import console_logger
 from api.database_handler.condition_handler import *
 
@@ -27,7 +28,6 @@ async def endpoint_to_get_html_data(url: str = None, id: int = None):
 async def endpoint_to_get_pagination_data(
     offset: int, limit: int, tenderlink=None, tenderid=None, wpwflag=None
 ):
-    console_logger.debug((tenderlink, tenderid, wpwflag))
     data = fetchDataCompleteData(offset, limit, tenderlink, tenderid, wpwflag)
     return {"detail": data}
 
@@ -52,3 +52,9 @@ async def endpoint_to_update_xpath(payload: UpdateXpath):
 async def endpoint_to_get_addition_data(id: int, old: bool = False):
     result, status = scraping.get_compared_html(id, old)
     return HTMLResponse(content=result, status_code=status)
+
+
+@router.get("/containers")
+async def endpoint_to_get_addition_data():
+
+    return {"detail": containerHandler.get_container_names()}

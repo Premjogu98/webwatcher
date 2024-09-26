@@ -551,16 +551,16 @@
 # # Print the UTF-8 string
 # print(utf8_string.encode("utf-8"))
 
-import asyncio
-from pyppeteer import launch
+# import asyncio
+# from pyppeteer import launch
 
 
-async def main():
-    browser = await launch(headless=True)
-    page = await browser.newPage()
-    await page.goto("http://bmhrc.ac.in/content/viewalltenderjobs.aspx")
-    await page.screenshot({"path": "example.png"})
-    await browser.close()
+# async def main():
+#     browser = await launch(headless=True)
+#     page = await browser.newPage()
+#     await page.goto("http://bmhrc.ac.in/content/viewalltenderjobs.aspx")
+#     await page.screenshot({"path": "example.png"})
+#     await browser.close()
 
 
-asyncio.get_event_loop().run_until_complete(main())
+# asyncio.get_event_loop().run_until_complete(main())

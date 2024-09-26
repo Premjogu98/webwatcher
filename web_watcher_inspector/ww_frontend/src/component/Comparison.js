@@ -27,7 +27,7 @@ class Comparison extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            textOnly: false,
+            textOnly: true,
             fromHTML: "",
             toHTML: "",
         };

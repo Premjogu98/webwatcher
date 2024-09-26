@@ -11,7 +11,7 @@
 
 .comparison-content div:first-child {
   z-index: 999;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .comparison-content div:first-child {

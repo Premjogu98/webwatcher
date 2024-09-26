@@ -1,7 +1,0 @@
-a = `lsblk | awk 'NR==2 { print $4}'`
-if [ $a -le 80 ] 
-then
-echo "greater"
-else
-echo "lesser"
-fi
