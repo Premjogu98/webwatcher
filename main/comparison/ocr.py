@@ -1,62 +1,44 @@
 import difflib
 import cdifflib
-
-# import difflib
 from dataclasses import dataclass
 from main.logger import console_logger
 from bs4 import BeautifulSoup
 import re
-
+from typing import Tuple
 
 @dataclass
 class OpticalCharacterRecognition:
     OLD_TEXT: str
     NEW_TEXT: str
 
-    def extractInnerText(self, html_string):
-        soup = BeautifulSoup(html_string, "html.parser")
-        inner_text = soup.get_text(separator=" ", strip=True)
-        return inner_text
+    @staticmethod
+    def extractInnerText(html_string: str) -> str:
+        return BeautifulSoup(html_string, "html.parser").get_text(separator=" ", strip=True)
 
-    def removeMultSpaces(self, txt: str):
+    @staticmethod
+    def removeMultSpaces(txt: str) -> str:
         return re.sub(r"\s+", "", re.sub(" +", " ", txt))
 
-    def removeNewline(self, text: str):
+    @staticmethod
+    def removeNewline(text: str) -> str:
         return " ".join(text.splitlines())
 
-    def calculateSimilarity(self):
+    def calculateSimilarity(self) -> Tuple[bool, int]:
         old_text = self.removeMultSpaces(self.removeNewline(self.OLD_TEXT))
         new_text = self.removeMultSpaces(self.removeNewline(self.NEW_TEXT))
 
-        # console_logger.debug("OLD TEXT "+ "="*40)
-        # console_logger.debug(old_text)
-        # console_logger.debug("NEW TEXT "+ "="*40)
-        # console_logger.debug(new_text)
-        # console_logger.debug("="*40)
-        csequencematcher = cdifflib.CSequenceMatcher(a=old_text, b=new_text)
-        # console_logger.debug("="*40)
-        similarity_ratio = csequencematcher.quick_ratio()
-
+        similarity_ratio = cdifflib.CSequenceMatcher(a=old_text, b=new_text).quick_ratio()
         percentage_change = int(round((1 - similarity_ratio) * 100, 2))
-        console_logger.info(
-            f"Calculated Similarity: {percentage_change} % per should be greater than 3"
-        )
-        # console_logger.debug("="*40)
 
-        if 3 > percentage_change:
-            return False, percentage_change
-        # self.highlightDifference()
-        return True, percentage_change
+        console_logger.info(f"Calculated Similarity: {percentage_change} % per should be greater than 3")
+        # highlightDifference()
+        return percentage_change > 3, percentage_change
 
-    # Print differences with highlighting
-    def highlightDifference(self):
-        differ = difflib.Differ()
-        diff = list(differ.compare(self.OLD_TEXT, self.NEW_TEXT))
-        for item in diff:
+    def highlightDifference(self) -> None:
+        for item in difflib.Differ().compare(self.OLD_TEXT.splitlines(), self.NEW_TEXT.splitlines()):
             if item.startswith("- "):  # Deletion
-                print(f"\033[91m{item[2:]}\033[0m", end="")
+                print(f"\033[91m{item[2:]}\033[0m")
             elif item.startswith("+ "):  # Addition
-                pass
-                print(f"\033[92m{item[2:]}\033[0m", end="")
-            else:
-                print(item[2:], end="")
+                print(f"\033[92m{item[2:]}\033[0m")
+            elif not item.startswith("? "):  # Unchanged and not a hint line
+                print(item[2:])

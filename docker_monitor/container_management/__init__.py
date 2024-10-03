@@ -11,30 +11,38 @@ from main.env_handler import EnvHandler
 from main.db_connection.query_handler import QueryHandler
 from main.logger import console_logger
 from typing import List
+from requests.exceptions import ReadTimeout
 
 
 @dataclass
 class ContainerManagement:
     SESSION: requests_unixsocket.Session = requests_unixsocket.Session()
     DOCKER_URL: str = "http+unix://%2Fvar%2Frun%2Fdocker.sock"
-    DOCKER_CLIENT: docker.DockerClient = docker.DockerClient(
-        base_url="unix://var/run/docker.sock"
-    )
+    DOCKER_CLIENT: docker.DockerClient = None
     BATCH_SIZE: int = None
     GROUP_ID: str = field(init=False, default="")
     DATA_COUNT: int = field(init=False, default=0)
     LIST_OF_CONTAINERS: List[str] = field(default_factory=list)
+    IGNORE_CONTAINERS: List[str] = field(
+        default_factory=lambda: [
+            "web-watcher-nginx-1",
+            "web-watcher-web-watcher-backend-1",
+            "web-watcher-web-watcher-frontend-1",
+        ]
+    )
 
     def __post_init__(self):
+        self.create_connection()
         self.__getDataCount()
+
+    def create_connection(self):
+        self.DOCKER_CLIENT = docker.DockerClient(base_url="unix://var/run/docker.sock")
 
     def __getDataCount(self):
         self.GROUP_ID = datetime.datetime.now().strftime("%Y%m%d%H:%M")
         DATABASE_DETAILS = EnvHandler.DB_CONNECTION
         self.dbconnection = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
-        QUERY_HANDLER = QueryHandler(
-            connection=self.dbconnection.connection, cur=self.dbconnection.cur
-        )
+        QUERY_HANDLER = QueryHandler()
         # query = """
         #         SELECT COUNT(*) AS record_count
         #         FROM dms_wpw_tenderlinks tl
@@ -174,11 +182,7 @@ class ContainerManagement:
     def __stopAndRemoveContainers(self):
         console_logger.info("*** DOCKER CONTINER START PRUNING *** ")
         for container in self.DOCKER_CLIENT.containers.list(all=True):
-            if (
-                "web-watcher-nginx-1" not in container.name
-                and "web-watcher-web-watcher-backend-1" not in container.name
-                and "web-watcher-web-watcher-frontend-1" not in container.name
-            ):
+            if container.name not in self.IGNORE_CONTAINERS:
                 container_info = container.attrs
                 dt_start_time, str_start_time = self.__convertToLocalTime(
                     container_info["State"]["StartedAt"]
@@ -207,22 +211,34 @@ class ContainerManagement:
         except:
             return None, None
 
-    def __stopContainer(self, container_name=None, container_obj=None):
-        try:
-            if not container_obj:
-                container_obj = self.DOCKER_CLIENT.containers.get(container_name)
-            container_obj.stop()
-            container_obj.remove()
-            console_logger.info(
-                f"Container '{container_obj.name}' stopped and removed successfully."
-            )
-        except docker.errors.NotFound:
-            console_logger.error(f"Container '{container_obj.name}' not found.")
+    def __stopContainer(self, container_name=None, container_obj=None, max_retries=3):
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                if not container_obj:
+                    container_obj = self.DOCKER_CLIENT.containers.get(container_name)
+                container_obj.stop()
+                container_obj.remove()
+                console_logger.info(
+                    f"Container '{container_obj.name}' stopped and removed successfully."
+                )
+                break
+            except docker.errors.NotFound:
+                console_logger.error(f"Container '{container_obj.name}' not found.")
+                break
+            except ReadTimeout:
+                retry_count += 1
+                console_logger.error(
+                    f"Attempt {retry_count} failed due to timeout. Retrying..."
+                )
+                self.create_connection()
+            except Exception as e:
+                console_logger.error(e)
+                self.create_connection()
+                retry_count += 1
 
     def startContainers(self, batch_size, container_limit, total_thread):
-        # console_logger.info("*** CONTAINER DEPLOYMENT PROCESS START ***")
         self.__deployContainer(batch_size, container_limit, total_thread)
-        # console_logger.info("*** ALL CONTAINERS DEPLOYED SUCCESSFULLY ***\n")
 
     def stopAllContainers(self):
         self.__stopAndRemoveContainers()
@@ -262,9 +278,7 @@ class ContainerManagement:
             filters={"status": "running"}
         ):
             if (
-                "web-watcher-nginx-1" not in container.name
-                and "web-watcher-web-watcher-backend-1" not in container.name
-                and "web-watcher-web-watcher-frontend-1" not in container.name
+                container.name not in self.IGNORE_CONTAINERS
                 and container.name in self.LIST_OF_CONTAINERS
             ):
                 start_time = datetime.datetime.strptime(
@@ -282,37 +296,42 @@ class ContainerManagement:
                     console_logger.debug(
                         f"Container has been running for {running_time} {container.name}"
                     )
-                # else:
-                #     console_logger.debug(
-                #         f"Container has been running for {running_time}, which is less than 1 hour"
-                #     )
-                #     return False
 
     def monitorContainers(self):
+        # __container_limit = 70
+        # while True:
+        #     batch_size = 500
+        #     offset = 0
+        #     total_container_spwan = round(self.DATA_COUNT / batch_size)
+        #     loop_count = round(total_container_spwan / __container_limit)
+        #     total_containers = min(__container_limit, round(self.DATA_COUNT / batch_size))
+        import math
+
         while True:
             batch_size = 500
             offset = 0
-            container_count = round(self.DATA_COUNT / batch_size / 2)
+            total_containers = math.ceil(self.DATA_COUNT / batch_size)
+            batch_loops = math.ceil(total_containers / 70)
             console_logger.info(
-                f"TOTAL RECORDS : {self.DATA_COUNT} | CONTAINER COUNT : {container_count * 2}"
+                f"TOTAL RECORDS: {self.DATA_COUNT} | TOTAL CONTAINERS: {total_containers} | BATCH LOOPS: {batch_loops}"
             )
-            for idx in range(2):
+            for _ in range(batch_loops):
+                containers_in_current_batch = min(
+                    70, total_containers - offset // batch_size
+                )
                 offset += self.__deployContainerWithBatch(
                     offset=offset,
-                    container_limit=container_count,
+                    container_limit=containers_in_current_batch,
                     batch_size=batch_size,
                     total_thread=2,
                 )
-                while len(self.LIST_OF_CONTAINERS) != 0:
+
+                while self.LIST_OF_CONTAINERS:
                     for container in self.DOCKER_CLIENT.containers.list(
                         filters={"status": "exited"}
                     ):
                         if (
-                            "web-watcher-nginx-1" not in container.name
-                            and "web-watcher-web-watcher-backend-1"
-                            not in container.name
-                            and "web-watcher-web-watcher-frontend-1"
-                            not in container.name
+                            container.name not in self.IGNORE_CONTAINERS
                             and container.name in self.LIST_OF_CONTAINERS
                         ):
                             self.__stopContainer(container.name)
@@ -323,15 +342,9 @@ class ContainerManagement:
                                 f"TOTAL {len(self.LIST_OF_CONTAINERS)} Containers Remaining "
                             )
                     self.running_container_status()
-
-                    # console_logger.info(
-                    #     f"continue sleep for 60 sec until container count 0 current count {len(self.LIST_OF_CONTAINERS)}"
-                    # )
                     time.sleep(60)
 
             self.__getDataCount()
-            # console_logger.info(f"LATEST TOTAL RECORDS : {self.DATA_COUNT} ")
-            # return
 
 
 containerManagement = ContainerManagement()

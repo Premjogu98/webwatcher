@@ -1,25 +1,24 @@
 from dataclasses import dataclass
 from main.logger import console_logger
 from datetime import datetime
-import mysql.connector.cursor as MySQL_cursor
-import mysql.connector.connection as MySQL_connection
+import mysql.connector
 from main.env_handler import EnvHandler
 from main.db_connection import DbConnection
-from mysql.connector import Error
 import time
+from typing import Any, Dict, List, Tuple, Optional
 
 
 @dataclass
 class QueryHandler:
-    connection: MySQL_connection = None
-    cur: MySQL_cursor = None
     DATABASE_DETAILS = EnvHandler.DB_CONNECTION
 
-    def connectAgain(self):
+    def connectAgain(
+        self,
+    ) -> Tuple[
+        mysql.connector.connection.MySQLConnection, mysql.connector.cursor.MySQLCursor
+    ]:
         db_connection = DbConnection(CONNECTION_DETAILS=self.DATABASE_DETAILS)
-        connection = db_connection.connection
-        cur = db_connection.cur
-        return connection, cur
+        return db_connection.connection, db_connection.cur
 
     def requestForData(self, limit: int, offset: int):
 
@@ -62,110 +61,77 @@ class QueryHandler:
         #         WHERE tl.process_type = 'Web Watcher' AND tl.added_WPW = 'Y'
         #         ORDER BY tl.id ASC
         #     """
-        _, data = self.getQueryAndExecute(
+        _, query_data = self.getQueryAndExecute(
             query="SELECT QUERY FROM `tend_dms`.`dms_wpw_query` LIMIT 1;", fetchone=True
         )
-        query = f'{data["QUERY"].strip()} LIMIT {limit} OFFSET {offset};'
+        query = f'{query_data["QUERY"].strip()} LIMIT {limit} OFFSET {offset};'
         _, data = self.getQueryAndExecute(query=query, fetchall=True)
 
         console_logger.debug(query)
-        if not isinstance(data, list):
+        return data if isinstance(data, list) else []
 
-            return []
-
-        return data
-
-    def getQueryAndExecute(self, query, fetchone: bool = False, fetchall: bool = False):
-        # console_logger.info(f"QUERY ==> {query}")
-        connection, cursor = None, None
+    def getQueryAndExecute(
+        self, query: str, fetchone: bool = False, fetchall: bool = False
+    ) -> Tuple[bool, Any]:
         for _ in range(3):
             try:
-                if fetchone or fetchall:
-                    connection, cursor = self.connectAgain()
-                    console_logger.info(" ===== Connection created ===== ")
-                    cursor.execute(query)
-                    if fetchone:
-                        data = cursor.fetchone()
-                    elif fetchall:
-                        data = cursor.fetchall()
-                    console_logger.info(" ===== Connection started closing ===== ")
-                    cursor.close()
-                    connection.close()
-                    # console_logger.info(" ===== Connection closed ===== ")
-                    return True, data
-                else:
+                if not (fetchone or fetchall):
                     console_logger.warning("Please select fetchone OR fetchall")
                     return False, {}
-            except Error as e:
-                if connection and cursor:
-                    console_logger.info(" ===== Connection started closing ===== ")
-                    cursor.close()
-                    connection.close()
-                    console_logger.info(" ===== Connection closed ===== ")
-                if e.errno == 2013:  # Lost connection error
-                    console_logger.error(
-                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
-                    )
-                    time.sleep(5)
-                else:
-                    raise Exception(e)
 
-    def executeQuery(self, query):
-        # console_logger.debug(f"QUERY ==> {query}")
-        connection, cursor = None, None
-        for _ in range(3):
-            try:
                 connection, cursor = self.connectAgain()
                 console_logger.info(" ===== Connection created ===== ")
                 cursor.execute(query)
-                console_logger.info(" ===== Connection started closing ===== ")
-                cursor.close()
-                connection.close()
-                console_logger.info(" ===== Connection closed ===== ")
-                return None
-            except Error as e:
-                if connection and cursor:
-                    console_logger.info(" ===== Connection started closing ===== ")
-                    cursor.close()
-                    connection.close()
-                    console_logger.info(" ===== Connection closed ===== ")
-                if e.errno == 2013:  # Lost connection error
-                    console_logger.error(
-                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
-                    )
-                    time.sleep(5)
-                else:
-                    raise Exception(e)
+                data = (
+                    cursor.fetchone()
+                    if fetchone
+                    else cursor.fetchall() if fetchall else None
+                )
+                self._close_connection(cursor, connection)
+                return True, data
+            except mysql.connector.Error as e:
+                self._handle_error(e)
 
-    def insertQuery(self, query: str, value: tuple):
-        # console_logger.debug(f"QUERY ==> {query}")
-        # console_logger.debug(f"VALUE ==> {value}")
-        connection, cursor = None, None
+    def executeQuery(self, query: str, params: Tuple[Any, ...] = None) -> None:
+        self._execute_with_retry(query, params)
+
+    def insertQuery(self, query: str, value: tuple) -> None:
+        self._execute_with_retry(query, value)
+
+    def error_log(self, error: str, id: int) -> None:
+        query = f"""UPDATE dms_wpw_tenderlinksdata SET compare_error = %s, error_date = %s WHERE id = %s"""
+        self.executeQuery(
+            query,
+            (error.replace("'", ""), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), id),
+        )
+
+    def _execute_with_retry(self, query: str, value: Optional[tuple] = None) -> None:
         for _ in range(3):
             try:
                 connection, cursor = self.connectAgain()
                 console_logger.info(" ===== Connection created ===== ")
-                cursor.execute(query, value)
-                console_logger.info(" ===== Connection started closing ===== ")
-                cursor.close()
-                connection.close()
-                console_logger.info(" ===== Connection closed ===== ")
-                return None
-            except Error as e:
-                if connection and cursor:
-                    console_logger.info(" ===== Connection started closing ===== ")
-                    cursor.close()
-                    connection.close()
-                    console_logger.info(" ===== Connection closed ===== ")
-                if e.errno == 2013:  # Lost connection error
-                    console_logger.error(
-                        f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
-                    )
-                    time.sleep(5)
-                else:
-                    raise Exception(e)
+                cursor.execute(query, value) if value else cursor.execute(query)
+                self._close_connection(cursor, connection)
+                return
+            except mysql.connector.Error as e:
+                self._handle_error(e)
 
-    def error_log(self, error, id):
-        self.executeQuery(
-            query=f"""UPDATE dms_wpw_tenderlinksdata SET compare_error ="{error.replace("'","")}", error_date="{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}" WHERE id = {id}"""
-        )
+    @staticmethod
+    def _close_connection(
+        cursor: mysql.connector.cursor.MySQLCursor,
+        connection: mysql.connector.connection.MySQLConnection,
+    ) -> None:
+        console_logger.info(" ===== Connection started closing ===== ")
+        cursor.close()
+        connection.close()
+        console_logger.info(" ===== Connection closed ===== ")
+
+    @staticmethod
+    def _handle_error(e: mysql.connector.Error) -> None:
+        if e.errno == 2013:  # Lost connection error
+            console_logger.error(
+                f"Lost connection: {e} reconnect in 5 sec AND max retry 3 times"
+            )
+            time.sleep(5)
+        else:
+            raise Exception(e)

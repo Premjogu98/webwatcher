@@ -14,15 +14,10 @@ from dataclasses import dataclass
 
 @dataclass
 class Main:
-    # DATABASE_DETAILS = EnvHandler.DB_CONNECTION
-    # DB_CONNECTION = DbConnection(CONNECTION_DETAILS=DATABASE_DETAILS)
     BATCH_SIZE = int(os.getenv("THREAD", 2))
     LIMIT = os.getenv("DB_DATA_LIMIT", 500)
     OFFSET = os.getenv("DB_DATA_OFFSET", 0)
     GROUP_ID = os.getenv("GROUP_ID")
-    # QUERY_HANDLER = QueryHandler(
-    #     connection=DB_CONNECTION.connection, cur=DB_CONNECTION.cur
-    # )
     QUERY_HANDLER = QueryHandler()
     GLOBAL_VARIABLE = GlobalVariable()
 
