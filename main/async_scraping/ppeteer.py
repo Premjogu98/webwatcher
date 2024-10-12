@@ -27,7 +27,7 @@ class Ppeteer:
     GROUP_ID: int
     FETCHED_DATA: List[Dict[str, Any]] = field(default_factory=list)
     TOTAL_DATA_COUNT: int = 0
-    COUNT: int = 0
+    COUNT: int = 1
     MAIN_START_TIME: str = field(
         default_factory=lambda: datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )

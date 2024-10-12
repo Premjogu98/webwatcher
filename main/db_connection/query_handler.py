@@ -39,11 +39,15 @@ class QueryHandler:
         #     ORDER BY links.id ASC LIMIT {limit} OFFSET {offset};"""
 
         # query = f"""
-        #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn,links.tender_link
+        #     SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn,
+        #         data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath,
+        #         data.CompareBy, data.LastCompareChangedOn, links.tender_link
         #     FROM dms_wpw_tenderlinks links
         #     INNER JOIN dms_wpw_tenderlinksdata data ON links.id = data.tlid
         #     INNER JOIN tbl_region re ON links.country = re.Country_Short_Code
-        #     WHERE data.tlid= 38112;"""
+        #     WHERE data.tlid IN (649, 351, 104512, 316, 1271, 2773, 96297, 100326,
+        #                         100599, 69793, 87613, 98936, 83481, 96712, 97024);
+        #     """
 
         # query = f"""
         #         SELECT data.id, data.tlid, data.title, data.XPath, data.compare_per, data.CompareChangedOn, data.oldHtmlPath, data.newHtmlPath, data.oldImagePath, data.newImagePath, data.CompareBy, data.LastCompareChangedOn, links.tender_link

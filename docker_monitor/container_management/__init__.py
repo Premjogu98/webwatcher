@@ -274,44 +274,41 @@ class ContainerManagement:
         return True
 
     def running_container_status(self):
-        for container in self.DOCKER_CLIENT.containers.list(
-            filters={"status": "running"}
-        ):
-            if (
-                container.name not in self.IGNORE_CONTAINERS
-                and container.name in self.LIST_OF_CONTAINERS
+        try:
+            for container in self.DOCKER_CLIENT.containers.list(
+                filters={"status": "running"}
             ):
-                start_time = datetime.datetime.strptime(
-                    container.attrs["State"]["StartedAt"][:26],
-                    "%Y-%m-%dT%H:%M:%S.%f",
-                ).replace(tzinfo=timezone.utc)
+                if (
+                    container.name not in self.IGNORE_CONTAINERS
+                    and container.name in self.LIST_OF_CONTAINERS
+                ):
+                    start_time = datetime.datetime.strptime(
+                        container.attrs["State"]["StartedAt"][:26],
+                        "%Y-%m-%dT%H:%M:%S.%f",
+                    ).replace(tzinfo=timezone.utc)
 
-                running_time = datetime.datetime.now(timezone.utc) - start_time
+                    running_time = datetime.datetime.now(timezone.utc) - start_time
 
-                if running_time > timedelta(hours=1):
-                    self.__stopContainer(container.name)
-                    del self.LIST_OF_CONTAINERS[
-                        self.LIST_OF_CONTAINERS.index(container.name)
-                    ]
-                    console_logger.debug(
-                        f"Container has been running for {running_time} {container.name}"
-                    )
+                    if running_time > timedelta(hours=2):
+                        self.__stopContainer(container.name)
+                        del self.LIST_OF_CONTAINERS[
+                            self.LIST_OF_CONTAINERS.index(container.name)
+                        ]
+                        console_logger.debug(
+                            f"Container has been running for {running_time} {container.name}"
+                        )
+        except Exception as e:
+            console_logger.error(e)
 
     def monitorContainers(self):
-        # __container_limit = 70
-        # while True:
-        #     batch_size = 500
-        #     offset = 0
-        #     total_container_spwan = round(self.DATA_COUNT / batch_size)
-        #     loop_count = round(total_container_spwan / __container_limit)
-        #     total_containers = min(__container_limit, round(self.DATA_COUNT / batch_size))
+
         import math
 
         while True:
             batch_size = 500
             offset = 0
             total_containers = math.ceil(self.DATA_COUNT / batch_size)
-            batch_loops = math.ceil(total_containers / 70)
+            batch_loops = math.ceil(total_containers / 60)
             console_logger.info(
                 f"TOTAL RECORDS: {self.DATA_COUNT} | TOTAL CONTAINERS: {total_containers} | BATCH LOOPS: {batch_loops}"
             )

@@ -1,7 +1,7 @@
 SELECT *
 FROM `tend_dms`.`dms_wpw_tenderlinksdata`
 where
-    Url = "https://www.colchesterct.gov/doing-business-colchester/pages/rfp-rfq";
+    `Url` LIKE "%railwayage.com%";
 
 SELECT *
 FROM `tend_dms`.`dms_wpw_tenderlinksdata`
